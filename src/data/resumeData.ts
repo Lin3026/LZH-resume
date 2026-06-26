@@ -13,7 +13,9 @@ export const personalInfo: PersonalInfo = {
   bio: `热爱技术与创意的交汇点，专注于构建优雅、高性能的数字产品。
 拥有 8 年全栈开发经验，擅长 React / Node.js / Python 技术栈。
 同时对产品设计有深厚兴趣，致力于打造兼具美感与实用性的用户体验。
-业余时间喜欢开源贡献、摄影和骑行。`,
+业余时间喜欢开源贡献、摄影和骑行。
+
+✨ 已通过 AI 对话自动部署系统更新（测试成功）`,
 };
 
 export const workExperiences: WorkExperience[] = [
