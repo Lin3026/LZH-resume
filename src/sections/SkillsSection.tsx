@@ -11,7 +11,7 @@ export default function SkillsSection() {
   const filteredSkills = skills.filter((s) => s.category === activeCategory);
 
   return (
-    <section id="skills" className="py-20 bg-slate-900">
+    <section id="skills" className="py-20">
       <div className="max-w-5xl mx-auto px-6">
         <h2 className="text-3xl md:text-4xl font-bold text-white text-center mb-4">
           技术能力

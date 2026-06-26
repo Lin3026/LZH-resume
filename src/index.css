@@ -34,9 +34,32 @@
   body {
     @apply bg-background text-foreground;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    /* === 全站海洋主题背景 ===
+       后续修改背景：把下面 url(...) 里的图片地址换成你想要的即可
+       可以用 Unsplash 上的图片，或自己的图床链接 */
+    background-image: url('https://images.unsplash.com/photo-1505142468610-359e7d316be0?w=1920&q=80');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;  /* 滚动时背景固定不动 */
+    background-repeat: no-repeat;
   }
   html {
     scroll-behavior: smooth;
+  }
+  /* 每个 section 默认带半透明深色遮罩，让文字清晰可读 */
+  section {
+    position: relative;
+  }
+  section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.75);  /* 深蓝灰半透明遮罩，数值越大越暗 */
+    z-index: 0;
+  }
+  section > * {
+    position: relative;
+    z-index: 1;
   }
 }
 

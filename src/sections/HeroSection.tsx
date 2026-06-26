@@ -6,11 +6,11 @@ export default function HeroSection() {
   return (
     <section
       id="hero"
-      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-slate-900 via-purple-950 to-slate-900"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden"
     >
       {/* 背景网格 */}
       <div
-        className="absolute inset-0 opacity-20"
+        className="absolute inset-0 opacity-10 z-0"
         style={{
           backgroundImage:
             'linear-gradient(rgba(139,92,246,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(139,92,246,0.3) 1px, transparent 1px)',

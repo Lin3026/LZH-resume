@@ -7,7 +7,7 @@ export default function WorkTimeline() {
   const [activeId, setActiveId] = useState<string | null>(null);
 
   return (
-    <section id="experience" className="py-20 bg-slate-900">
+    <section id="experience" className="py-20">
       <div className="max-w-4xl mx-auto px-6">
         <h2 className="text-3xl md:text-4xl font-bold text-white text-center mb-4">
           工作经历

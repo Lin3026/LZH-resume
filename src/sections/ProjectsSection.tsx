@@ -204,7 +204,7 @@ export default function ProjectsSection() {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
   return (
-    <section id="projects" className="py-20 bg-slate-800">
+    <section id="projects" className="py-20">
       <div className="max-w-6xl mx-auto px-6">
         <h2 className="text-3xl md:text-4xl font-bold text-white text-center mb-4">
           作品展示
