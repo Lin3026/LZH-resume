@@ -35,10 +35,11 @@
     @apply bg-background text-foreground;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     /* === 全站海洋主题背景 ===
-       背景图随页面滚动（scroll），不做固定
-       背景图建议：整体偏暗，方便白色文字阅读 */
+       背景图按宽度 100% 铺满，高度按原比例自适应，不会被 body 高度拉伸放大
+       底部如果图片不够长，用深海色过渡 */
+    background-color: #0a1e2e;
     background-image: url('/ocean-bg.jpg');
-    background-size: cover;
+    background-size: 100% auto;  /* 宽度铺满，高度按比例，不会放大 */
     background-position: center top;
     background-attachment: scroll;  /* 滚动时背景跟随移动 */
     background-repeat: no-repeat;

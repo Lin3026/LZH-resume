@@ -12,7 +12,7 @@ export default function WorkTimeline() {
         <h2 className="text-4xl md:text-5xl font-bold text-white text-center mb-4 tracking-tight">
           工作经历
         </h2>
-        <p className="text-cyan-200 text-lg text-center mb-20">积累成长，每一步都算数</p>
+        <p className="text-cyan-400 font-semibold text-lg text-center mb-20 drop-shadow-[0_2px_6px_rgba(0,0,0,0.6)]">积累成长，每一步都算数</p>
 
         <div className="relative">
           {/* 时间轴线 - 加粗 + 渐变 + 光晕 */}
@@ -97,13 +97,13 @@ export default function WorkTimeline() {
                     </Card>
                   </div>
 
-                  {/* 另一侧年份标签（仅桌面端）- 放大但避免重合 */}
+                  {/* 另一侧年份标签（仅桌面端）- 避免与时间轴节点重合 */}
                   <div
                     className={`hidden md:flex w-[calc(50%-2.5rem)] items-center ${
-                      isEven ? 'pl-10 justify-start' : 'pr-10 justify-end'
+                      isEven ? 'pl-16 justify-start' : 'pr-16 justify-end'
                     }`}
                   >
-                    <span className="text-cyan-300/60 text-2xl font-bold font-mono select-none">
+                    <span className="text-cyan-300/70 text-xl font-bold font-mono select-none drop-shadow">
                       {exp.startDate.split('-')[0]}
                     </span>
                   </div>

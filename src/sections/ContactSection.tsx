@@ -13,7 +13,7 @@ export default function ContactSection() {
     <section id="contact" className="py-20">
       <div className="max-w-3xl mx-auto px-6 text-center">
         <h2 className="text-4xl md:text-5xl font-bold text-white mb-4 tracking-tight">联系我</h2>
-        <p className="text-cyan-200 text-lg mb-16">期待与你的每一次交流</p>
+        <p className="text-cyan-400 font-semibold text-lg mb-16 drop-shadow-[0_2px_6px_rgba(0,0,0,0.6)]">期待与你的每一次交流</p>
 
         <div className="grid sm:grid-cols-2 gap-4 mb-12">
           {contacts.map((c) => (

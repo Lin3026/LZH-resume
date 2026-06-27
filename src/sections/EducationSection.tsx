@@ -8,7 +8,7 @@ export default function EducationSection() {
         <h2 className="text-4xl md:text-5xl font-bold text-white text-center mb-4 tracking-tight">
           教育经历
         </h2>
-        <p className="text-cyan-200 text-lg text-center mb-16">知识是最好的投资</p>
+        <p className="text-cyan-400 font-semibold text-lg text-center mb-16 drop-shadow-[0_2px_6px_rgba(0,0,0,0.6)]">知识是最好的投资</p>
 
         <div className="grid md:grid-cols-2 gap-6">
           {educations.map((edu) => (

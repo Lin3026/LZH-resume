@@ -209,7 +209,7 @@ export default function ProjectsSection() {
         <h2 className="text-4xl md:text-5xl font-bold text-white text-center mb-4 tracking-tight">
           作品展示
         </h2>
-        <p className="text-cyan-200 text-lg text-center mb-16">点击卡片查看详情，支持上传本地视频预览</p>
+        <p className="text-cyan-400 font-semibold text-lg text-center mb-16 drop-shadow-[0_2px_6px_rgba(0,0,0,0.6)]">点击卡片查看详情，支持上传本地视频预览</p>
 
         <div className="grid sm:grid-cols-2 gap-6">
           {projects.map((project) => (

@@ -44,7 +44,7 @@ export default function HeroSection() {
         </div>
 
         {/* 姓名 - 直接在深色背景上，白色文字 */}
-        <h1 className="text-4xl md:text-6xl font-bold text-white mb-4 tracking-tight drop-shadow-lg">
+        <h1 className="text-3xl md:text-5xl font-bold text-white mb-4 tracking-tight drop-shadow-lg">
           {personalInfo.name}
         </h1>
 

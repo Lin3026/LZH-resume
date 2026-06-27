@@ -29,7 +29,7 @@ export default function WorkContentSection() {
         <h2 className="text-4xl md:text-5xl font-bold text-white text-center mb-4 tracking-tight">
           工作内容详述
         </h2>
-        <p className="text-cyan-200 text-lg text-center mb-16">实践是最好的老师</p>
+        <p className="text-cyan-400 font-semibold text-lg text-center mb-16 drop-shadow-[0_2px_6px_rgba(0,0,0,0.6)]">实践是最好的老师</p>
 
         <div className="bg-white/85 border border-blue-200 rounded-2xl p-6 md:p-12 shadow-xl ocean-card">
           <div className="prose prose-base max-w-none
