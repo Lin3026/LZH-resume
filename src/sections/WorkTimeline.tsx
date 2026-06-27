@@ -103,7 +103,7 @@ export default function WorkTimeline() {
                       isEven ? 'pl-16 justify-start' : 'pr-16 justify-end'
                     }`}
                   >
-                    <span className="text-blue-900 text-4xl font-bold font-mono select-none">
+                    <span className="text-cyan-400 text-4xl font-bold font-mono select-none">
                       {exp.startDate.split('-')[0]}
                     </span>
                   </div>
