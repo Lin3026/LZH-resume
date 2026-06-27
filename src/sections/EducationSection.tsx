@@ -14,7 +14,7 @@ export default function EducationSection() {
           {educations.map((edu) => (
             <Card
               key={edu.id}
-              className="bg-white/95 border-blue-200 hover:border-cyan-500 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-cyan-500/20 shadow-lg ocean-card"
+              className="bg-white/85 border-blue-200 hover:border-cyan-500 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-cyan-500/20 shadow-lg ocean-card"
             >
               <CardContent className="p-6">
                 <div className="flex items-start gap-4">

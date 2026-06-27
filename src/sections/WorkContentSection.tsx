@@ -31,7 +31,7 @@ export default function WorkContentSection() {
         </h2>
         <p className="text-cyan-200 text-lg text-center mb-16">实践是最好的老师</p>
 
-        <div className="bg-white/95 border border-blue-200 rounded-2xl p-6 md:p-12 shadow-xl ocean-card">
+        <div className="bg-white/85 border border-blue-200 rounded-2xl p-6 md:p-12 shadow-xl ocean-card">
           <div className="prose prose-base max-w-none
             prose-headings:text-blue-900 prose-headings:font-bold
             prose-h2:text-2xl prose-h2:mt-8 prose-h2:mb-4 prose-h2:border-b prose-h2:border-blue-200 prose-h2:pb-3

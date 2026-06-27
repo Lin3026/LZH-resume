@@ -15,7 +15,7 @@ export default function MouseClickRipple() {
   const animFrameRef = useRef<number>(0);
 
   const createRipple = useCallback((x: number, y: number) => {
-    const maxRadius = 28 + Math.random() * 10;
+    const maxRadius = 56 + Math.random() * 20;
     ripplesRef.current.push({
       x,
       y,
@@ -58,7 +58,7 @@ export default function MouseClickRipple() {
       ctx.globalAlpha = alpha;
 
       // 单一主圈——干净和谐
-      ctx.strokeStyle = `rgba(168, 85, 247, ${alpha})`;
+      ctx.strokeStyle = `rgba(6, 182, 212, ${alpha})`;
       ctx.lineWidth = Math.max(0.5, 1.5 * (1 - progress * 0.7));
       ctx.beginPath();
       ctx.arc(r.x, r.y, r.radius, 0, Math.PI * 2);

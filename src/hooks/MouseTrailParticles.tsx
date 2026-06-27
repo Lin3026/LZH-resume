@@ -70,7 +70,7 @@ export default function MouseTrailParticles() {
             x: mx,
             y: my,
             radius: 1,
-            maxRadius: 7 + Math.random() * 8,
+            maxRadius: 14 + Math.random() * 16,
             life: 0,
             maxLife: 50 + Math.random() * 30,
             color,

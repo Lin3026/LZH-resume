@@ -215,7 +215,7 @@ export default function ProjectsSection() {
           {projects.map((project) => (
             <div
               key={project.id}
-              className="group bg-white/95 border border-blue-200 rounded-2xl overflow-hidden cursor-pointer hover:border-cyan-500 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-cyan-500/20 shadow-lg ocean-card"
+              className="group bg-white/85 border border-blue-200 rounded-2xl overflow-hidden cursor-pointer hover:border-cyan-500 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-cyan-500/20 shadow-lg ocean-card"
               onClick={() => setSelectedProject(project)}
             >
               {/* 封面 */}

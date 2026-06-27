@@ -50,7 +50,7 @@ export default function WorkTimeline() {
                     }`}
                   >
                     <Card
-                      className={`cursor-pointer transition-all duration-300 bg-white/95 border-2 hover:border-cyan-500 shadow-xl ocean-card ${
+                      className={`cursor-pointer transition-all duration-300 bg-white/85 border-2 hover:border-cyan-500 shadow-xl ocean-card ${
                         isActive ? 'border-cyan-500 shadow-2xl shadow-cyan-500/30 scale-[1.02]' : 'border-blue-200'
                       }`}
                       onClick={() => setActiveId(isActive ? null : exp.id)}
