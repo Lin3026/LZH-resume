@@ -16,7 +16,7 @@ export default function SkillsSection() {
         <h2 className="text-4xl md:text-5xl font-bold text-white text-center mb-4 tracking-tight">
           技术能力
         </h2>
-        <p className="text-cyan-400 font-semibold text-lg text-center mb-16 drop-shadow-[0_2px_6px_rgba(0,0,0,0.6)]">工欲善其事，必先利其器</p>
+        <p className="text-cyan-400 font-semibold text-lg text-center mb-16">工欲善其事，必先利其器</p>
 
         {/* 分类标签 */}
         <div className="flex flex-wrap justify-center gap-3 mb-10">
