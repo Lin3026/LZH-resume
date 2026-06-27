@@ -46,11 +46,11 @@ export default function Navbar() {
         <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
           {/* Logo */}
           <button
-            className="text-white font-bold text-lg hover:text-purple-400 transition-colors"
+            className="text-white font-bold text-lg hover:text-cyan-400 transition-colors"
             onClick={() => scrollTo('hero')}
           >
-            <span className="text-purple-400">&lt;</span>ZMY
-            <span className="text-purple-400">/&gt;</span>
+            <span className="text-cyan-400">&lt;</span>LZH
+            <span className="text-cyan-400">/&gt;</span>
           </button>
 
           {/* 桌面端导航 */}
@@ -61,7 +61,7 @@ export default function Navbar() {
                 onClick={() => scrollTo(item.id)}
                 className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 ${
                   activeSection === item.id
-                    ? 'bg-purple-600/20 text-purple-300'
+                    ? 'bg-cyan-600/20 text-cyan-300'
                     : 'text-slate-400 hover:text-white hover:bg-slate-800'
                 }`}
               >
@@ -111,7 +111,7 @@ export default function Navbar() {
                 onClick={() => scrollTo(item.id)}
                 className={`text-left px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 ${
                   activeSection === item.id
-                    ? 'bg-purple-600/20 text-purple-300'
+                    ? 'bg-cyan-600/20 text-cyan-300'
                     : 'text-slate-400 hover:text-white hover:bg-slate-800'
                 }`}
               >

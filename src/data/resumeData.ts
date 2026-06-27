@@ -1,99 +1,95 @@
 import type { PersonalInfo, WorkExperience, Education, Skill, Project } from '../types';
 
 export const personalInfo: PersonalInfo = {
-  name: '张明远',
-  title: '全栈开发工程师 / 产品设计师',
-  avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=zhangmingyuan&backgroundColor=b6e3f4',
-  email: 'zhangmingyuan@example.com',
-  phone: '+86 138-0000-0000',
-  location: '上海，中国',
-  github: 'https://github.com/zhangmingyuan',
-  linkedin: 'https://linkedin.com/in/zhangmingyuan',
-  website: 'https://zhangmingyuan.dev',
-  bio: `热爱技术与创意的交汇点，专注于构建优雅、高性能的数字产品。
-拥有 8 年全栈开发经验，擅长 React / Node.js / Python 技术栈。
-同时对产品设计有深厚兴趣，致力于打造兼具美感与实用性的用户体验。
-业余时间喜欢开源贡献、摄影和骑行。
-
-✨ 已通过 AI 对话自动部署系统更新（测试成功）`,
+  name: '林志辉',
+  title: '高级广告创意设计师 / 游戏视频设计师',
+  avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=linzhihui&backgroundColor=b6e3f4',
+  email: '302641078@qq.com',
+  phone: '18279132481',
+  location: '北京，中国',
+  github: 'https://github.com/Lin3026',
+  bio: `9 年视频设计经验，其中 7+ 年游戏创意策划经验，具备全流程化视频创意和制作能力。
+擅长挖掘产品卖点、分析广告数据、归纳总结优秀案例，及时沉淀方法论并应用于工作。
+6 年消除游戏广告制作与数据分析经验，掌握各地区人群属性、偏好及特点。
+2 年视频后期制作，熟悉所有类型的视频制作流程。
+擅长使用 AI 工具（ChatGPT、DP、Gemini、即梦、可灵、海螺等）进行创意发散与落地，AIGC 领域经验丰富。`,
 };
 
 export const workExperiences: WorkExperience[] = [
   {
     id: 'work-1',
-    company: '字节跳动',
-    position: '高级全栈工程师',
-    startDate: '2022-03',
+    company: '乐元素科技(北京)股份有限公司',
+    position: '高级广告创意设计师',
+    startDate: '2022-05',
     endDate: '至今',
-    description: `负责抖音创作者平台核心功能研发，主导视频处理管线重构，将转码效率提升 40%。
-带领 5 人小组完成数据看板系统从零到一落地，DAU 峰值承载 200 万+。
-推动前端工程化建设，建立统一组件库，降低团队重复开发成本 60%。`,
-    tags: ['React', 'TypeScript', 'Node.js', 'Kubernetes', 'GraphQL'],
+    description: `负责开心消消乐、开心水族箱、假日乐消消、宝贝乐消消、BabyTopia 等多款游戏创意方向。
+对接外包视频制作，创意整理及投放数据分析并做出计划调整。
+其中「假日乐消消」去年国内上线成功，今年开始盈利。`,
+    tags: ['开心消消乐', '开心水族箱', '假日乐消消', '宝贝乐消消', 'BabyTopia'],
   },
   {
     id: 'work-2',
-    company: '阿里巴巴',
-    position: '前端技术专家',
-    startDate: '2019-06',
-    endDate: '2022-02',
-    description: `在淘宝直播团队负责低延迟互动架构设计，WebRTC 延迟优化至 300ms 以内。
-主导多端（PC/H5/小程序）统一渲染方案，代码复用率达 75%。
-参与 Ali Design System 组件库建设，贡献 20+ 核心组件。`,
-    tags: ['Vue.js', 'WebRTC', 'Webpack', 'Lerna', 'Electron'],
+    company: '小米海外游戏',
+    position: '海外广告视频设计师',
+    startDate: '2020-03',
+    endDate: '2022-04',
+    description: `负责海外三消、涂色、经营等多款游戏视频制作，对接外包视频制作。
+对实习生进行技能培训与创意思维培训。
+Tile Fun 一年半下载量 2000 万，Match Fun3D 下载量 500 万。
+Tile Fun 曾进入日本排行榜第九、欧洲排行第五。`,
+    tags: ['Tile Fun', 'Match Fun3D', '海外三消', '涂色', '经营'],
   },
   {
     id: 'work-3',
-    company: '美团点评',
-    position: '前端开发工程师',
-    startDate: '2017-07',
-    endDate: '2019-05',
-    description: `负责外卖 H5 页面性能优化，首屏加载时间从 4.2s 降至 1.8s。
-开发订单追踪实时地图功能，日均请求量 500 万+。
-参与公司级前端监控平台建设，覆盖 50+ 业务线。`,
-    tags: ['React', 'Redux', 'Webpack', 'Node.js', 'MySQL'],
+    company: '乐城堡科技有限公司',
+    position: '海外游戏视频设计师',
+    startDate: '2019-05',
+    endDate: '2020-01',
+    description: `负责多款海外游戏投放视频广告制作（Puzzle、涂色、World 品类）。
+其中 Coloring Fun 达到 1000 万下载量。`,
+    tags: ['Coloring Fun', 'Puzzle', '涂色', 'World'],
   },
   {
     id: 'work-4',
-    company: '创业公司 · 闪影科技',
-    position: '联合创始人 & 技术负责人',
-    startDate: '2015-09',
-    endDate: '2017-06',
-    description: `从 0 搭建短视频社交平台，独立完成技术选型、架构设计及核心功能开发。
-产品上线 6 个月获得 50 万注册用户，完成天使轮融资 500 万。
-负责团队从 2 人扩展至 12 人的技术管理工作。`,
-    tags: ['React Native', 'FFmpeg', 'AWS', 'Python', 'MongoDB'],
+    company: '月蚀文化发展',
+    position: '后期制作',
+    startDate: '2017-08',
+    endDate: '2019-04',
+    description: `负责游戏栏目包装、游戏赛事包装（火影、英雄联盟、逆战）。
+制作游戏版本更新视频，熟悉各类视频后期制作流程。`,
+    tags: ['火影', '英雄联盟', '逆战', '赛事包装', '栏目包装'],
   },
 ];
 
 export const educations: Education[] = [
   {
     id: 'edu-1',
-    school: '上海交通大学',
-    degree: '硕士',
-    major: '计算机科学与技术',
+    school: '南昌大学科学技术学院',
+    degree: '本科',
+    major: '动画',
     startDate: '2013-09',
-    endDate: '2015-06',
-    description: '研究方向：分布式系统与计算机视觉。发表 SCI 论文 2 篇，参与国家自然科学基金项目。',
+    endDate: '2017-07',
+    description: '系统学习动画专业理论与制作技能，涵盖二维动画、三维动画、影视后期等方向。',
   },
   {
     id: 'edu-2',
-    school: '同济大学',
-    degree: '学士',
-    major: '软件工程',
-    startDate: '2009-09',
-    endDate: '2013-06',
-    description: '以优异成绩毕业，GPA 3.8/4.0。参与 ACM 竞赛，获华东赛区铜牌。',
+    school: '江西视图科技教育培训机构',
+    degree: '职业技能培训',
+    major: 'C4D / AE / PS / PR',
+    startDate: '2015-09',
+    endDate: '2016-07',
+    description: '系统学习 Cinema 4D、After Effects、Photoshop、Premiere Pro 等设计与视频制作软件技能。',
   },
 ];
 
 export const skills: Skill[] = [
-  { name: 'Photoshop', icon: '🖼️', level: 5, category: '设计工具' },
-  { name: 'After Effects', icon: '✨', level: 5, category: '设计工具' },
-  { name: 'Premiere Pro', icon: '🎬', level: 5, category: '设计工具' },
-  { name: 'Cinema 4D', icon: '💎', level: 4, category: '设计工具' },
-  { name: 'Unity', icon: '🎮', level: 4, category: '设计工具' },
+  { name: 'Photoshop', icon: '/icons/Ps.png', level: 5, category: '设计工具' },
+  { name: 'After Effects', icon: '/icons/Ae.png', level: 5, category: '设计工具' },
+  { name: 'Premiere Pro', icon: '/icons/Pr.png', level: 5, category: '设计工具' },
+  { name: 'Cinema 4D', icon: '/icons/c4d.png', level: 4, category: '设计工具' },
+  { name: 'Unity', icon: 'https://cdn.simpleicons.org/unity/white', level: 3, category: '设计工具' },
   { name: '即梦', icon: '🤖', level: 5, category: 'AI 工具' },
-  { name: 'ChatGPT', icon: '🧠', level: 5, category: 'AI 工具' },
+  { name: 'ChatGPT', icon: 'https://cdn.simpleicons.org/openai/white', level: 5, category: 'AI 工具' },
 ];
 
 export const projects: Project[] = [

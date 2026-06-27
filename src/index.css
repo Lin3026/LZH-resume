@@ -4,25 +4,25 @@
 
 @layer base {
   :root {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 217.2 91.2% 59.8%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+    --background: 200 20% 8%;
+    --foreground: 190 30% 96%;
+    --card: 200 25% 10%;
+    --card-foreground: 190 30% 96%;
+    --popover: 200 25% 10%;
+    --popover-foreground: 190 30% 96%;
+    --primary: 195 90% 50%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 190 15% 18%;
+    --secondary-foreground: 190 30% 96%;
+    --muted: 190 12% 16%;
+    --muted-foreground: 190 14% 55%;
+    --accent: 190 15% 22%;
+    --accent-foreground: 190 30% 96%;
     --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 224.3 76.3% 48%;
+    --destructive-foreground: 190 30% 98%;
+    --border: 190 15% 18%;
+    --input: 190 15% 18%;
+    --ring: 190 85% 45%;
     --radius: 0.5rem;
   }
 }
@@ -37,7 +37,7 @@
     /* === 全站海洋主题背景 ===
        后续修改背景：把下面 url(...) 里的图片地址换成你想要的即可
        可以用 Unsplash 上的图片，或自己的图床链接 */
-    background-image: url('https://images.unsplash.com/photo-1505142468610-359e7d316be0?w=1920&q=80');
+    background-image: url('/ocean-bg.jpg');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;  /* 滚动时背景固定不动 */
@@ -54,7 +54,7 @@
     content: '';
     position: absolute;
     inset: 0;
-    background: rgba(15, 23, 42, 0.75);  /* 深蓝灰半透明遮罩，数值越大越暗 */
+    background: rgba(8, 30, 50, 0.70);  /* 深海蓝半透明遮罩，与海洋背景融合 */
     z-index: 0;
   }
   section > * {
@@ -78,14 +78,14 @@
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #1e293b;
+  background: #0c1e2e;
 }
 ::-webkit-scrollbar-thumb {
-  background: #4c1d95;
+  background: #0891b2; /* cyan-600 */
   border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #7c3aed;
+  background: #22d3ee; /* cyan-400 */
 }
 
 /* Prose 代码块滚动 */

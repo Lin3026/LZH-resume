@@ -14,16 +14,16 @@ export default function EducationSection() {
           {educations.map((edu) => (
             <Card
               key={edu.id}
-              className="bg-slate-900 border-slate-700 hover:border-purple-500/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-purple-500/10"
+              className="bg-slate-900 border-slate-700 hover:border-cyan-500/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-cyan-500/10"
             >
               <CardContent className="p-6">
                 <div className="flex items-start gap-4">
-                  <div className="flex-shrink-0 w-14 h-14 rounded-xl bg-gradient-to-br from-purple-600 to-blue-600 flex items-center justify-center text-2xl shadow-lg">
+                  <div className="flex-shrink-0 w-14 h-14 rounded-xl bg-gradient-to-br from-cyan-600 to-teal-600 flex items-center justify-center text-2xl shadow-lg">
                     🎓
                   </div>
                   <div className="flex-1 min-w-0">
                     <h3 className="text-lg font-bold text-white truncate">{edu.school}</h3>
-                    <p className="text-purple-300 font-medium text-sm">
+                    <p className="text-cyan-300 font-medium text-sm">
                       {edu.degree} · {edu.major}
                     </p>
                     <p className="text-slate-500 text-xs font-mono mt-1">

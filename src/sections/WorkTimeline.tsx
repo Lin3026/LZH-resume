@@ -16,7 +16,7 @@ export default function WorkTimeline() {
 
         <div className="relative">
           {/* 时间轴线 */}
-          <div className="absolute left-6 md:left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-purple-500 via-blue-500 to-cyan-500 transform md:-translate-x-1/2" />
+          <div className="absolute left-6 md:left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-cyan-500 via-teal-500 to-sky-400 transform md:-translate-x-1/2" />
 
           <div className="space-y-12">
             {workExperiences.map((exp, index) => {
@@ -34,8 +34,8 @@ export default function WorkTimeline() {
                     <div
                       className={`w-4 h-4 rounded-full border-2 cursor-pointer transition-all duration-300 ${
                         isActive
-                          ? 'bg-purple-400 border-purple-300 scale-150 shadow-lg shadow-purple-500/50'
-                          : 'bg-slate-700 border-purple-500 hover:bg-purple-500 hover:scale-125'
+                          ? 'bg-cyan-400 border-cyan-300 scale-150 shadow-lg shadow-cyan-500/50'
+                          : 'bg-slate-700 border-cyan-500 hover:bg-cyan-500 hover:scale-125'
                       }`}
                       onClick={() => setActiveId(isActive ? null : exp.id)}
                     />
@@ -48,20 +48,20 @@ export default function WorkTimeline() {
                     }`}
                   >
                     <Card
-                      className={`cursor-pointer transition-all duration-300 bg-slate-800 border-slate-700 hover:border-purple-500/50 ${
-                        isActive ? 'border-purple-500 shadow-xl shadow-purple-500/20' : ''
+                      className={`cursor-pointer transition-all duration-300 bg-slate-800 border-slate-700 hover:border-cyan-500/50 ${
+                        isActive ? 'border-cyan-500 shadow-xl shadow-cyan-500/20' : ''
                       }`}
                       onClick={() => setActiveId(isActive ? null : exp.id)}
                     >
                       <CardContent className="p-5">
                         {/* 时间段 */}
-                        <div className="text-xs text-purple-400 font-mono mb-2">
+                        <div className="text-xs text-cyan-400 font-mono mb-2">
                           {exp.startDate} → {exp.endDate}
                         </div>
 
                         {/* 公司 & 职位 */}
                         <h3 className="text-lg font-bold text-white">{exp.company}</h3>
-                        <p className="text-purple-300 text-sm mb-3">{exp.position}</p>
+                        <p className="text-cyan-300 text-sm mb-3">{exp.position}</p>
 
                         {/* 展开内容 */}
                         <div

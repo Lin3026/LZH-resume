@@ -11,10 +11,10 @@ interface RippleDrop {
 }
 
 const COLORS = [
-  '168, 85, 247',   // purple
-  '139, 92, 246',   // lighter purple
-  '59, 130, 246',   // blue
-  '14, 165, 233',   // cyan
+  '6, 182, 212',    // cyan-500
+  '20, 184, 166',   // teal-500
+  '56, 189, 248',   // sky-400
+  '34, 211, 238',   // cyan-400
 ];
 
 export default function MouseTrailParticles() {
@@ -70,9 +70,9 @@ export default function MouseTrailParticles() {
             x: mx,
             y: my,
             radius: 1,
-            maxRadius: 10 + Math.random() * 12,
+            maxRadius: 7 + Math.random() * 8,
             life: 0,
-            maxLife: 25 + Math.random() * 15,
+            maxLife: 50 + Math.random() * 30,
             color,
           });
         }

@@ -88,16 +88,16 @@ function LocalVideoPlayer() {
           onClick={() => inputRef.current?.click()}
           className={`relative border-2 border-dashed rounded-xl p-12 text-center cursor-pointer transition-all duration-300 ${
             dragging
-              ? 'border-purple-400 bg-purple-500/10 scale-[1.02]'
-              : 'border-slate-600 hover:border-purple-500/50 hover:bg-slate-800/50'
+              ? 'border-cyan-400 bg-cyan-500/10 scale-[1.02]'
+              : 'border-slate-600 hover:border-cyan-500/50 hover:bg-slate-800/50'
           }`}
         >
           <div className="flex flex-col items-center gap-3">
             <div className={`w-16 h-16 rounded-full flex items-center justify-center transition-all ${
-              dragging ? 'bg-purple-500/30 scale-110' : 'bg-slate-700'
+              dragging ? 'bg-cyan-500/30 scale-110' : 'bg-slate-700'
             }`}>
               {dragging ? (
-                <Upload className="w-7 h-7 text-purple-400 animate-bounce" />
+                <Upload className="w-7 h-7 text-cyan-400 animate-bounce" />
               ) : (
                 <Plus className="w-7 h-7 text-slate-400" />
               )}
@@ -158,7 +158,7 @@ function ProjectDetailModal({
         {/* 标签 */}
         <div className="flex flex-wrap gap-2 mb-4">
           {project.tags.map((tag) => (
-            <Badge key={tag} className="bg-purple-500/20 text-purple-300 border-purple-500/30">
+            <Badge key={tag} className="bg-cyan-500/20 text-cyan-300 border-cyan-500/30">
               {tag}
             </Badge>
           ))}
@@ -169,10 +169,10 @@ function ProjectDetailModal({
           <div className="prose prose-invert prose-sm max-w-none
             prose-headings:text-white prose-headings:font-bold
             prose-p:text-slate-300 prose-p:leading-relaxed
-            prose-a:text-purple-400 prose-a:no-underline hover:prose-a:underline
+            prose-a:text-cyan-400 prose-a:no-underline hover:prose-a:underline
             prose-code:text-cyan-300 prose-code:bg-slate-800 prose-code:px-1 prose-code:py-0.5 prose-code:rounded
             prose-pre:bg-slate-800 prose-pre:border prose-pre:border-slate-700
-            prose-blockquote:border-l-purple-500 prose-blockquote:text-slate-400
+            prose-blockquote:border-l-cyan-500 prose-blockquote:text-slate-400
             prose-strong:text-white
             prose-table:text-slate-300
             prose-th:text-white prose-th:bg-slate-800
@@ -188,7 +188,7 @@ function ProjectDetailModal({
         {project.link && (
           <div className="mt-6 pt-4 border-t border-slate-700">
             <Button
-              className="bg-purple-600 hover:bg-purple-500"
+              className="bg-cyan-600 hover:bg-cyan-500"
               onClick={() => window.open(project.link, '_blank')}
             >
               🔗 查看项目
@@ -215,7 +215,7 @@ export default function ProjectsSection() {
           {projects.map((project) => (
             <div
               key={project.id}
-              className="group bg-slate-900 border border-slate-700 rounded-2xl overflow-hidden cursor-pointer hover:border-purple-500/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-purple-500/10"
+              className="group bg-slate-900 border border-slate-700 rounded-2xl overflow-hidden cursor-pointer hover:border-cyan-500/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-cyan-500/10"
               onClick={() => setSelectedProject(project)}
             >
               {/* 封面 */}
@@ -230,7 +230,7 @@ export default function ProjectsSection() {
                 {/* 悬浮上传提示 */}
                 <div className="absolute inset-0 flex items-center justify-center bg-slate-900/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                   <div className="flex flex-col items-center gap-2">
-                    <div className="w-14 h-14 bg-purple-600/90 rounded-full flex items-center justify-center shadow-2xl">
+                    <div className="w-14 h-14 bg-cyan-600/90 rounded-full flex items-center justify-center shadow-2xl">
                       <Upload className="w-6 h-6 text-white" />
                     </div>
                     <span className="text-white text-sm font-medium">点击上传视频</span>
@@ -240,7 +240,7 @@ export default function ProjectsSection() {
 
               {/* 内容 */}
               <div className="p-5">
-                <h3 className="text-white font-bold text-lg mb-2 group-hover:text-purple-300 transition-colors">
+                <h3 className="text-white font-bold text-lg mb-2 group-hover:text-cyan-300 transition-colors">
                   {project.title}
                 </h3>
                 <p className="text-slate-400 text-sm leading-relaxed mb-4 line-clamp-3">

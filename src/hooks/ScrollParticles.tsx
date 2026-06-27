@@ -12,11 +12,11 @@ interface Particle {
 }
 
 const COLORS = [
-  'rgba(168, 85, 247, 0.8)',  // purple
-  'rgba(139, 92, 246, 0.7)',  // lighter purple
-  'rgba(59, 130, 246, 0.7)',  // blue
-  'rgba(14, 165, 233, 0.6)',  // cyan
-  'rgba(236, 72, 153, 0.6)',  // pink
+  'rgba(6, 182, 212, 0.8)',   // cyan-500
+  'rgba(20, 184, 166, 0.7)',  // teal-500
+  'rgba(56, 189, 248, 0.7)',  // sky-400
+  'rgba(34, 211, 238, 0.6)',  // cyan-400
+  'rgba(94, 234, 212, 0.6)',  // teal-300
 ];
 
 export default function ScrollParticles() {
@@ -40,23 +40,23 @@ export default function ScrollParticles() {
 
     const spawnParticles = (scrollDelta: number) => {
       // 根据滚动速度决定粒子数量
-      const count = Math.min(Math.abs(scrollDelta) * 0.3, 15);
+      const count = Math.min(Math.abs(scrollDelta) * 0.15, 8);
       for (let i = 0; i < count; i++) {
         const x = Math.random() * canvas.width;
         const y = scrollDelta > 0
           ? canvas.height + Math.random() * 20
           : -20 - Math.random() * 20;
 
-        const angle = (Math.random() - 0.5) * Math.PI * 0.6; // 横向随机角度
-        const speed = 1 + Math.random() * 3;
+        const angle = (Math.random() - 0.5) * Math.PI * 0.18; // 横向微扰 ±16°
+        const speed = 0.5 + Math.random() * 1.5;  // 速度减半
 
         particlesRef.current.push({
           x,
           y,
-          vx: Math.sin(angle) * speed,
-          vy: scrollDelta > 0 ? -(2 + Math.random() * 4) : (2 + Math.random() * 4),
+          vx: Math.sin(angle) * speed,   // 减弱横向扰动
+          vy: scrollDelta > 0 ? -(1 + Math.random() * 2) : (1 + Math.random() * 2),  // 垂直速度减半
           life: 0,
-          maxLife: 40 + Math.random() * 60,
+          maxLife: 80 + Math.random() * 120,  // 存活时间翻倍（80-200帧）
           size: 2 + Math.random() * 4,
           color: COLORS[Math.floor(Math.random() * COLORS.length)],
         });
