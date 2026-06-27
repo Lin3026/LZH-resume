@@ -48,7 +48,7 @@ export default function HeroSection() {
           {personalInfo.name}
         </h1>
 
-        {/* 职位 - 直接在深色背景上 */}
+        {/* 职位 + 个人信息标签 */}
         <div className="flex flex-wrap justify-center gap-2 mb-6">
           {personalInfo.title.split(' / ').map((t) => (
             <Badge
@@ -58,10 +58,16 @@ export default function HeroSection() {
               {t}
             </Badge>
           ))}
+          <Badge className="text-sm md:text-base px-4 py-1.5 bg-sky-500/15 text-sky-100 border border-sky-300/40 font-medium backdrop-blur-sm">
+            32岁
+          </Badge>
+          <Badge className="text-sm md:text-base px-4 py-1.5 bg-teal-500/15 text-teal-100 border border-teal-300/40 font-medium backdrop-blur-sm">
+            男
+          </Badge>
         </div>
 
         {/* 个人简介白框 - 只包住简介文字，带海洋装饰 */}
-        <div className="relative bg-white/85 border-2 border-cyan-200 rounded-3xl p-7 md:p-10 shadow-2xl shadow-cyan-500/20 overflow-hidden ocean-card mb-8 max-w-2xl mx-auto">
+        <div className="relative bg-white/80 border-2 border-cyan-200 rounded-3xl p-7 md:p-10 shadow-2xl shadow-cyan-500/20 overflow-hidden ocean-card mb-8 max-w-2xl mx-auto">
           {/* 海洋装饰 - 左上角波纹 */}
           <svg className="absolute -top-6 -left-6 w-32 h-32 text-cyan-200/40" viewBox="0 0 100 100" fill="none" aria-hidden="true">
             <path d="M0,20 Q25,10 50,20 T100,20" stroke="currentColor" strokeWidth="2" />

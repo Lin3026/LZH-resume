@@ -19,7 +19,7 @@ export default function ContactSection() {
           {contacts.map((c) => (
             <div
               key={c.label}
-              className={`bg-white/85 border border-blue-200 rounded-xl p-5 flex items-center gap-4 group shadow-md ocean-card ${
+              className={`bg-white/80 border border-blue-200 rounded-xl p-5 flex items-center gap-4 group shadow-md ocean-card ${
                 c.href ? 'cursor-pointer hover:border-cyan-500 transition-all duration-300 hover:-translate-y-0.5' : ''
               }`}
               onClick={() => c.href && window.open(c.href, c.href.startsWith('http') ? '_blank' : '_self')}

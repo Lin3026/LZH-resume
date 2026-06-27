@@ -40,7 +40,7 @@ export default function SkillsSection() {
           {filteredSkills.map((skill) => (
             <div
               key={skill.name}
-              className="bg-white/85 border border-blue-200 rounded-xl p-4 hover:border-cyan-500 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-cyan-500/20 shadow-md ocean-card"
+              className="bg-white/80 border border-blue-200 rounded-xl p-4 hover:border-cyan-500 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-cyan-500/20 shadow-md ocean-card"
             >
               <div className="flex items-center gap-3 mb-3">
                 <span className="flex items-center justify-center w-8 h-8 flex-shrink-0">

@@ -87,9 +87,9 @@ export const skills: Skill[] = [
   { name: 'After Effects', icon: '/icons/Ae.png', level: 5, category: '设计工具' },
   { name: 'Premiere Pro', icon: '/icons/Pr.png', level: 5, category: '设计工具' },
   { name: 'Cinema 4D', icon: '/icons/c4d.png', level: 4, category: '设计工具' },
-  { name: 'Unity', icon: 'https://cdn.simpleicons.org/unity/white', level: 3, category: '设计工具' },
+  { name: 'Unity', icon: '/icons/unity.png', level: 3, category: '设计工具' },
   { name: '即梦', icon: '🤖', level: 5, category: 'AI 工具' },
-  { name: 'ChatGPT', icon: 'https://cdn.simpleicons.org/openai/white', level: 5, category: 'AI 工具' },
+  { name: 'ChatGPT', icon: '💬', level: 5, category: 'AI 工具' },
 ];
 
 export const projects: Project[] = [
