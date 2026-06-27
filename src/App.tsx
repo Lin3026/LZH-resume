@@ -18,12 +18,14 @@ export default function App() {
       <MouseTrailParticles />
       <MouseClickRipple />
       <Navbar />
+      {/* 顶部留白 1200px，露出背景图起始部分 */}
+      <div style={{ height: '1200px' }} aria-hidden="true" />
       <main className="relative z-20">
         <HeroSection />
         <WorkTimeline />
+        <WorkContentSection />
         <EducationSection />
         <SkillsSection />
-        <WorkContentSection />
         <ProjectsSection />
         <ContactSection />
       </main>

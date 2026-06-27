@@ -12,7 +12,7 @@ const generateMarkdownContent = () => {
 
 ${exp.description}
 
-**技术栈：** ${exp.tags.join(' · ')}
+**项目：** ${exp.tags.join(' · ')}
 
 ---
 `
@@ -26,21 +26,22 @@ export default function WorkContentSection() {
   return (
     <section id="work-content" className="py-20">
       <div className="max-w-4xl mx-auto px-6">
-        <h2 className="text-3xl md:text-4xl font-bold text-white text-center mb-4">
+        <h2 className="text-4xl md:text-5xl font-bold text-white text-center mb-4 tracking-tight">
           工作内容详述
         </h2>
-        <p className="text-slate-400 text-center mb-16">Markdown 渲染 · 清晰呈现每段经历</p>
+        <p className="text-cyan-200 text-lg text-center mb-16">实践是最好的老师</p>
 
-        <div className="bg-slate-800 border border-slate-700 rounded-2xl p-6 md:p-10">
-          <div className="prose prose-invert max-w-none
-            prose-headings:text-white prose-headings:font-bold
-            prose-h2:text-xl prose-h2:border-b prose-h2:border-slate-700 prose-h2:pb-2
-            prose-p:text-slate-300 prose-p:leading-relaxed
-            prose-blockquote:border-l-cyan-500 prose-blockquote:text-slate-400 prose-blockquote:italic
-            prose-strong:text-cyan-300
-            prose-hr:border-slate-700
-            prose-code:text-cyan-300 prose-code:bg-slate-900 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded
-            prose-li:text-slate-300">
+        <div className="bg-white/95 border border-blue-200 rounded-2xl p-6 md:p-12 shadow-xl ocean-card">
+          <div className="prose prose-base max-w-none
+            prose-headings:text-blue-900 prose-headings:font-bold
+            prose-h2:text-2xl prose-h2:mt-8 prose-h2:mb-4 prose-h2:border-b prose-h2:border-blue-200 prose-h2:pb-3
+            prose-p:text-blue-800 prose-p:text-base prose-p:leading-loose prose-p:my-3
+            prose-blockquote:border-l-4 prose-blockquote:border-l-cyan-500 prose-blockquote:text-blue-700 prose-blockquote:text-lg prose-blockquote:not-italic prose-blockquote:font-medium prose-blockquote:pl-4 prose-blockquote:my-4
+            prose-strong:text-blue-900 prose-strong:text-base prose-strong:font-bold
+            prose-hr:border-blue-200 prose-hr:my-6
+            prose-code:text-cyan-700 prose-code:bg-blue-50 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-sm
+            prose-li:text-blue-800 prose-li:text-base prose-li:my-1
+            prose-a:text-cyan-600 prose-a:font-medium">
             <ReactMarkdown remarkPlugins={[remarkGfm]}>{markdown}</ReactMarkdown>
           </div>
         </div>

@@ -8,17 +8,17 @@ export default function WorkTimeline() {
 
   return (
     <section id="experience" className="py-20">
-      <div className="max-w-4xl mx-auto px-6">
-        <h2 className="text-3xl md:text-4xl font-bold text-white text-center mb-4">
+      <div className="max-w-5xl mx-auto px-6">
+        <h2 className="text-4xl md:text-5xl font-bold text-white text-center mb-4 tracking-tight">
           工作经历
         </h2>
-        <p className="text-slate-400 text-center mb-16">积累成长，每一步都算数</p>
+        <p className="text-cyan-200 text-lg text-center mb-20">积累成长，每一步都算数</p>
 
         <div className="relative">
-          {/* 时间轴线 */}
-          <div className="absolute left-6 md:left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-cyan-500 via-teal-500 to-sky-400 transform md:-translate-x-1/2" />
+          {/* 时间轴线 - 加粗 + 渐变 + 光晕 */}
+          <div className="absolute left-6 md:left-1/2 top-0 bottom-0 w-1 bg-gradient-to-b from-cyan-400 via-teal-400 to-sky-400 transform md:-translate-x-1/2 rounded-full shadow-[0_0_12px_rgba(34,211,238,0.5)]" />
 
-          <div className="space-y-12">
+          <div className="space-y-16">
             {workExperiences.map((exp, index) => {
               const isEven = index % 2 === 0;
               const isActive = activeId === exp.id;
@@ -29,57 +29,65 @@ export default function WorkTimeline() {
                     isEven ? 'md:flex-row' : 'md:flex-row-reverse'
                   } flex-row`}
                 >
-                  {/* 时间轴点 */}
+                  {/* 时间轴节点 - 放大 + 外圈光环 */}
                   <div className="absolute left-6 md:left-1/2 transform md:-translate-x-1/2 -translate-x-1/2 z-10">
                     <div
-                      className={`w-4 h-4 rounded-full border-2 cursor-pointer transition-all duration-300 ${
+                      className={`w-6 h-6 rounded-full border-[3px] cursor-pointer transition-all duration-300 flex items-center justify-center ${
                         isActive
-                          ? 'bg-cyan-400 border-cyan-300 scale-150 shadow-lg shadow-cyan-500/50'
-                          : 'bg-slate-700 border-cyan-500 hover:bg-cyan-500 hover:scale-125'
+                          ? 'bg-cyan-400 border-cyan-200 scale-125 shadow-[0_0_20px_rgba(34,211,238,0.8)]'
+                          : 'bg-white border-cyan-500 hover:bg-cyan-50 hover:scale-110 shadow-lg shadow-cyan-500/30'
                       }`}
                       onClick={() => setActiveId(isActive ? null : exp.id)}
-                    />
+                    >
+                      {isActive && <div className="w-2 h-2 bg-white rounded-full" />}
+                    </div>
                   </div>
 
                   {/* 卡片区域 */}
                   <div
-                    className={`ml-12 md:ml-0 w-full md:w-[calc(50%-2rem)] ${
-                      isEven ? 'md:pr-8' : 'md:pl-8'
+                    className={`ml-14 md:ml-0 w-full md:w-[calc(50%-2.5rem)] ${
+                      isEven ? 'md:pr-10' : 'md:pl-10'
                     }`}
                   >
                     <Card
-                      className={`cursor-pointer transition-all duration-300 bg-slate-800 border-slate-700 hover:border-cyan-500/50 ${
-                        isActive ? 'border-cyan-500 shadow-xl shadow-cyan-500/20' : ''
+                      className={`cursor-pointer transition-all duration-300 bg-white/95 border-2 hover:border-cyan-500 shadow-xl ocean-card ${
+                        isActive ? 'border-cyan-500 shadow-2xl shadow-cyan-500/30 scale-[1.02]' : 'border-blue-200'
                       }`}
                       onClick={() => setActiveId(isActive ? null : exp.id)}
                     >
-                      <CardContent className="p-5">
-                        {/* 时间段 */}
-                        <div className="text-xs text-cyan-400 font-mono mb-2">
-                          {exp.startDate} → {exp.endDate}
+                      <CardContent className="p-7">
+                        {/* 时间段 - 加大加粗 */}
+                        <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-cyan-50 border border-cyan-200 rounded-lg mb-4">
+                          <span className="w-2 h-2 bg-cyan-500 rounded-full" />
+                          <span className="text-base text-cyan-700 font-bold font-mono tracking-wide">
+                            {exp.startDate} → {exp.endDate}
+                          </span>
                         </div>
 
-                        {/* 公司 & 职位 */}
-                        <h3 className="text-lg font-bold text-white">{exp.company}</h3>
-                        <p className="text-cyan-300 text-sm mb-3">{exp.position}</p>
+                        {/* 公司 - 加大 */}
+                        <h3 className="text-2xl font-bold text-blue-900 mb-1 tracking-tight">{exp.company}</h3>
+                        {/* 职位 - 加大 */}
+                        <p className="text-cyan-700 text-lg font-medium mb-4">{exp.position}</p>
 
-                        {/* 展开内容 */}
+                        {/* 展开内容 - 加大行高和字号 */}
                         <div
                           className={`overflow-hidden transition-all duration-500 ${
-                            isActive ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+                            isActive ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'
                           }`}
                         >
-                          <p className="text-slate-300 text-sm leading-relaxed mb-4 whitespace-pre-line">
-                            {exp.description}
-                          </p>
+                          <div className="pt-3 border-t border-blue-100">
+                            <p className="text-blue-800 text-base leading-loose whitespace-pre-line">
+                              {exp.description}
+                            </p>
+                          </div>
                         </div>
 
-                        {/* 技术标签 */}
-                        <div className="flex flex-wrap gap-1.5 mt-2">
+                        {/* 项目标签 - 加大 */}
+                        <div className="flex flex-wrap gap-2 mt-5">
                           {exp.tags.map((tag) => (
                             <Badge
                               key={tag}
-                              className="text-xs bg-slate-700 text-slate-300 border-slate-600 hover:bg-slate-600"
+                              className="text-sm px-3 py-1 bg-blue-50 text-blue-700 border border-blue-200 hover:bg-blue-100 font-medium"
                             >
                               {tag}
                             </Badge>
@@ -89,13 +97,13 @@ export default function WorkTimeline() {
                     </Card>
                   </div>
 
-                  {/* 另一侧时间标签（仅桌面端） */}
+                  {/* 另一侧年份标签（仅桌面端）- 放大但避免重合 */}
                   <div
-                    className={`hidden md:flex w-[calc(50%-2rem)] items-center ${
-                      isEven ? 'pl-8 justify-start' : 'pr-8 justify-end'
+                    className={`hidden md:flex w-[calc(50%-2.5rem)] items-center ${
+                      isEven ? 'pl-10 justify-start' : 'pr-10 justify-end'
                     }`}
                   >
-                    <span className="text-slate-500 text-sm font-mono">
+                    <span className="text-cyan-300/60 text-2xl font-bold font-mono select-none">
                       {exp.startDate.split('-')[0]}
                     </span>
                   </div>

@@ -35,27 +35,20 @@
     @apply bg-background text-foreground;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     /* === 全站海洋主题背景 ===
-       后续修改背景：把下面 url(...) 里的图片地址换成你想要的即可
-       可以用 Unsplash 上的图片，或自己的图床链接 */
+       背景图随页面滚动（scroll），不做固定
+       背景图建议：整体偏暗，方便白色文字阅读 */
     background-image: url('/ocean-bg.jpg');
     background-size: cover;
-    background-position: center;
-    background-attachment: fixed;  /* 滚动时背景固定不动 */
+    background-position: center top;
+    background-attachment: scroll;  /* 滚动时背景跟随移动 */
     background-repeat: no-repeat;
   }
   html {
     scroll-behavior: smooth;
   }
-  /* 每个 section 默认带半透明深色遮罩，让文字清晰可读 */
+  /* section 不再加遮罩，背景图直接显示 */
   section {
     position: relative;
-  }
-  section::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: rgba(8, 30, 50, 0.70);  /* 深海蓝半透明遮罩，与海洋背景融合 */
-    z-index: 0;
   }
   section > * {
     position: relative;
@@ -97,4 +90,41 @@
 .dialog-scroll {
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
+}
+
+/* === 海洋装饰白框 === */
+.ocean-card {
+  position: relative;
+  overflow: hidden;
+}
+.ocean-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #06b6d4, #14b8a6, #0ea5e9, #06b6d4);
+  background-size: 200% 100%;
+  animation: ocean-wave 3s ease-in-out infinite;
+  z-index: 1;
+}
+@keyframes ocean-wave {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+.ocean-card::after {
+  content: '';
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(6, 182, 212, 0.3);
+  box-shadow:
+    14px 6px 0 -1px rgba(20, 184, 166, 0.25),
+    6px 16px 0 -1px rgba(14, 165, 233, 0.2);
+  z-index: 1;
+  pointer-events: none;
 }

@@ -3,9 +3,9 @@ import { useState, useEffect } from 'react';
 const navItems = [
   { id: 'hero', label: '首页' },
   { id: 'experience', label: '工作经历' },
+  { id: 'work-content', label: '工作内容' },
   { id: 'education', label: '教育经历' },
   { id: 'skills', label: '技能' },
-  { id: 'work-content', label: '工作内容' },
   { id: 'projects', label: '作品展示' },
   { id: 'contact', label: '联系我' },
 ];

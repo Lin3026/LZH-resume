@@ -22,86 +22,103 @@ export default function HeroSection() {
       <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-cyan-500 rounded-full filter blur-3xl opacity-20 animate-pulse" />
       <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-teal-400 rounded-full filter blur-3xl opacity-15 animate-pulse delay-1000" />
 
-      <div className="relative z-10 max-w-5xl mx-auto px-6 text-center">
-        {/* 头像 */}
-        <div className="mb-8 flex justify-center">
-          <div className="relative">
-            <div className="w-32 h-32 md:w-40 md:h-40 rounded-full border-4 border-cyan-400 shadow-2xl shadow-cyan-500/50 overflow-hidden bg-slate-800">
-              <img
-                src={personalInfo.avatar}
-                alt={personalInfo.name}
-                className="w-full h-full object-cover"
-                onError={(e) => {
-                  (e.target as HTMLImageElement).src =
-                    `https://ui-avatars.com/api/?name=${encodeURIComponent(personalInfo.name)}&size=160&background=0891b2&color=fff`;
-                }}
-              />
-            </div>
-            <div className="absolute -bottom-1 -right-1 w-8 h-8 bg-green-400 rounded-full border-2 border-slate-900 flex items-center justify-center text-xs">
-              ✓
+      <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
+        {/* 个人介绍白框 - 带海洋装饰 */}
+        <div className="relative bg-white/95 border-2 border-cyan-200 rounded-3xl p-8 md:p-12 shadow-2xl shadow-cyan-500/20 overflow-hidden">
+          {/* 海洋装饰 - 左上角波纹 */}
+          <svg className="absolute -top-6 -left-6 w-32 h-32 text-cyan-200/40" viewBox="0 0 100 100" fill="none" aria-hidden="true">
+            <path d="M0,20 Q25,10 50,20 T100,20" stroke="currentColor" strokeWidth="2" />
+            <path d="M0,35 Q25,25 50,35 T100,35" stroke="currentColor" strokeWidth="2" />
+            <path d="M0,50 Q25,40 50,50 T100,50" stroke="currentColor" strokeWidth="2" />
+          </svg>
+          {/* 海洋装饰 - 右下角气泡 */}
+          <svg className="absolute -bottom-4 -right-4 w-28 h-28 text-teal-200/40" viewBox="0 0 100 100" fill="none" aria-hidden="true">
+            <circle cx="20" cy="80" r="8" stroke="currentColor" strokeWidth="2" />
+            <circle cx="45" cy="60" r="12" stroke="currentColor" strokeWidth="2" />
+            <circle cx="70" cy="35" r="6" stroke="currentColor" strokeWidth="2" />
+            <circle cx="85" cy="20" r="4" stroke="currentColor" strokeWidth="2" />
+          </svg>
+
+          {/* 头像 */}
+          <div className="mb-6 flex justify-center relative">
+            <div className="relative">
+              <div className="w-28 h-28 md:w-36 md:h-36 rounded-full border-4 border-cyan-400 shadow-2xl shadow-cyan-500/50 overflow-hidden bg-slate-800">
+                <img
+                  src={personalInfo.avatar}
+                  alt={personalInfo.name}
+                  className="w-full h-full object-cover"
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).src =
+                      `https://ui-avatars.com/api/?name=${encodeURIComponent(personalInfo.name)}&size=160&background=0891b2&color=fff`;
+                  }}
+                />
+              </div>
+              <div className="absolute -bottom-1 -right-1 w-7 h-7 bg-green-400 rounded-full border-2 border-white flex items-center justify-center text-xs">
+                ✓
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* 姓名 */}
-        <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-4 tracking-tight">
-          {personalInfo.name}
-        </h1>
+          {/* 姓名 */}
+          <h1 className="text-4xl md:text-6xl font-bold text-blue-900 mb-4 tracking-tight">
+            {personalInfo.name}
+          </h1>
 
-        {/* 职位 */}
-        <div className="flex flex-wrap justify-center gap-2 mb-6">
-          {personalInfo.title.split(' / ').map((t) => (
-            <Badge
-              key={t}
-              className="text-sm md:text-base px-4 py-1.5 bg-cyan-500/30 text-cyan-200 border border-cyan-400/50 backdrop-blur-sm"
+          {/* 职位 */}
+          <div className="flex flex-wrap justify-center gap-2 mb-5">
+            {personalInfo.title.split(' / ').map((t) => (
+              <Badge
+                key={t}
+                className="text-sm md:text-base px-4 py-1.5 bg-cyan-50 text-cyan-700 border border-cyan-300 font-medium"
+              >
+                {t}
+              </Badge>
+            ))}
+          </div>
+
+          {/* 简介 */}
+          <p className="text-blue-800 text-base md:text-lg max-w-2xl mx-auto leading-loose mb-6 whitespace-pre-line">
+            {personalInfo.bio}
+          </p>
+
+          {/* 联系信息 */}
+          <div className="flex flex-wrap justify-center gap-5 mb-7 text-blue-600 text-sm font-medium">
+            <span className="flex items-center gap-1.5">
+              <span>📍</span> {personalInfo.location}
+            </span>
+            <span className="flex items-center gap-1.5">
+              <span>✉️</span> {personalInfo.email}
+            </span>
+            <span className="flex items-center gap-1.5">
+              <span>📱</span> {personalInfo.phone}
+            </span>
+          </div>
+
+          {/* 按钮 */}
+          <div className="flex flex-wrap justify-center gap-4">
+            <Button
+              className="bg-cyan-600 hover:bg-cyan-500 text-white px-8 py-2.5 rounded-full shadow-lg shadow-cyan-500/30 transition-all hover:scale-105"
+              onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })}
             >
-              {t}
-            </Badge>
-          ))}
-        </div>
-
-        {/* 简介 */}
-        <p className="text-slate-300 text-base md:text-lg max-w-2xl mx-auto leading-relaxed mb-8 whitespace-pre-line">
-          {personalInfo.bio}
-        </p>
-
-        {/* 联系信息 */}
-        <div className="flex flex-wrap justify-center gap-4 mb-10 text-slate-400 text-sm">
-          <span className="flex items-center gap-1.5">
-            <span>📍</span> {personalInfo.location}
-          </span>
-          <span className="flex items-center gap-1.5">
-            <span>✉️</span> {personalInfo.email}
-          </span>
-          <span className="flex items-center gap-1.5">
-            <span>📱</span> {personalInfo.phone}
-          </span>
-        </div>
-
-        {/* 按钮 */}
-        <div className="flex flex-wrap justify-center gap-4">
-          <Button
-            className="bg-cyan-600 hover:bg-cyan-500 text-white px-8 py-2.5 rounded-full shadow-lg shadow-cyan-500/30 transition-all hover:scale-105"
-            onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })}
-          >
-            查看作品
-          </Button>
-          <Button
-            variant="outline"
-            className="border-slate-500 text-slate-300 hover:bg-slate-800 hover:text-white px-8 py-2.5 rounded-full transition-all hover:scale-105"
-            onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
-          >
-            联系我
-          </Button>
-          {personalInfo.github && (
+              查看作品
+            </Button>
             <Button
               variant="outline"
-              className="border-slate-500 text-slate-300 hover:bg-slate-800 hover:text-white px-8 py-2.5 rounded-full transition-all hover:scale-105"
-              onClick={() => window.open(personalInfo.github, '_blank')}
+              className="border-cyan-400 text-cyan-700 hover:bg-cyan-50 hover:text-cyan-900 px-8 py-2.5 rounded-full transition-all hover:scale-105 bg-white"
+              onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
             >
-              🐙 GitHub
+              联系我
             </Button>
-          )}
+            {personalInfo.github && (
+              <Button
+                variant="outline"
+                className="border-cyan-400 text-cyan-700 hover:bg-cyan-50 hover:text-cyan-900 px-8 py-2.5 rounded-full transition-all hover:scale-105 bg-white"
+                onClick={() => window.open(personalInfo.github, '_blank')}
+              >
+                🐙 GitHub
+              </Button>
+            )}
+          </div>
         </div>
       </div>
 

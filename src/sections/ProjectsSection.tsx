@@ -46,7 +46,7 @@ function LocalVideoPlayer() {
     <div className="mb-6">
       {videoSrc ? (
         /* 视频预览区 */
-        <div className="relative rounded-xl overflow-hidden bg-slate-900 border border-slate-700">
+        <div className="relative rounded-xl overflow-hidden bg-blue-50 border border-blue-200">
           <video
             src={videoSrc}
             controls
@@ -55,13 +55,13 @@ function LocalVideoPlayer() {
             preload="metadata"
           />
           {/* 底部信息栏 */}
-          <div className="flex items-center justify-between px-4 py-2 bg-slate-800/80 backdrop-blur-sm border-t border-slate-700">
-            <span className="text-slate-300 text-sm truncate flex-1 pr-2">📹 {videoName}</span>
+          <div className="flex items-center justify-between px-4 py-2 bg-blue-50/80 backdrop-blur-sm border-t border-blue-200">
+            <span className="text-blue-800 text-sm truncate flex-1 pr-2">📹 {videoName}</span>
             <div className="flex gap-2 flex-shrink-0">
               <Button
                 variant="ghost"
                 size="sm"
-                className="text-slate-400 hover:text-white hover:bg-slate-700 h-8"
+                className="text-blue-500 hover:text-blue-900 hover:bg-blue-100 h-8"
                 onClick={() => inputRef.current?.click()}
               >
                 <Upload className="w-3.5 h-3.5 mr-1" />
@@ -89,22 +89,22 @@ function LocalVideoPlayer() {
           className={`relative border-2 border-dashed rounded-xl p-12 text-center cursor-pointer transition-all duration-300 ${
             dragging
               ? 'border-cyan-400 bg-cyan-500/10 scale-[1.02]'
-              : 'border-slate-600 hover:border-cyan-500/50 hover:bg-slate-800/50'
+              : 'border-blue-300 hover:border-cyan-500 hover:bg-blue-50'
           }`}
         >
           <div className="flex flex-col items-center gap-3">
             <div className={`w-16 h-16 rounded-full flex items-center justify-center transition-all ${
-              dragging ? 'bg-cyan-500/30 scale-110' : 'bg-slate-700'
+              dragging ? 'bg-cyan-500/30 scale-110' : 'bg-blue-100'
             }`}>
               {dragging ? (
                 <Upload className="w-7 h-7 text-cyan-400 animate-bounce" />
               ) : (
-                <Plus className="w-7 h-7 text-slate-400" />
+                <Plus className="w-7 h-7 text-blue-400" />
               )}
             </div>
             <div>
-              <p className="text-slate-300 font-medium">拖拽视频到此处，或点击上传</p>
-              <p className="text-slate-500 text-xs mt-1">支持 MP4 / MOV / WebM 等常见格式</p>
+                <p className="text-blue-700 font-medium">拖拽视频到此处，或点击上传</p>
+                <p className="text-blue-400 text-xs mt-1">支持 MP4 / MOV / WebM 等常见格式</p>
             </div>
           </div>
         </div>
@@ -138,9 +138,9 @@ function ProjectDetailModal({
   if (!project) return null;
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto bg-slate-900 border-slate-700 text-white">
+      <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto bg-white border border-blue-200 text-blue-900">
         <DialogHeader>
-          <DialogTitle className="text-xl font-bold text-white">{project.title}</DialogTitle>
+          <DialogTitle className="text-xl font-bold text-blue-900">{project.title}</DialogTitle>
         </DialogHeader>
 
         {/* 本地视频上传 + 预览 */}
@@ -166,18 +166,18 @@ function ProjectDetailModal({
 
         {/* Markdown 内容 */}
         {project.markdownContent && (
-          <div className="prose prose-invert prose-sm max-w-none
-            prose-headings:text-white prose-headings:font-bold
-            prose-p:text-slate-300 prose-p:leading-relaxed
-            prose-a:text-cyan-400 prose-a:no-underline hover:prose-a:underline
-            prose-code:text-cyan-300 prose-code:bg-slate-800 prose-code:px-1 prose-code:py-0.5 prose-code:rounded
-            prose-pre:bg-slate-800 prose-pre:border prose-pre:border-slate-700
-            prose-blockquote:border-l-cyan-500 prose-blockquote:text-slate-400
-            prose-strong:text-white
-            prose-table:text-slate-300
-            prose-th:text-white prose-th:bg-slate-800
-            prose-td:border-slate-700
-            prose-li:text-slate-300">
+          <div className="prose prose-sm max-w-none
+            prose-headings:text-blue-900 prose-headings:font-bold
+            prose-p:text-blue-800 prose-p:leading-relaxed
+            prose-a:text-cyan-600 prose-a:no-underline hover:prose-a:underline
+            prose-code:text-cyan-700 prose-code:bg-blue-50 prose-code:px-1 prose-code:py-0.5 prose-code:rounded
+            prose-pre:bg-blue-50 prose-pre:border prose-pre:border-blue-200
+            prose-blockquote:border-l-cyan-500 prose-blockquote:text-blue-600
+            prose-strong:text-blue-900
+            prose-table:text-blue-800
+            prose-th:text-blue-900 prose-th:bg-blue-50
+            prose-td:border-blue-200
+            prose-li:text-blue-800">
             <ReactMarkdown remarkPlugins={[remarkGfm]}>
               {project.markdownContent}
             </ReactMarkdown>
@@ -206,16 +206,16 @@ export default function ProjectsSection() {
   return (
     <section id="projects" className="py-20">
       <div className="max-w-6xl mx-auto px-6">
-        <h2 className="text-3xl md:text-4xl font-bold text-white text-center mb-4">
+        <h2 className="text-4xl md:text-5xl font-bold text-white text-center mb-4 tracking-tight">
           作品展示
         </h2>
-        <p className="text-slate-400 text-center mb-16">点击卡片查看详情，支持上传本地视频预览</p>
+        <p className="text-cyan-200 text-lg text-center mb-16">点击卡片查看详情，支持上传本地视频预览</p>
 
         <div className="grid sm:grid-cols-2 gap-6">
           {projects.map((project) => (
             <div
               key={project.id}
-              className="group bg-slate-900 border border-slate-700 rounded-2xl overflow-hidden cursor-pointer hover:border-cyan-500/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-cyan-500/10"
+              className="group bg-white/95 border border-blue-200 rounded-2xl overflow-hidden cursor-pointer hover:border-cyan-500 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-cyan-500/20 shadow-lg ocean-card"
               onClick={() => setSelectedProject(project)}
             >
               {/* 封面 */}
@@ -228,7 +228,7 @@ export default function ProjectsSection() {
                   />
                 )}
                 {/* 悬浮上传提示 */}
-                <div className="absolute inset-0 flex items-center justify-center bg-slate-900/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <div className="absolute inset-0 flex items-center justify-center bg-blue-900/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                   <div className="flex flex-col items-center gap-2">
                     <div className="w-14 h-14 bg-cyan-600/90 rounded-full flex items-center justify-center shadow-2xl">
                       <Upload className="w-6 h-6 text-white" />
@@ -240,17 +240,17 @@ export default function ProjectsSection() {
 
               {/* 内容 */}
               <div className="p-5">
-                <h3 className="text-white font-bold text-lg mb-2 group-hover:text-cyan-300 transition-colors">
+                <h3 className="text-blue-900 font-bold text-lg mb-2 group-hover:text-cyan-700 transition-colors">
                   {project.title}
                 </h3>
-                <p className="text-slate-400 text-sm leading-relaxed mb-4 line-clamp-3">
+                <p className="text-blue-700 text-sm leading-relaxed mb-4 line-clamp-3">
                   {project.description}
                 </p>
                 <div className="flex flex-wrap gap-1.5">
                   {project.tags.slice(0, 4).map((tag) => (
                     <Badge
                       key={tag}
-                      className="text-xs bg-slate-800 text-slate-300 border-slate-700"
+                      className="text-xs bg-blue-50 text-blue-700 border-blue-200"
                     >
                       {tag}
                     </Badge>
