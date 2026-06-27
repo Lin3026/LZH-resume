@@ -109,11 +109,18 @@ export default function WorkTimeline() {
                           {shellIcon}
                         </div>
 
-                        {/* 文字内容 - 只保留岗位 / 公司 */}
+                        {/* 文字内容 - 保留岗位 / 公司 + 工作时间段 */}
                         <div className="flex-1 min-w-0">
-                          <h3 className="text-xl md:text-2xl font-bold text-blue-900 leading-tight">
+                          <h3 className="text-xl md:text-2xl font-bold text-blue-900 leading-tight mb-2">
                             {exp.position} <span className="text-cyan-500 mx-1">/</span> {exp.company}
                           </h3>
+                          {/* 工作时间段 */}
+                          <div className="flex items-center gap-2">
+                            <span className="w-1.5 h-1.5 bg-cyan-500 rounded-full flex-shrink-0" />
+                            <span className="text-sm font-semibold text-cyan-700 font-mono tracking-wide">
+                              {exp.startDate} — {exp.endDate}
+                            </span>
+                          </div>
                         </div>
                       </CardContent>
                     </div>
