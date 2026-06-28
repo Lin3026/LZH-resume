@@ -118,8 +118,6 @@ export default function Navbar() {
                 style={{
                   color: isActive ? '#ffffff' : 'rgb(0, 150, 245)',
                   fontWeight: isActive ? 700 : 500,
-                  WebkitTextStroke: '2px #ffffff',
-                  paintOrder: 'stroke fill',
                 }}
               >
                 {item.label}
