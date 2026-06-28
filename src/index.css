@@ -129,3 +129,9 @@
   z-index: 1;
   pointer-events: none;
 }
+
+/* 微弱脉冲动画（视频槽位 hover 播放图标用） */
+@keyframes pulse-subtle {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.05); opacity: 0.85; }
+}
