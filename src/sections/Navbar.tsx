@@ -83,7 +83,7 @@ export default function Navbar() {
         <div className="text-cyan-300 font-mono font-bold text-xl sm:text-2xl tracking-tight drop-shadow-md">
           {'</LZH>'}
         </div>
-        <div className="text-cyan-100/70 text-xs mt-1 font-medium drop-shadow-sm">林志辉 · 作品集</div>
+        <div className="text-cyan-100/70 text-xs mt-1 font-medium drop-shadow-sm">林志辉 · 个人空间</div>
       </div>
 
       {/* 导航项列表 */}
