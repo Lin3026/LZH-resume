@@ -9,56 +9,59 @@ import {
 } from '@/components/ui/dialog';
 
 /**
- * 视频槽位坐标配置（百分比，相对于背景图）
- * 根据初稿图（2560×19197）中"作品展示"模块的 12 个占位符位置设定
- * 如需微调，直接修改这里的 left/top/width/height
+ * 12 个视频槽位坐标（百分比，相对于背景图）
+ * 作品展示区域，3列 x 4行
  */
 const VIDEO_SLOTS = [
-  // 第 1 行
-  { left: 8,  top: 54.5, width: 27, height: 6.2 },
-  { left: 37, top: 54.5, width: 27, height: 6.2 },
-  { left: 66, top: 54.5, width: 27, height: 6.2 },
-  // 第 2 行
-  { left: 8,  top: 62.5, width: 27, height: 6.2 },
-  { left: 37, top: 62.5, width: 27, height: 6.2 },
-  { left: 66, top: 62.5, width: 27, height: 6.2 },
-  // 第 3 行
-  { left: 8,  top: 70.5, width: 27, height: 6.2 },
-  { left: 37, top: 70.5, width: 27, height: 6.2 },
-  { left: 66, top: 70.5, width: 27, height: 6.2 },
-  // 第 4 行
-  { left: 8,  top: 78.5, width: 27, height: 6.2 },
-  { left: 37, top: 78.5, width: 27, height: 6.2 },
-  { left: 66, top: 78.5, width: 27, height: 6.2 },
+  { left: 6,  top: 56.5, width: 28, height: 6 },
+  { left: 36, top: 56.5, width: 28, height: 6 },
+  { left: 66, top: 56.5, width: 28, height: 6 },
+
+  { left: 6,  top: 64, width: 28, height: 6 },
+  { left: 36, top: 64, width: 28, height: 6 },
+  { left: 66, top: 64, width: 28, height: 6 },
+
+  { left: 6,  top: 71.5, width: 28, height: 6 },
+  { left: 36, top: 71.5, width: 28, height: 6 },
+  { left: 66, top: 71.5, width: 28, height: 6 },
+
+  { left: 6,  top: 79, width: 28, height: 6 },
+  { left: 36, top: 79, width: 28, height: 6 },
+  { left: 66, top: 79, width: 28, height: 6 },
 ];
 
 export default function VideoShowcase() {
   const [selectedVideo, setSelectedVideo] = useState<VideoWork | null>(null);
 
   return (
-    <div className="relative w-full" style={{ maxWidth: '100vw' }}>
-      {/* 背景图 — 完整显示 2560×19197，页面高度 = 图片高度，可滚动 */}
-      <img
-        src="/ocean-bg.jpg"
-        alt="作品集背景"
-        className="block w-full h-auto select-none"
-        draggable={false}
-        style={{ pointerEvents: 'none' }}
-      />
-
-      {/* 12 个视频点击槽位 — 绝对定位覆盖在背景图的作品占位符上 */}
-      {videoWorks.map((video, index) => {
-        const slot = VIDEO_SLOTS[index] || VIDEO_SLOTS[0];
-        return (
-          <VideoSlot
-            key={video.id}
-            video={video}
-            index={index}
-            slot={slot}
-            onClick={() => setSelectedVideo(video)}
+    <div className="relative w-full">
+      {/* 背景图 — 居中显示，宽度限制让整体更精致
+          网页总高度 = 背景图原始高度比例（19197 的等比缩放）*/}
+      <div className="relative w-full flex justify-center">
+        <div className="relative" style={{ width: '100%', maxWidth: '900px' }}>
+          <img
+            src="/ocean-bg.jpg"
+            alt="作品集背景"
+            className="block w-full h-auto select-none rounded-lg shadow-2xl"
+            draggable={false}
+            style={{ pointerEvents: 'none' }}
           />
-        );
-      })}
+
+          {/* 12 个视频点击槽位 — 绝对定位覆盖在背景图的作品展示区域 */}
+          {videoWorks.map((video, index) => {
+            const slot = VIDEO_SLOTS[index] || VIDEO_SLOTS[0];
+            return (
+              <VideoSlot
+                key={video.id}
+                video={video}
+                index={index}
+                slot={slot}
+                onClick={() => setSelectedVideo(video)}
+              />
+            );
+          })}
+        </div>
+      </div>
 
       {/* 视频详情弹窗 */}
       <VideoDetailDialog
@@ -92,7 +95,7 @@ function VideoSlot({
         top: `${slot.top}%`,
         width: `${slot.width}%`,
         height: `${slot.height}%`,
-        borderRadius: '16px',
+        borderRadius: '12px',
       }}
       className="
         bg-transparent hover:bg-white/20
@@ -106,21 +109,15 @@ function VideoSlot({
       "
       aria-label={`查看作品 ${index + 1}：${video.title}`}
     >
-      {/* hover 时显示播放图标 */}
-      <div
-        className="w-14 h-14 md:w-20 md:h-20 rounded-full bg-white/90
-                   flex items-center justify-center shadow-2xl
-                   opacity-0 group-hover:opacity-100
-                   scale-50 group-hover:scale-100
-                   transition-all duration-300"
-      >
-        <svg className="w-7 h-7 md:w-10 md:h-10 text-blue-500 ml-1" fill="currentColor" viewBox="0 0 24 24">
+      {/* hover 播放图标 */}
+      <div className="w-12 h-12 md:w-16 md:h-16 rounded-full bg-white/90 flex items-center justify-center shadow-2xl opacity-0 group-hover:opacity-100 scale-50 group-hover:scale-100 transition-all duration-300">
+        <svg className="w-6 h-6 md:w-8 md:h-8 text-blue-500 ml-1" fill="currentColor" viewBox="0 0 24 24">
           <path d="M8 5v14l11-7z" />
         </svg>
       </div>
 
       {/* 编号角标 */}
-      <div className="absolute top-2 left-2 w-7 h-7 md:w-9 md:h-9 rounded-full bg-gradient-to-br from-blue-400 to-cyan-400 text-white font-bold text-xs md:text-sm flex items-center justify-center shadow-lg opacity-50 group-hover:opacity-100 transition-opacity border-2 border-white/80">
+      <div className="absolute top-1.5 left-1.5 w-6 h-6 md:w-8 md:h-8 rounded-full bg-gradient-to-br from-blue-400 to-cyan-400 text-white font-bold text-xs flex items-center justify-center shadow-lg opacity-50 group-hover:opacity-100 transition-opacity border-2 border-white/80">
         {index + 1}
       </div>
     </button>
@@ -141,7 +138,7 @@ function VideoDetailDialog({
 
   return (
     <Dialog open={open} onOpenChange={(v) => !v && onClose()}>
-      <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto bg-white/95 backdrop-blur-xl border-2 border-white/40 rounded-3xl p-0 dialog-scroll shadow-2xl shadow-black/20">
+      <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto bg-white/95 backdrop-blur-xl border-2 border-white/40 rounded-3xl p-0 dialog-scroll shadow-2xl">
         <DialogHeader className="px-6 md:px-8 pt-6 pb-2 bg-gradient-to-r from-sky-50 via-blue-50 to-cyan-50 rounded-t-2xl">
           <DialogTitle className="text-2xl md:text-3xl font-black text-blue-900 tracking-tight">
             🎬 {video.title}
@@ -149,13 +146,11 @@ function VideoDetailDialog({
         </DialogHeader>
 
         <div className="px-6 md:px-8 pb-6 space-y-5">
-          {/* 视频 / 缩略图预览区 */}
           <div className="aspect-video rounded-xl overflow-hidden bg-gradient-to-br from-slate-200 via-slate-100 to-slate-200 flex items-center justify-center border-2 border-slate-200">
             {video.thumbnail ? (
               <img src={video.thumbnail} alt={video.title} className="w-full h-full object-cover" />
             ) : video.videoUrl ? (
-              <a href={video.videoUrl} target="_blank" rel="noopener noreferrer"
-                 className="flex flex-col items-center gap-4 text-blue-500 hover:text-blue-700 transition-colors no-underline">
+              <a href={video.videoUrl} target="_blank" rel="noopener noreferrer" className="flex flex-col items-center gap-4 text-blue-500 hover:text-blue-700 transition-colors no-underline">
                 <div className="w-20 h-20 rounded-full bg-white/90 shadow-lg flex items-center justify-center">
                   <svg className="w-10 h-10" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
                 </div>
@@ -173,7 +168,6 @@ function VideoDetailDialog({
             )}
           </div>
 
-          {/* 基本信息 */}
           <div className="bg-gradient-to-br from-blue-50 to-sky-50 rounded-xl p-5 space-y-2.5 border border-blue-100">
             <h4 className="text-base font-bold text-blue-800">📋 基本信息</h4>
             <div className="grid grid-cols-2 gap-x-4 gap-y-1.5 text-sm">
@@ -183,13 +177,11 @@ function VideoDetailDialog({
             </div>
           </div>
 
-          {/* 简介 */}
           <div>
             <h4 className="text-base font-bold text-blue-800 mb-1.5">📝 简介</h4>
             <p className="text-blue-800/80 text-sm leading-relaxed whitespace-pre-line">{video.description}</p>
           </div>
 
-          {/* 数据分析面板 */}
           <div className="bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50 rounded-xl p-5 space-y-2.5 border border-orange-100">
             <h4 className="text-base font-bold text-orange-800">📊 数据分析</h4>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5">
@@ -200,7 +192,6 @@ function VideoDetailDialog({
             </div>
           </div>
 
-          {/* 核心亮点 */}
           <div className="bg-emerald-50/70 rounded-xl p-5 border border-emerald-100">
             <h4 className="text-base font-bold text-emerald-800 mb-1.5">✨ 核心亮点</h4>
             <p className="text-emerald-800/85 text-sm leading-relaxed whitespace-pre-line font-medium">{video.highlight}</p>
@@ -217,7 +208,6 @@ function VideoDetailDialog({
   );
 }
 
-// ========== 数据分析小卡片 ==========
 function DataCard({ label, value, color }: { label: string; value: string; color: string }) {
   const colors: Record<string, { bg: string; text: string }> = {
     blue:   { bg: 'bg-blue-100', text: 'text-blue-700' },
