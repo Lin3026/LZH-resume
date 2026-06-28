@@ -17,7 +17,7 @@ export default function App() {
       <MouseClickRipple />
 
       {/* 主内容区 — 左侧留出导航栏宽度，背景图铺满剩余宽度自适应各设备 */}
-      <main className="relative z-20 ml-48 md:ml-56">
+      <main className="relative z-20 ml-44 sm:ml-48 md:ml-52 lg:ml-56">
         <VideoShowcase />
       </main>
     </div>
