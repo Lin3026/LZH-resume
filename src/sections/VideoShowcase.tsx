@@ -16,20 +16,20 @@ import oceanBg from '../assets/ocean-bg.jpg';
 const VIDEO_SLOTS = [
   // 第1行 (y=9810px)
   { left: 8.59,  top: 51.10, width: 25.78, height: 6.09 },
-  { left: 38.28, top: 51.10, width: 25.78, height: 6.09 },
-  { left: 67.97, top: 51.10, width: 25.78, height: 6.09 },
-  // 第2行 (y=11075px)
-  { left: 8.59,  top: 57.70, width: 25.78, height: 6.09 },
-  { left: 38.28, top: 57.70, width: 25.78, height: 6.09 },
-  { left: 67.97, top: 57.70, width: 25.78, height: 6.09 },
-  // 第3行 (y=12340px)
-  { left: 8.59,  top: 64.28, width: 25.78, height: 6.09 },
-  { left: 38.28, top: 64.28, width: 25.78, height: 6.09 },
-  { left: 67.97, top: 64.28, width: 25.78, height: 6.09 },
-  // 第4行 (y=13605px)
-  { left: 8.59,  top: 70.87, width: 25.78, height: 6.09 },
-  { left: 38.28, top: 70.87, width: 25.78, height: 6.09 },
-  { left: 67.97, top: 70.87, width: 25.78, height: 6.09 },
+  { left: 35.16, top: 51.10, width: 25.78, height: 6.09 },
+  { left: 63.28, top: 51.10, width: 25.78, height: 6.09 },
+  // 第2行 (y=10990px)
+  { left: 8.59,  top: 57.25, width: 25.78, height: 6.09 },
+  { left: 35.16, top: 57.25, width: 25.78, height: 6.09 },
+  { left: 63.28, top: 57.25, width: 25.78, height: 6.09 },
+  // 第3行 (y=12170px)
+  { left: 8.59,  top: 63.39, width: 25.78, height: 6.09 },
+  { left: 35.16, top: 63.39, width: 25.78, height: 6.09 },
+  { left: 63.28, top: 63.39, width: 25.78, height: 6.09 },
+  // 第4行 (y=13350px)
+  { left: 8.59,  top: 69.54, width: 25.78, height: 6.09 },
+  { left: 35.16, top: 69.54, width: 25.78, height: 6.09 },
+  { left: 63.28, top: 69.54, width: 25.78, height: 6.09 },
 ];
 
 export default function VideoShowcase() {
@@ -94,7 +94,7 @@ function VideoSlot({
         top: `${slot.top}%`,
         width: `${slot.width}%`,
         height: `${slot.height}%`,
-        borderRadius: '20px',
+        borderRadius: '40px',
       }}
       className="
         bg-transparent hover:bg-white/20
