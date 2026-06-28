@@ -115,7 +115,12 @@ export default function Navbar() {
               />
               <span
                 className="font-medium text-xs sm:text-sm md:text-base whitespace-nowrap transition-colors"
-                style={{ color: 'rgb(0, 150, 245)', fontWeight: isActive ? 700 : 500 }}
+                style={{
+                  color: isActive ? '#ffffff' : 'rgb(0, 150, 245)',
+                  fontWeight: isActive ? 700 : 500,
+                  WebkitTextStroke: '2px #ffffff',
+                  paintOrder: 'stroke fill',
+                }}
               >
                 {item.label}
               </span>

@@ -14,21 +14,21 @@ import oceanBg from '../assets/ocean-bg.jpg';
  * 作品展示区域，3列 x 4行
  */
 const VIDEO_SLOTS = [
-  { left: 6,  top: 53.5, width: 28, height: 6 },
-  { left: 36, top: 53.5, width: 28, height: 6 },
-  { left: 66, top: 53.5, width: 28, height: 6 },
+  { left: 6,  top: 50.5, width: 28, height: 6 },
+  { left: 36, top: 50.5, width: 28, height: 6 },
+  { left: 66, top: 50.5, width: 28, height: 6 },
 
-  { left: 6,  top: 61, width: 28, height: 6 },
-  { left: 36, top: 61, width: 28, height: 6 },
-  { left: 66, top: 61, width: 28, height: 6 },
+  { left: 6,  top: 58, width: 28, height: 6 },
+  { left: 36, top: 58, width: 28, height: 6 },
+  { left: 66, top: 58, width: 28, height: 6 },
 
-  { left: 6,  top: 68.5, width: 28, height: 6 },
-  { left: 36, top: 68.5, width: 28, height: 6 },
-  { left: 66, top: 68.5, width: 28, height: 6 },
+  { left: 6,  top: 65.5, width: 28, height: 6 },
+  { left: 36, top: 65.5, width: 28, height: 6 },
+  { left: 66, top: 65.5, width: 28, height: 6 },
 
-  { left: 6,  top: 76, width: 28, height: 6 },
-  { left: 36, top: 76, width: 28, height: 6 },
-  { left: 66, top: 76, width: 28, height: 6 },
+  { left: 6,  top: 73, width: 28, height: 6 },
+  { left: 36, top: 73, width: 28, height: 6 },
+  { left: 66, top: 73, width: 28, height: 6 },
 ];
 
 export default function VideoShowcase() {
