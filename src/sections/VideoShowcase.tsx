@@ -95,6 +95,8 @@ function VideoSlot({
         width: `${slot.width}%`,
         height: `${slot.height}%`,
         borderRadius: '40px',
+        border: '3px solid rgba(255,255,255,0.85)',
+        boxShadow: '0 0 12px rgba(255,255,255,0.25)',
       }}
       className="
         bg-transparent hover:bg-white/20

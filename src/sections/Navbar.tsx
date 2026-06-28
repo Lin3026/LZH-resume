@@ -21,16 +21,17 @@ const NAV_ITEMS = [
   { id: 'contact',    label: '联系我',   icon: iconContact },
 ];
 
-// 各模块在背景图中的纵向位置（百分比，相对于 19197px 高度）
+// 各模块标题在背景图中的纵向位置（百分比）
+// 按 PS 测量 + 视觉微调：确保点击后模块标题正好在视口顶部附近
 const SECTION_POSITIONS: Record<string, number> = {
-  hero:       0,
-  about:      8,
-  experience: 16,
-  work:       28,
-  works:      44,
-  education:  72,
-  skills:     80,
-  contact:    88,
+  hero:       0,    // 个人空间 - 页面顶部
+  about:      6,    // 关于我
+  experience: 18,    // 工作经历
+  work:       33,    // 工作内容
+  works:      51.5,  // 作品展示（PS: y=9810 → 9810/19197=51.1%）
+  education:  73,    // 教育经历
+  skills:     81,    // 技术能力
+  contact:    90,    // 联系我
 };
 
 export default function Navbar() {
