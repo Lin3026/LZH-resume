@@ -44,7 +44,7 @@ export default function App() {
           backgroundImage: `url(${cursorImg})`,
           backgroundSize: 'contain',
           backgroundRepeat: 'no-repeat',
-          transform: 'rotate(-35deg)',
+          transform: 'rotate(10deg)',
         }}
       />
 

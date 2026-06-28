@@ -19,6 +19,7 @@ export default function ScrollParticles() {
   const lastScrollRef = useRef(0);
   const animFrameRef = useRef<number>(0);
   const imgRef = useRef<HTMLImageElement | null>(null);
+  const distAccumRef = useRef(0); // 累计滚动距离
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -39,9 +40,15 @@ export default function ScrollParticles() {
     window.addEventListener('resize', resize);
 
     const spawnStars = (scrollDelta: number) => {
-      // 减少生成量，让星星不那么密集（原来0.15→0.08）
-      const count = Math.min(Math.abs(scrollDelta) * 0.08, 4); // 原来最多8个，现在最多4个
       const isScrollingDown = scrollDelta > 0;
+
+      // 每累计滚动 25px 生成 1 颗星（保证慢速滚动也能持续发射）
+      const threshold = 25;
+      const numToSpawn = Math.floor(Math.abs(scrollDelta) / threshold);
+      // 累加余数，下次一起算
+      distAccumRef.current = (distAccumRef.current + Math.abs(scrollDelta)) % threshold;
+
+      const count = Math.min(numToSpawn, 3); // 每帧最多3颗
 
       for (let i = 0; i < count; i++) {
         const edgeY = isScrollingDown
@@ -51,15 +58,15 @@ export default function ScrollParticles() {
         starsRef.current.push({
           x: Math.random() * canvas.width,
           y: edgeY,
-          vx: (Math.random() - 0.5) * 0.3,       // 水平漂移更慢
+          vx: (Math.random() - 0.5) * 0.3,
           vy: isScrollingDown
-            ? 0.2 + Math.random() * 0.6           // 下落速度更慢（原0.3-1.1）
+            ? 0.2 + Math.random() * 0.6
             : -(0.2 + Math.random() * 0.6),
           life: 0,
-          maxLife: 160 + Math.random() * 180,      // 原来最多240，现在更多
-          size: 8 + Math.random() * 16,            // 星星更大一点
+          maxLife: 160 + Math.random() * 180,
+          size: 8 + Math.random() * 16,
           rotation: Math.random() * Math.PI * 2,
-          rotSpeed: (Math.random() - 0.5) * 0.02,   // 旋转更慢
+          rotSpeed: (Math.random() - 0.5) * 0.02,
         });
       }
 
@@ -73,7 +80,7 @@ export default function ScrollParticles() {
       const delta = currentScroll - lastScrollRef.current;
       lastScrollRef.current = currentScroll;
 
-      if (Math.abs(delta) > 1) {
+      if (Math.abs(delta) > 0) {
         spawnStars(delta);
       }
     };
@@ -84,13 +91,14 @@ export default function ScrollParticles() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       const img = imgRef.current;
-      if (!img || !img.complete) {
+      // 用 naturalWidth 检测图片是否真的加载成功
+      if (!img || img.naturalWidth === 0) {
         animFrameRef.current = requestAnimationFrame(animate);
         return;
       }
 
       starsRef.current = starsRef.current.filter((s) => {
-        s.x += s.vx + Math.sin(s.life * 0.008) * 0.2;  // 正弦摆动更慢
+        s.x += s.vx + Math.sin(s.life * 0.008) * 0.2;
         s.y += s.vy;
         s.life++;
         s.rotation += s.rotSpeed;
@@ -98,26 +106,30 @@ export default function ScrollParticles() {
         if (s.life >= s.maxLife) return false;
 
         const progress = s.life / s.maxLife;
-        // 慢速消散：前25%淡入，中间50%全亮，后25%缓慢淡出
         let opacity: number;
         if (progress < 0.25) {
-          opacity = progress / 0.25;               // 淡入
+          opacity = progress / 0.25;
         } else if (progress < 0.75) {
-          opacity = 1;                             // 全亮保持更久
+          opacity = 1;
         } else {
-          opacity = 1 - Math.pow((progress - 0.75) / 0.25, 2); // 二次方缓出
+          opacity = 1 - Math.pow((progress - 0.75) / 0.25, 2);
         }
 
-        // 尺寸变化更平缓
         const sizeScale = progress < 0.2
-          ? progress / 0.2                          // 小→大
-          : 1 + (progress - 0.2) * 0.15;           // 轻微变大
+          ? progress / 0.2
+          : 1 + (progress - 0.2) * 0.15;
 
         ctx.save();
         ctx.globalAlpha = opacity;
         ctx.translate(s.x, s.y);
         ctx.rotate(s.rotation);
-        ctx.drawImage(img, -(s.size * sizeScale) / 2, -(s.size * sizeScale) / 2, s.size * sizeScale, s.size * sizeScale);
+        ctx.drawImage(
+          img,
+          -(s.size * sizeScale) / 2,
+          -(s.size * sizeScale) / 2,
+          s.size * sizeScale,
+          s.size * sizeScale
+        );
         ctx.restore();
 
         return true;
