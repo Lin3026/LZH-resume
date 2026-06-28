@@ -1,1 +1,8 @@
 /* App 级别全局覆盖 */
+
+/* 全局隐藏默认光标，使用自定义纸飞机光标 */
+*,
+*::before,
+*::after {
+  cursor: none !important;
+}

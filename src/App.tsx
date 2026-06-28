@@ -35,7 +35,7 @@ export default function App() {
 
       {/* 自定义光标 — 纸飞机美术图 */}
       <div
-        className="fixed z-[9999] pointer-events-none select-none"
+        className="fixed z-[99999] pointer-events-none select-none"
         style={{
           left: cursorPos.x + 10,
           top: cursorPos.y + 10,

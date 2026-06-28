@@ -19,7 +19,7 @@ export default function ScrollParticles() {
   const lastScrollRef = useRef(0);
   const animFrameRef = useRef<number>(0);
   const imgRef = useRef<HTMLImageElement | null>(null);
-  const distAccumRef = useRef(0); // 累计滚动距离
+  const scrollAccumRef = useRef(0); // 累计滚动距离（跨多次 scroll 事件）
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -30,7 +30,8 @@ export default function ScrollParticles() {
     // 预加载星星图片
     const img = new Image();
     img.src = starImg;
-    imgRef.current = img;
+    img.onload = () => { imgRef.current = img; };
+    img.onerror = () => { console.warn('[ScrollParticles] star.png 加载失败'); };
 
     const resize = () => {
       canvas.width = window.innerWidth;
@@ -42,11 +43,14 @@ export default function ScrollParticles() {
     const spawnStars = (scrollDelta: number) => {
       const isScrollingDown = scrollDelta > 0;
 
-      // 每累计滚动 25px 生成 1 颗星（保证慢速滚动也能持续发射）
+      // 累计滚动距离，每满 25px 生成 1 颗星
+      scrollAccumRef.current += Math.abs(scrollDelta);
       const threshold = 25;
-      const numToSpawn = Math.floor(Math.abs(scrollDelta) / threshold);
-      // 累加余数，下次一起算
-      distAccumRef.current = (distAccumRef.current + Math.abs(scrollDelta)) % threshold;
+      const numToSpawn = Math.floor(scrollAccumRef.current / threshold);
+
+      if (numToSpawn > 0) {
+        scrollAccumRef.current -= numToSpawn * threshold; // 减去已消耗的距离
+      }
 
       const count = Math.min(numToSpawn, 3); // 每帧最多3颗
 
@@ -80,10 +84,13 @@ export default function ScrollParticles() {
       const delta = currentScroll - lastScrollRef.current;
       lastScrollRef.current = currentScroll;
 
-      if (Math.abs(delta) > 0) {
+      if (Math.abs(delta) >= 1) {
         spawnStars(delta);
       }
     };
+
+    // 初次加载也触发一次，确保监听生效
+    lastScrollRef.current = window.scrollY;
 
     window.addEventListener('scroll', handleScroll, { passive: true });
 
@@ -91,8 +98,7 @@ export default function ScrollParticles() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       const img = imgRef.current;
-      // 用 naturalWidth 检测图片是否真的加载成功
-      if (!img || img.naturalWidth === 0) {
+      if (!img) {
         animFrameRef.current = requestAnimationFrame(animate);
         return;
       }
