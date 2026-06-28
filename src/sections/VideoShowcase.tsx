@@ -35,32 +35,29 @@ export default function VideoShowcase() {
 
   return (
     <div className="relative w-full">
-      {/* 背景图 — 居中显示，宽度限制让整体更精致
-          网页总高度 = 背景图原始高度比例（19197 的等比缩放）*/}
-      <div className="relative w-full flex justify-center">
-        <div className="relative" style={{ width: '100%', maxWidth: '900px' }}>
-          <img
-            src="/ocean-bg.jpg"
-            alt="作品集背景"
-            className="block w-full h-auto select-none rounded-lg shadow-2xl"
-            draggable={false}
-            style={{ pointerEvents: 'none' }}
-          />
+      {/* 背景图 — 铺满剩余宽度（自适应各设备），高度按原比例（2560x19197）自动计算 */}
+      <div className="relative w-full">
+        <img
+          src="/ocean-bg.jpg"
+          alt="作品集背景"
+          className="block w-full h-auto select-none"
+          draggable={false}
+          style={{ pointerEvents: 'none' }}
+        />
 
-          {/* 12 个视频点击槽位 — 绝对定位覆盖在背景图的作品展示区域 */}
-          {videoWorks.map((video, index) => {
-            const slot = VIDEO_SLOTS[index] || VIDEO_SLOTS[0];
-            return (
-              <VideoSlot
-                key={video.id}
-                video={video}
-                index={index}
-                slot={slot}
-                onClick={() => setSelectedVideo(video)}
-              />
-            );
-          })}
-        </div>
+        {/* 12 个视频点击槽位 — 绝对定位覆盖在背景图的作品展示区域 */}
+        {videoWorks.map((video, index) => {
+          const slot = VIDEO_SLOTS[index] || VIDEO_SLOTS[0];
+          return (
+            <VideoSlot
+              key={video.id}
+              video={video}
+              index={index}
+              slot={slot}
+              onClick={() => setSelectedVideo(video)}
+            />
+          );
+        })}
       </div>
 
       {/* 视频详情弹窗 */}

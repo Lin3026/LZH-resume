@@ -8,7 +8,7 @@ import './App.css';
 export default function App() {
   return (
     <div className="min-h-screen text-white bg-slate-950">
-      {/* 左侧固定导航栏 */}
+      {/* 左侧固定导航栏（不铺满，固定宽度） */}
       <Navbar />
 
       {/* 粒子特效 */}
@@ -16,10 +16,11 @@ export default function App() {
       <MouseTrailParticles />
       <MouseClickRipple />
 
-      {/* 主内容区 — 左侧留出导航栏宽度，背景图居中显示更精致 */}
-      <main className="relative z-20 ml-48 md:ml-56 py-8">
+      {/* 主内容区 — 左侧留出导航栏宽度，背景图铺满剩余宽度自适应各设备 */}
+      <main className="relative z-20 ml-48 md:ml-56">
         <VideoShowcase />
       </main>
     </div>
   );
 }
+
