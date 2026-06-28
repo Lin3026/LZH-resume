@@ -24,13 +24,13 @@ const NAV_ITEMS = [
 // 各模块在背景图中的纵向位置（百分比，相对于 19197px 高度）
 const SECTION_POSITIONS: Record<string, number> = {
   hero:       0,
-  about:      12,
-  experience: 24,
-  work:       38,
-  works:      54,
-  education:  82,
-  skills:     88,
-  contact:    94,
+  about:      8,
+  experience: 16,
+  work:       28,
+  works:      44,
+  education:  72,
+  skills:     80,
+  contact:    88,
 };
 
 export default function Navbar() {
@@ -113,7 +113,10 @@ export default function Navbar() {
                 }`}
                 draggable={false}
               />
-              <span className={`font-medium text-xs sm:text-sm md:text-base whitespace-nowrap ${isActive ? 'font-bold' : ''}`}>
+              <span
+                className="font-medium text-xs sm:text-sm md:text-base whitespace-nowrap transition-colors"
+                style={{ color: 'rgb(0, 150, 245)', fontWeight: isActive ? 700 : 500 }}
+              >
                 {item.label}
               </span>
               {/* 激活指示条 */}
