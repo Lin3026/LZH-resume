@@ -156,7 +156,7 @@ export default function ScrollParticles() {
   return (
     <canvas
       ref={canvasRef}
-      className="fixed inset-0 z-10 pointer-events-none"
+      className="fixed inset-0 z-30 pointer-events-none"
       aria-hidden="true"
     />
   );
