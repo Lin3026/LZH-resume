@@ -1,29 +1,22 @@
 import { useEffect, useRef } from 'react';
 
-interface RippleDrop {
+interface CloudPuff {
   x: number;
   y: number;
-  radius: number;
-  maxRadius: number;
+  size: number;
+  maxSize: number;
   life: number;
   maxLife: number;
-  color: string;
+  drift: number;       // 水平飘移方向 -1~1
 }
-
-const COLORS = [
-  '6, 182, 212',    // cyan-500
-  '20, 184, 166',   // teal-500
-  '56, 189, 248',   // sky-400
-  '34, 211, 238',   // cyan-400
-];
 
 export default function MouseTrailParticles() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const dropsRef = useRef<RippleDrop[]>([]);
+  const puffsRef = useRef<CloudPuff[]>([]);
   const mouseRef = useRef({ x: -100, y: -100 });
   const animFrameRef = useRef<number>(0);
   const prevMouseRef = useRef({ x: -100, y: -100 });
-  const distanceAccumRef = useRef(0); // 累计移动距离
+  const distanceAccumRef = useRef(0);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -49,6 +42,47 @@ export default function MouseTrailParticles() {
     document.addEventListener('mousemove', handleMouseMove, { passive: true });
     document.addEventListener('mouseleave', handleMouseLeave);
 
+    // 绘制一朵小云
+    const drawCloud = (
+      cx: number, cy: number, r: number, alpha: number
+    ) => {
+      ctx.save();
+      ctx.globalAlpha = alpha * 0.5;
+
+      // 云朵由 3-4 个圆叠加
+      const circles = [
+        { dx: 0,      dy: 0,      sr: 1.0 },
+        { dx: -0.45,  dy: -0.15, sr: 0.6 },
+        { dx: 0.40,   dy: -0.10,  sr: 0.55 },
+        { dx: -0.15,  dy: 0.18,   sr: 0.45 },
+        { dx: 0.20,   dy: 0.15,   sr: 0.40 },
+      ];
+
+      ctx.fillStyle = `rgba(220, 230, 255, ${alpha * 0.45})`;
+      for (const c of circles) {
+        ctx.beginPath();
+        ctx.arc(
+          cx + c.dx * r,
+          cy + c.dy * r,
+          r * c.sr,
+          0, Math.PI * 2
+        );
+        ctx.fill();
+      }
+
+      // 外层柔光
+      ctx.globalAlpha = alpha * 0.15;
+      const grad = ctx.createRadialGradient(cx, cy, r * 0.3, cx, cy, r * 1.6);
+      grad.addColorStop(0, 'rgba(200, 220, 255, 0.3)');
+      grad.addColorStop(1, 'rgba(200, 220, 255, 0)');
+      ctx.fillStyle = grad;
+      ctx.beginPath();
+      ctx.arc(cx, cy, r * 1.6, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.restore();
+    };
+
     const animate = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -62,80 +96,44 @@ export default function MouseTrailParticles() {
         const dist = Math.sqrt(dx * dx + dy * dy);
         distanceAccumRef.current += dist;
 
-        // 每累计 35px 生成一个"点水"涟漪（间歇性，非连续）
-        if (distanceAccumRef.current > 35) {
+        // 每累计 25px 生成一朵小云
+        if (distanceAccumRef.current > 25) {
           distanceAccumRef.current = 0;
-          const color = COLORS[Math.floor(Math.random() * COLORS.length)];
-          dropsRef.current.push({
-            x: mx,
-            y: my,
-            radius: 1,
-            maxRadius: 14 + Math.random() * 16,
+          puffsRef.current.push({
+            x: mx + (Math.random() - 0.5) * 8,
+            y: my + (Math.random() - 0.5) * 6,
+            size: 1,
+            maxSize: 18 + Math.random() * 22,
             life: 0,
-            maxLife: 50 + Math.random() * 30,
-            color,
+            maxLife: 60 + Math.random() * 40,
+            drift: (Math.random() - 0.5) * 0.3,
           });
         }
       }
 
       prevMouseRef.current = { x: mx, y: my };
 
-      while (dropsRef.current.length > 60) {
-        dropsRef.current.shift();
+      while (puffsRef.current.length > 50) {
+        puffsRef.current.shift();
       }
 
-      // 绘制蜻蜓点水涟漪
-      dropsRef.current = dropsRef.current.filter((d) => {
-        d.life++;
-        if (d.life >= d.maxLife) return false;
+      puffsRef.current = puffsRef.current.filter((p) => {
+        p.life++;
+        if (p.life >= p.maxLife) return false;
 
-        const progress = d.life / d.maxLife;
-        // 涟漪快速扩散后减速
-        d.radius = d.maxRadius * (1 - Math.pow(1 - progress, 3));
+        const progress = p.life / p.maxLife;
+        // 云朵先膨胀后缓缓消散
+        p.size = p.maxSize * Math.min(1, progress * 2.5);
+        p.x += p.drift;
 
         let opacity: number;
-        if (progress < 0.15) {
-          opacity = progress / 0.15;        // 快速浮现
+        if (progress < 0.2) {
+          opacity = progress / 0.2;
         } else {
-          opacity = 1 - (progress - 0.15) / 0.85;  // 缓慢消散
-        }
-        const alpha = opacity * 0.6;
-
-        ctx.save();
-        ctx.globalAlpha = alpha;
-
-        // 外圈涟漪
-        ctx.strokeStyle = `rgba(${d.color}, ${alpha * 0.7})`;
-        ctx.lineWidth = 1.2;
-        ctx.beginPath();
-        ctx.arc(d.x, d.y, d.radius, 0, Math.PI * 2);
-        ctx.stroke();
-
-        // 内圈涟漪（更小更淡）
-        if (d.radius > 4) {
-          ctx.globalAlpha = alpha * 0.4;
-          ctx.strokeStyle = `rgba(${d.color}, ${alpha * 0.5})`;
-          ctx.lineWidth = 0.8;
-          ctx.beginPath();
-          ctx.arc(d.x, d.y, d.radius * 0.55, 0, Math.PI * 2);
-          ctx.stroke();
+          opacity = 1 - (progress - 0.2) / 0.8;
         }
 
-        // 中心水滴高光（仅初始阶段）
-        if (progress < 0.3) {
-          const dropAlpha = (1 - progress / 0.3) * 0.8;
-          ctx.globalAlpha = dropAlpha;
-          const grad = ctx.createRadialGradient(d.x, d.y, 0, d.x, d.y, 3);
-          grad.addColorStop(0, `rgba(255, 255, 255, ${dropAlpha})`);
-          grad.addColorStop(1, `rgba(${d.color}, 0)`);
-          ctx.fillStyle = grad;
-          ctx.beginPath();
-          ctx.arc(d.x, d.y, 3, 0, Math.PI * 2);
-          ctx.fill();
-        }
-
-        ctx.restore();
-
+        drawCloud(p.x, p.y, p.size, opacity);
         return true;
       });
 
