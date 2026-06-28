@@ -78,9 +78,6 @@ export default function Navbar() {
       }}
       aria-label="主导航"
     >
-      {/* 半透明叠加层 — 保证文字可读性 */}
-      <div className="absolute inset-0 bg-gradient-to-b from-sky-900/30 via-blue-900/25 to-slate-900/40 pointer-events-none" />
-
       {/* 顶部 Logo */}
       <div className="relative px-4 sm:px-5 py-5 sm:py-6 border-b border-white/15">
         <div className="text-cyan-300 font-mono font-bold text-xl sm:text-2xl tracking-tight drop-shadow-md">
