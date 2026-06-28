@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import starImg from '../assets/star.png';
 
 interface Star {
   x: number;
@@ -12,81 +13,23 @@ interface Star {
   rotSpeed: number;
 }
 
-// 绘制一颗五角星（复用逻辑）
-function drawStar(
-  ctx: CanvasRenderingContext2D,
-  cx: number, cy: number,
-  r: number, alpha: number, rotation: number,
-) {
-  ctx.save();
-  ctx.globalAlpha = alpha;
-  ctx.translate(cx, cy);
-  ctx.rotate(rotation);
-
-  const outerColor = `rgba(255, 215, 0, ${alpha})`;
-  const innerColor = `rgba(255, 180, 0, ${alpha * 0.7})`;
-
-  ctx.shadowColor = `rgba(255, 200, 0, ${alpha * 0.9})`;
-  ctx.shadowBlur = 8 + r * 0.2;
-
-  ctx.beginPath();
-  for (let i = 0; i < 5; i++) {
-    const outerAngle = (i * 2 * Math.PI) / 5 - Math.PI / 2;
-    const innerAngle = outerAngle + Math.PI / 5;
-    const ox = r * Math.cos(outerAngle);
-    const oy = r * Math.sin(outerAngle);
-    const ix = r * 0.45 * Math.cos(innerAngle);
-    const iy = r * 0.45 * Math.sin(innerAngle);
-    if (i === 0) ctx.moveTo(ox, oy);
-    else ctx.lineTo(ox, oy);
-    ctx.lineTo(ix, iy);
-  }
-  ctx.closePath();
-  ctx.fillStyle = outerColor;
-  ctx.fill();
-
-  // 内圈层级
-  ctx.globalAlpha = alpha * 0.5;
-  ctx.beginPath();
-  for (let i = 0; i < 5; i++) {
-    const outerAngle = (i * 2 * Math.PI) / 5 - Math.PI / 2;
-    const innerAngle = outerAngle + Math.PI / 5;
-    const ox = r * 0.55 * Math.cos(outerAngle);
-    const oy = r * 0.55 * Math.sin(outerAngle);
-    const ix = r * 0.25 * Math.cos(innerAngle);
-    const iy = r * 0.25 * Math.sin(innerAngle);
-    if (i === 0) ctx.moveTo(ox, oy);
-    else ctx.lineTo(ox, oy);
-    ctx.lineTo(ix, iy);
-  }
-  ctx.closePath();
-  ctx.fillStyle = innerColor;
-  ctx.fill();
-
-  // 中心高光
-  ctx.globalAlpha = alpha * 0.85;
-  const hotGrad = ctx.createRadialGradient(0, 0, 0, 0, 0, r * 0.35);
-  hotGrad.addColorStop(0, `rgba(255, 255, 200, ${alpha * 0.85})`);
-  hotGrad.addColorStop(1, `rgba(255, 215, 0, 0)`);
-  ctx.fillStyle = hotGrad;
-  ctx.beginPath();
-  ctx.arc(0, 0, r * 0.35, 0, Math.PI * 2);
-  ctx.fill();
-
-  ctx.restore();
-}
-
 export default function ScrollParticles() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const starsRef = useRef<Star[]>([]);
   const lastScrollRef = useRef(0);
   const animFrameRef = useRef<number>(0);
+  const imgRef = useRef<HTMLImageElement | null>(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
+
+    // 预加载星星图片
+    const img = new Image();
+    img.src = starImg;
+    imgRef.current = img;
 
     const resize = () => {
       canvas.width = window.innerWidth;
@@ -96,30 +39,31 @@ export default function ScrollParticles() {
     window.addEventListener('resize', resize);
 
     const spawnStars = (scrollDelta: number) => {
-      const count = Math.min(Math.abs(scrollDelta) * 0.15, 8);
+      // 减少生成量，让星星不那么密集（原来0.15→0.08）
+      const count = Math.min(Math.abs(scrollDelta) * 0.08, 4); // 原来最多8个，现在最多4个
       const isScrollingDown = scrollDelta > 0;
 
       for (let i = 0; i < count; i++) {
         const edgeY = isScrollingDown
-          ? -15 - Math.random() * 40
-          : canvas.height + 15 + Math.random() * 40;
+          ? -20 - Math.random() * 50
+          : canvas.height + 20 + Math.random() * 50;
 
         starsRef.current.push({
           x: Math.random() * canvas.width,
           y: edgeY,
-          vx: (Math.random() - 0.5) * 0.5,
+          vx: (Math.random() - 0.5) * 0.3,       // 水平漂移更慢
           vy: isScrollingDown
-            ? 0.3 + Math.random() * 0.8
-            : -(0.3 + Math.random() * 0.8),
+            ? 0.2 + Math.random() * 0.6           // 下落速度更慢（原0.3-1.1）
+            : -(0.2 + Math.random() * 0.6),
           life: 0,
-          maxLife: 100 + Math.random() * 140,
-          size: 4 + Math.random() * 10,
+          maxLife: 160 + Math.random() * 180,      // 原来最多240，现在更多
+          size: 8 + Math.random() * 16,            // 星星更大一点
           rotation: Math.random() * Math.PI * 2,
-          rotSpeed: (Math.random() - 0.5) * 0.04,
+          rotSpeed: (Math.random() - 0.5) * 0.02,   // 旋转更慢
         });
       }
 
-      while (starsRef.current.length > 150) {
+      while (starsRef.current.length > 120) {
         starsRef.current.shift();
       }
     };
@@ -139,8 +83,14 @@ export default function ScrollParticles() {
     const animate = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+      const img = imgRef.current;
+      if (!img || !img.complete) {
+        animFrameRef.current = requestAnimationFrame(animate);
+        return;
+      }
+
       starsRef.current = starsRef.current.filter((s) => {
-        s.x += s.vx + Math.sin(s.life * 0.01) * 0.3;
+        s.x += s.vx + Math.sin(s.life * 0.008) * 0.2;  // 正弦摆动更慢
         s.y += s.vy;
         s.life++;
         s.rotation += s.rotSpeed;
@@ -148,20 +98,28 @@ export default function ScrollParticles() {
         if (s.life >= s.maxLife) return false;
 
         const progress = s.life / s.maxLife;
+        // 慢速消散：前25%淡入，中间50%全亮，后25%缓慢淡出
         let opacity: number;
-        if (progress < 0.1) {
-          opacity = progress / 0.1;
-        } else if (progress < 0.7) {
-          opacity = 1;
+        if (progress < 0.25) {
+          opacity = progress / 0.25;               // 淡入
+        } else if (progress < 0.75) {
+          opacity = 1;                             // 全亮保持更久
         } else {
-          opacity = 1 - (progress - 0.7) / 0.3;
+          opacity = 1 - Math.pow((progress - 0.75) / 0.25, 2); // 二次方缓出
         }
 
+        // 尺寸变化更平缓
         const sizeScale = progress < 0.2
-          ? progress / 0.2
-          : 1 + (progress - 0.2) * 0.3;
+          ? progress / 0.2                          // 小→大
+          : 1 + (progress - 0.2) * 0.15;           // 轻微变大
 
-        drawStar(ctx, s.x, s.y, s.size * sizeScale, opacity, s.rotation);
+        ctx.save();
+        ctx.globalAlpha = opacity;
+        ctx.translate(s.x, s.y);
+        ctx.rotate(s.rotation);
+        ctx.drawImage(img, -(s.size * sizeScale) / 2, -(s.size * sizeScale) / 2, s.size * sizeScale, s.size * sizeScale);
+        ctx.restore();
+
         return true;
       });
 

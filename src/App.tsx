@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import cursorImg from './assets/cursor.png';
 import Navbar from './sections/Navbar';
 import VideoShowcase from './sections/VideoShowcase';
 import MouseTrailParticles from './hooks/MouseTrailParticles';
@@ -32,31 +33,20 @@ export default function App() {
       <MouseTrailParticles />
       <MouseClickRipple />
 
-      {/* 纸飞机光标 */}
+      {/* 自定义光标 — 纸飞机美术图 */}
       <div
-        className="fixed z-[9999] pointer-events-none"
+        className="fixed z-[9999] pointer-events-none select-none"
         style={{
-          left: cursorPos.x + 12,
-          top: cursorPos.y + 12,
+          left: cursorPos.x + 10,
+          top: cursorPos.y + 10,
+          width: 28,
+          height: 28,
+          backgroundImage: `url(${cursorImg})`,
+          backgroundSize: 'contain',
+          backgroundRepeat: 'no-repeat',
+          transform: 'rotate(-35deg)',
         }}
-      >
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-          <path
-            d="M2 11L22 2L14 22L17 12L2 11Z"
-            fill="white"
-            stroke="#06b6d4"
-            strokeWidth="1.2"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M2 11L9 8"
-            stroke="#06b6d4"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            opacity="0.5"
-          />
-        </svg>
-      </div>
+      />
 
       {/* 主内容区 — 左侧留出导航栏宽度，背景图铺满剩余宽度自适应各设备 */}
       <main className="relative z-20 ml-44 sm:ml-48 md:ml-52 lg:ml-56">

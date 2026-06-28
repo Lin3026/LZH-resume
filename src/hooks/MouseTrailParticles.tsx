@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import starImg from '../assets/star.png';
 
 interface Star {
   x: number;
@@ -12,71 +13,6 @@ interface Star {
   drift: number;
 }
 
-// 绘制一颗五角星
-function drawStar(
-  ctx: CanvasRenderingContext2D,
-  cx: number, cy: number,
-  r: number, alpha: number, rotation: number,
-) {
-  ctx.save();
-  ctx.globalAlpha = alpha;
-  ctx.translate(cx, cy);
-  ctx.rotate(rotation);
-
-  // 黄色星星：外圈金色，内圈琥珀色
-  const outerColor = `rgba(255, 215, 0, ${alpha})`;   // gold
-  const innerColor = `rgba(255, 180, 0, ${alpha * 0.7})`; // amber
-
-  ctx.shadowColor = `rgba(255, 200, 0, ${alpha * 0.9})`;
-  ctx.shadowBlur = 10 + r * 0.3;
-
-  ctx.beginPath();
-  for (let i = 0; i < 5; i++) {
-    const outerAngle = (i * 2 * Math.PI) / 5 - Math.PI / 2;
-    const innerAngle = outerAngle + Math.PI / 5;
-    const ox = r * Math.cos(outerAngle);
-    const oy = r * Math.sin(outerAngle);
-    const ix = r * 0.45 * Math.cos(innerAngle);
-    const iy = r * 0.45 * Math.sin(innerAngle);
-    if (i === 0) ctx.moveTo(ox, oy);
-    else ctx.lineTo(ox, oy);
-    ctx.lineTo(ix, iy);
-  }
-  ctx.closePath();
-  ctx.fillStyle = outerColor;
-  ctx.fill();
-
-  // 内圈稍深的颜色增加层次
-  ctx.globalAlpha = alpha * 0.5;
-  ctx.beginPath();
-  for (let i = 0; i < 5; i++) {
-    const outerAngle = (i * 2 * Math.PI) / 5 - Math.PI / 2;
-    const innerAngle = outerAngle + Math.PI / 5;
-    const ox = r * 0.55 * Math.cos(outerAngle);
-    const oy = r * 0.55 * Math.sin(outerAngle);
-    const ix = r * 0.25 * Math.cos(innerAngle);
-    const iy = r * 0.25 * Math.sin(innerAngle);
-    if (i === 0) ctx.moveTo(ox, oy);
-    else ctx.lineTo(ox, oy);
-    ctx.lineTo(ix, iy);
-  }
-  ctx.closePath();
-  ctx.fillStyle = innerColor;
-  ctx.fill();
-
-  // 中心高光
-  ctx.globalAlpha = alpha * 0.9;
-  const hotGrad = ctx.createRadialGradient(0, 0, 0, 0, 0, r * 0.35);
-  hotGrad.addColorStop(0, `rgba(255, 255, 200, ${alpha * 0.9})`);
-  hotGrad.addColorStop(1, `rgba(255, 215, 0, 0)`);
-  ctx.fillStyle = hotGrad;
-  ctx.beginPath();
-  ctx.arc(0, 0, r * 0.35, 0, Math.PI * 2);
-  ctx.fill();
-
-  ctx.restore();
-}
-
 export default function MouseTrailParticles() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const starsRef = useRef<Star[]>([]);
@@ -84,12 +20,18 @@ export default function MouseTrailParticles() {
   const animFrameRef = useRef<number>(0);
   const prevMouseRef = useRef({ x: -100, y: -100 });
   const distanceAccumRef = useRef(0);
+  const imgRef = useRef<HTMLImageElement | null>(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
+
+    // 预加载星星图片
+    const img = new Image();
+    img.src = starImg;
+    imgRef.current = img;
 
     const resize = () => {
       canvas.width = window.innerWidth;
@@ -116,55 +58,65 @@ export default function MouseTrailParticles() {
       const my = mouseRef.current.y;
       const pm = prevMouseRef.current;
 
-      if (mx > 0 && my > 0) {
+      if (mx > 0 && my > 0 && imgRef.current && imgRef.current.complete) {
         const dx = mx - pm.x;
         const dy = my - pm.y;
         const dist = Math.sqrt(dx * dx + dy * dy);
         distanceAccumRef.current += dist;
 
-        // 每累计 20px 生成一颗黄色星星
-        if (distanceAccumRef.current > 20) {
+        // 每累计 45px 生成一颗星星（原来20px，现在放慢发射）
+        if (distanceAccumRef.current > 45) {
           distanceAccumRef.current = 0;
           starsRef.current.push({
-            x: mx + (Math.random() - 0.5) * 10,
-            y: my + (Math.random() - 0.5) * 8,
+            x: mx + (Math.random() - 0.5) * 12,
+            y: my + (Math.random() - 0.5) * 10,
             size: 1,
-            maxSize: 10 + Math.random() * 14,
+            maxSize: 14 + Math.random() * 18,
             life: 0,
-            maxLife: 50 + Math.random() * 30,
+            maxLife: 90 + Math.random() * 70,   // 原来50+30，存活更久
             rotation: Math.random() * Math.PI * 2,
-            rotSpeed: (Math.random() - 0.5) * 0.06,
-            drift: (Math.random() - 0.5) * 0.25,
+            rotSpeed: (Math.random() - 0.5) * 0.03, // 旋转更慢
+            drift: (Math.random() - 0.5) * 0.15,     // 漂移更慢
           });
         }
       }
 
       prevMouseRef.current = { x: mx, y: my };
 
-      while (starsRef.current.length > 60) {
+      while (starsRef.current.length > 80) {
         starsRef.current.shift();
       }
 
-      starsRef.current = starsRef.current.filter((s) => {
-        s.life++;
-        if (s.life >= s.maxLife) return false;
+      const img = imgRef.current;
+      if (img && img.complete) {
+        starsRef.current = starsRef.current.filter((s) => {
+          s.life++;
+          if (s.life >= s.maxLife) return false;
 
-        const progress = s.life / s.maxLife;
-        // 星星先放大后缓缓消散
-        s.size = s.maxSize * Math.min(1, progress * 3);
-        s.rotation += s.rotSpeed;
-        s.x += s.drift;
+          const progress = s.life / s.maxLife;
+          // 缓慢放大（比之前慢）
+          s.size = s.maxSize * Math.min(1, progress * 2);
+          s.rotation += s.rotSpeed;
+          s.x += s.drift;
 
-        let opacity: number;
-        if (progress < 0.15) {
-          opacity = progress / 0.15;
-        } else {
-          opacity = 1 - (progress - 0.15) / 0.85;
-        }
+          // 慢速消散：前30%淡入，后70%缓慢淡出
+          let opacity: number;
+          if (progress < 0.3) {
+            opacity = progress / 0.3;              // 淡入阶段
+          } else {
+            opacity = 1 - Math.pow((progress - 0.3) / 0.7, 1.5); // 非线性缓出，消失更慢
+          }
 
-        drawStar(ctx, s.x, s.y, s.size, opacity, s.rotation);
-        return true;
-      });
+          ctx.save();
+          ctx.globalAlpha = opacity;
+          ctx.translate(s.x, s.y);
+          ctx.rotate(s.rotation);
+          ctx.drawImage(img, -s.size / 2, -s.size / 2, s.size, s.size);
+          ctx.restore();
+
+          return true;
+        });
+      }
 
       animFrameRef.current = requestAnimationFrame(animate);
     };
