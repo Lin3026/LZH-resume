@@ -7,6 +7,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
+import oceanBg from '../assets/ocean-bg.jpg';
 
 /**
  * 12 个视频槽位坐标（百分比，相对于背景图）
@@ -37,13 +38,13 @@ export default function VideoShowcase() {
     <div className="relative w-full">
       {/* 背景图 — 铺满剩余宽度（自适应各设备），高度按原比例（2560x19197）自动计算 */}
       <div className="relative w-full">
-        <img
-          src="/ocean-bg.jpg"
-          alt="作品集背景"
-          className="block w-full h-auto select-none"
-          draggable={false}
-          style={{ pointerEvents: 'none' }}
-        />
+          <img
+            src={oceanBg}
+            alt="作品集背景"
+            className="block w-full h-auto select-none"
+            draggable={false}
+            style={{ pointerEvents: 'none' }}
+          />
 
         {/* 12 个视频点击槽位 — 绝对定位覆盖在背景图的作品展示区域 */}
         {videoWorks.map((video, index) => {
