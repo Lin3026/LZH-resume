@@ -8,29 +8,59 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 
+/**
+ * 视频槽位坐标配置（百分比，相对于背景图）
+ * 根据初稿图（2560×19197）中"作品展示"模块的 12 个占位符位置设定
+ * 如需微调，直接修改这里的 left/top/width/height
+ */
+const VIDEO_SLOTS = [
+  // 第 1 行
+  { left: 8,  top: 54.5, width: 27, height: 6.2 },
+  { left: 37, top: 54.5, width: 27, height: 6.2 },
+  { left: 66, top: 54.5, width: 27, height: 6.2 },
+  // 第 2 行
+  { left: 8,  top: 62.5, width: 27, height: 6.2 },
+  { left: 37, top: 62.5, width: 27, height: 6.2 },
+  { left: 66, top: 62.5, width: 27, height: 6.2 },
+  // 第 3 行
+  { left: 8,  top: 70.5, width: 27, height: 6.2 },
+  { left: 37, top: 70.5, width: 27, height: 6.2 },
+  { left: 66, top: 70.5, width: 27, height: 6.2 },
+  // 第 4 行
+  { left: 8,  top: 78.5, width: 27, height: 6.2 },
+  { left: 37, top: 78.5, width: 27, height: 6.2 },
+  { left: 66, top: 78.5, width: 27, height: 6.2 },
+];
+
 export default function VideoShowcase() {
   const [selectedVideo, setSelectedVideo] = useState<VideoWork | null>(null);
 
   return (
-    <div className="relative w-full min-h-screen">
-      {/* 整个页面就是一张背景图（初稿设计稿），不需要额外 UI 框 */}
-      {/* 背景图由 body 的 background-image 提供 */}
+    <div className="relative w-full" style={{ maxWidth: '100vw' }}>
+      {/* 背景图 — 完整显示 2560×19197，页面高度 = 图片高度，可滚动 */}
+      <img
+        src="/ocean-bg.jpg"
+        alt="作品集背景"
+        className="block w-full h-auto select-none"
+        draggable={false}
+        style={{ pointerEvents: 'none' }}
+      />
 
-      {/* 12 个视频点击区域 — 绝对定位覆盖在背景图的占位符上 */}
-      {/* 图片尺寸: 256x1920 (宽高比 1:7.5) */}
-      {/* 作品展示区域大约在图片的 52%~85% 纵向范围 */}
-      <div className="relative mx-auto" style={{ maxWidth: '560px' }}>
-        {videoWorks.map((video, i) => (
+      {/* 12 个视频点击槽位 — 绝对定位覆盖在背景图的作品占位符上 */}
+      {videoWorks.map((video, index) => {
+        const slot = VIDEO_SLOTS[index] || VIDEO_SLOTS[0];
+        return (
           <VideoSlot
             key={video.id}
             video={video}
-            index={i}
+            index={index}
+            slot={slot}
             onClick={() => setSelectedVideo(video)}
           />
-        ))}
-      </div>
+        );
+      })}
 
-      {/* 视频详情弹窗 — 点击后弹出 */}
+      {/* 视频详情弹窗 */}
       <VideoDetailDialog
         video={selectedVideo}
         open={!!selectedVideo}
@@ -41,71 +71,56 @@ export default function VideoShowcase() {
 }
 
 // ========== 单个视频槽位 ==========
-// 用绝对定位精确覆盖背景图上的灰色占位符
 function VideoSlot({
   video,
   index,
+  slot,
   onClick,
 }: {
   video: VideoWork;
   index: number;
+  slot: { left: number; top: number; width: number; height: number };
   onClick: () => void;
 }) {
-  // 计算行列 (3列 x 4行)
-  const col = index % 3; // 0,1,2
-  const row = Math.floor(index / 3); // 0,1,2,3
-
-  // 基于初稿图中 12 个占位符的位置估算
-  // 图片总高 1920px，作品展示区域约在 1000~1700px 范围
-  // 用百分比定位，自适应不同屏幕宽度
-  const slotStyle: React.CSSProperties = {
-    position: 'absolute',
-    left: `${6 + col * 31.5}%`,       // 3 列均布，每列约 31.5% 宽度
-    top: `${53 + row * 10.8}%`,         // 4 行，每行约 10.8% 高度间距
-    width: '29%',
-    height: '9.2%',
-    borderRadius: '14px',
-    cursor: 'pointer',
-    transition: 'all 0.3s ease',
-  };
-
   return (
     <button
       type="button"
       onClick={onClick}
-      style={slotStyle}
+      style={{
+        position: 'absolute',
+        left: `${slot.left}%`,
+        top: `${slot.top}%`,
+        width: `${slot.width}%`,
+        height: `${slot.height}%`,
+        borderRadius: '16px',
+      }}
       className="
-        bg-transparent hover:bg-white/25
-        border-2 border-transparent hover:border-white/50
-        backdrop-blur-[2px]
+        bg-transparent hover:bg-white/20
+        border-2 border-transparent hover:border-white/60
+        backdrop-blur-sm
         group flex items-center justify-center
-        focus:outline-none focus:ring-2 focus:ring-white/50 focus:ring-offset-2
+        transition-all duration-300
+        focus:outline-none focus:ring-4 focus:ring-white/40
+        cursor-pointer
+        overflow-hidden
       "
-      aria-label={`查看作品：${video.title}`}
+      aria-label={`查看作品 ${index + 1}：${video.title}`}
     >
-      {/* 默认态：透明，hover 时显示内容 */}
-      <span className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-white font-bold text-sm md:text-base text-center px-2 drop-shadow-lg whitespace-nowrap overflow-hidden text-ellipsis">
-        {video.company.split('(')[0]}
-      </span>
-
       {/* hover 时显示播放图标 */}
-      <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300">
-        <div
-          className="w-12 h-12 md:w-16 md:h-16 rounded-full bg-white/90 
-                     flex items-center justify-center shadow-2xl
-                     scale-75 group-hover:scale-100 transition-transform duration-300"
-          style={{
-            animation: index % 2 === 0 ? 'pulse-subtle 2s ease-in-out infinite' : undefined,
-          }}
-        >
-          <svg className="w-6 h-6 md:w-8 md:h-8 text-blue-500 ml-0.5" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M8 5v14l11-7z" />
-          </svg>
-        </div>
+      <div
+        className="w-14 h-14 md:w-20 md:h-20 rounded-full bg-white/90
+                   flex items-center justify-center shadow-2xl
+                   opacity-0 group-hover:opacity-100
+                   scale-50 group-hover:scale-100
+                   transition-all duration-300"
+      >
+        <svg className="w-7 h-7 md:w-10 md:h-10 text-blue-500 ml-1" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M8 5v14l11-7z" />
+        </svg>
       </div>
 
       {/* 编号角标 */}
-      <div className="absolute -top-2 -left-2 w-7 h-7 md:w-9 md:h-9 rounded-full bg-gradient-to-br from-blue-400 to-cyan-400 text-white font-bold text-xs md:text-sm flex items-center justify-center shadow-lg opacity-60 group-hover:opacity-100 transition-opacity border-2 border-white/80">
+      <div className="absolute top-2 left-2 w-7 h-7 md:w-9 md:h-9 rounded-full bg-gradient-to-br from-blue-400 to-cyan-400 text-white font-bold text-xs md:text-sm flex items-center justify-center shadow-lg opacity-50 group-hover:opacity-100 transition-opacity border-2 border-white/80">
         {index + 1}
       </div>
     </button>
@@ -127,7 +142,6 @@ function VideoDetailDialog({
   return (
     <Dialog open={open} onOpenChange={(v) => !v && onClose()}>
       <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto bg-white/95 backdrop-blur-xl border-2 border-white/40 rounded-3xl p-0 dialog-scroll shadow-2xl shadow-black/20">
-        {/* 弹窗头部 — 渐变色背景 */}
         <DialogHeader className="px-6 md:px-8 pt-6 pb-2 bg-gradient-to-r from-sky-50 via-blue-50 to-cyan-50 rounded-t-2xl">
           <DialogTitle className="text-2xl md:text-3xl font-black text-blue-900 tracking-tight">
             🎬 {video.title}
@@ -192,7 +206,6 @@ function VideoDetailDialog({
             <p className="text-emerald-800/85 text-sm leading-relaxed whitespace-pre-line font-medium">{video.highlight}</p>
           </div>
 
-          {/* 关闭提示 */}
           <div className="text-center pt-1">
             <button onClick={onClose} className="text-slate-400 hover:text-slate-600 text-xs transition-colors">
               按 ESC 或点击外部关闭
