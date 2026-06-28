@@ -36,6 +36,23 @@ export interface Project {
   markdownContent?: string;
 }
 
+export interface VideoWork {
+  id: string;
+  title: string;
+  company: string;
+  role: string;           // 角色：创意策划 / 视频制作 / 后期合成 等
+  period: string;         // 时间段
+  thumbnail: string;      // 缩略图 URL（留空则显示占位）
+  videoUrl?: string;      // 视频链接
+  description: string;    // 简介
+  // 数据分析字段
+  views?: string;         // 播放量 / 下载量
+  cpi?: string;           // CPI / 转化成本
+  ctr?: string;           // CTR 点击率
+  roi?: string;           // ROI 投产比
+  highlight: string;      // 核心亮点/成果
+}
+
 export interface PersonalInfo {
   name: string;
   title: string;
