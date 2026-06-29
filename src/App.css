@@ -7,12 +7,10 @@
   cursor: none !important;
 }
 
-/* Dialog 弹窗（Radix Portal）恢复默认光标 */
-[role="dialog"] *,
-[role="dialog"] {
-  cursor: auto !important;
-}
-[role="dialog"] button,
-[role="dialog"] a {
-  cursor: pointer !important;
+/* Dialog 弹窗（Radix Portal）隐藏原生光标，让 z-[99999] 自定义光标穿透显示 */
+[data-radix-portal],
+[data-radix-portal] *,
+[role="dialog"],
+[role="dialog"] * {
+  cursor: none !important;
 }

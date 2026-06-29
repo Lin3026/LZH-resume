@@ -59,8 +59,8 @@ export default function App() {
       <MouseTrailParticles />
       <MouseClickRipple />
 
-      {/* 自定义光标 — 仅 PC 端显示，弹窗打开时隐藏 */}
-      {showCustomCursor && !dialogOpen && (
+      {/* 自定义光标 — 仅 PC 端显示，始终渲染（z-[99999] 保证在弹窗上方） */}
+      {showCustomCursor && (
         <div
           className="fixed z-[99999] pointer-events-none select-none"
           style={{

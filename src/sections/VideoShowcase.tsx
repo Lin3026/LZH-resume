@@ -12,23 +12,26 @@ import detailBg from '../assets/detail-bg.jpg';
  * 12 个视频槽位坐标（百分比，相对于背景图）
  * 作品展示区域，3列 x 4行
  */
+// 视频框放大 80px:
+// 画布 2560px → 宽 +80px = +3.125%, 高 +80px = +0.417%
+// left/top 各减半保持居中: left -1.5625%, top -0.208%
 const VIDEO_SLOTS = [
   // 第1行 (y=9810px)
-  { left: 8.59,  top: 51.10, width: 25.00, height: 6.04 },
-  { left: 37.11, top: 51.10, width: 25.00, height: 6.04 },
-  { left: 65.63, top: 51.10, width: 25.00, height: 6.04 },
+  { left: 7.03,  top: 50.89, width: 28.13, height: 6.46 },
+  { left: 35.55, top: 50.89, width: 28.13, height: 6.46 },
+  { left: 64.07, top: 50.89, width: 28.13, height: 6.46 },
   // 第2行 (y=11060px)
-  { left: 8.59,  top: 57.61, width: 25.00, height: 6.04 },
-  { left: 37.11, top: 57.61, width: 25.00, height: 6.04 },
-  { left: 65.63, top: 57.61, width: 25.00, height: 6.04 },
+  { left: 7.03,  top: 57.40, width: 28.13, height: 6.46 },
+  { left: 35.55, top: 57.40, width: 28.13, height: 6.46 },
+  { left: 64.07, top: 57.40, width: 28.13, height: 6.46 },
   // 第3行 (y=12310px)
-  { left: 8.59,  top: 64.12, width: 25.00, height: 6.04 },
-  { left: 37.11, top: 64.12, width: 25.00, height: 6.04 },
-  { left: 65.63, top: 64.12, width: 25.00, height: 6.04 },
+  { left: 7.03,  top: 63.91, width: 28.13, height: 6.46 },
+  { left: 35.55, top: 63.91, width: 28.13, height: 6.46 },
+  { left: 64.07, top: 63.91, width: 28.13, height: 6.46 },
   // 第4行 (y=13560px)
-  { left: 8.59,  top: 70.63, width: 25.00, height: 6.04 },
-  { left: 37.11, top: 70.63, width: 25.00, height: 6.04 },
-  { left: 65.63, top: 70.63, width: 25.00, height: 6.04 },
+  { left: 7.03,  top: 70.42, width: 28.13, height: 6.46 },
+  { left: 35.55, top: 70.42, width: 28.13, height: 6.46 },
+  { left: 64.07, top: 70.42, width: 28.13, height: 6.46 },
 ];
 
 export default function VideoShowcase({
@@ -193,7 +196,9 @@ function VideoDetailDialog({
                 src={video.videoUrl}
                 controls
                 autoPlay
+                muted
                 playsInline
+                loop
                 className="w-full h-full object-contain"
                 style={{ display: 'block' }}
               >
