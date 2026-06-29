@@ -10,6 +10,11 @@ import './App.css';
 export default function App() {
   const [cursorPos, setCursorPos] = useState({ x: -100, y: -100 });
 
+  // 导航栏展开状态：
+  // - PC端 (≥768px): 始终展开，忽略此 state
+  // - 移动端 (<768px): 默认收起，点击汉堡按钮展开
+  const [navOpen, setNavOpen] = useState(false);
+
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       setCursorPos({ x: e.clientX, y: e.clientY });
@@ -23,10 +28,23 @@ export default function App() {
     };
   }, []);
 
+  // 窗口尺寸变化时，PC端自动重置为收起状态（PC端不需要这个 state）
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 768) {
+        setNavOpen(false);
+      }
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   return (
     <div className="min-h-screen text-white bg-slate-950 cursor-none">
-      {/* 左侧固定导航栏（不铺满，固定宽度） */}
-      <Navbar />
+      {/* 左侧导航栏
+          - PC端：始终展开，固定宽度，主内容区留出对应左边距
+          - 移动端：默认收起，点击汉堡按钮展开（覆盖在内容上，不挤内容） */}
+      <Navbar isOpen={navOpen} onToggle={() => setNavOpen((v) => !v)} />
 
       {/* 粒子特效 */}
       <ScrollParticles />
@@ -48,11 +66,12 @@ export default function App() {
         }}
       />
 
-      {/* 主内容区 — 左侧留出导航栏宽度，背景图铺满剩余宽度自适应各设备 */}
-      <main className="relative z-20 ml-44 sm:ml-48 md:ml-52 lg:ml-56">
+      {/* 主内容区
+          - PC端 (md+): 左侧留出导航栏宽度 (ml-44 lg:ml-56)
+          - 移动端 (<768px): 无左边距，导航栏展开时覆盖在内容上方 */}
+      <main className="relative z-20 md:ml-44 lg:ml-56">
         <VideoShowcase />
       </main>
     </div>
   );
 }
-

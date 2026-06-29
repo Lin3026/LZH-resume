@@ -26,17 +26,24 @@ const NAV_ITEMS = [
 //   个人空间=0px  关于我=1440px  工作经历=2840px  工作内容=4280px
 //   作品展示=8830px  教育经历=14877px  技术能力=16320px  联系我=17757px
 const SECTION_POSITIONS: Record<string, number> = {
-  hero:       0,       // 0/19197 = 0%
-  about:      7.50,    // 1440/19197
-  experience: 14.79,   // 2840/19197
-  work:       22.29,   // 4280/19197
-  works:      45.99,   // 8830/19197
-  education:  77.49,   // 14877/19197
-  skills:     85.01,   // 16320/19197
-  contact:    92.51,   // 17757/19197
+  hero:       0,
+  about:      7.50,
+  experience: 14.79,
+  work:       22.29,
+  works:      45.99,
+  education:  77.49,
+  skills:     85.01,
+  contact:    92.51,
 };
 
-export default function Navbar() {
+interface NavbarProps {
+  /** 当前是否展开（移动端控制） */
+  isOpen: boolean;
+  /** 切换展开/收起 */
+  onToggle: () => void;
+}
+
+export default function Navbar({ isOpen, onToggle }: NavbarProps) {
   const [activeSection, setActiveSection] = useState('hero');
 
   // 监听滚动，高亮当前所在模块
@@ -60,87 +67,128 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // 点击导航项 — 平滑滚动到对应位置
+  // 点击导航项 — 平滑滚动到对应位置（移动端点击后自动收起）
   const handleClick = (id: string) => {
     const docHeight = document.documentElement.scrollHeight - window.innerHeight;
     const targetPercent = SECTION_POSITIONS[id] || 0;
     const targetY = (targetPercent / 100) * docHeight;
     window.scrollTo({ top: targetY, behavior: 'smooth' });
+    // 移动端点击后收起
+    if (window.innerWidth < 768) {
+      onToggle();
+    }
   };
 
   return (
-    <nav
-      className="fixed left-0 top-0 bottom-0 w-44 sm:w-48 md:w-52 lg:w-56 z-50
-                 border-r border-white/20 shadow-2xl shadow-black/40
-                 flex flex-col overflow-hidden"
-      style={{
-        backgroundImage: `url(${navbarBg})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center top',
-        backgroundRepeat: 'no-repeat',
-      }}
-      aria-label="主导航"
-    >
-      {/* 顶部 Logo */}
-      <div className="relative px-4 sm:px-5 py-5 sm:py-6 border-b border-white/15">
-        <div className="text-cyan-300 font-mono font-bold text-xl sm:text-2xl tracking-tight drop-shadow-md">
-          {'</LZH>'}
-        </div>
-        <div className="text-cyan-100/70 text-xs mt-1 font-medium drop-shadow-sm">林志辉 · 个人空间</div>
-      </div>
+    <>
+      {/* 移动端遮罩层 — 展开时显示，点击关闭 */}
+      {isOpen && (
+        <div
+          className="md:hidden fixed inset-0 bg-black/50 z-40 backdrop-blur-sm"
+          onClick={onToggle}
+          aria-hidden="true"
+        />
+      )}
 
-      {/* 导航项列表 */}
-      <div className="relative flex-1 overflow-y-auto py-3 px-2 space-y-0.5">
-        {NAV_ITEMS.map((item) => {
-          const isActive = activeSection === item.id;
-          return (
-            <button
-              key={item.id}
-              type="button"
-              onClick={() => handleClick(item.id)}
-              className={`
-                w-full flex items-center gap-2.5 sm:gap-3 px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl
-                text-left transition-all duration-200 group
-                ${isActive
-                  ? 'bg-white/20 text-white border border-white/40 shadow-lg shadow-cyan-500/20 backdrop-blur-sm'
-                  : 'text-white/85 hover:bg-white/10 hover:text-white border border-transparent hover:border-white/20'
-                }
-              `}
-            >
-              {/* 自定义图标 */}
-              <img
-                src={item.icon}
-                alt={item.label}
-                className={`w-7 h-7 sm:w-8 sm:h-8 flex-shrink-0 object-contain drop-shadow-md transition-transform duration-200 ${
-                  isActive ? 'scale-110' : 'group-hover:scale-105'
-                }`}
-                draggable={false}
-              />
-              <span
-                className="font-medium text-xs sm:text-sm md:text-base whitespace-nowrap transition-colors"
-                style={{
-                  color: isActive ? '#ffffff' : 'rgb(0, 150, 245)',
-                  fontWeight: isActive ? 700 : 500,
-                }}
+      {/* 移动端切换按钮（汉堡菜单） — 仅 <768px 显示 */}
+      <button
+        type="button"
+        onClick={onToggle}
+        className="md:hidden fixed top-4 left-4 z-50 w-11 h-11 rounded-xl
+                   bg-slate-900/80 backdrop-blur-md border border-cyan-400/40
+                   flex items-center justify-center text-cyan-300
+                   shadow-lg shadow-black/40 transition-all hover:scale-105 active:scale-95"
+        aria-label={isOpen ? '收起导航' : '展开导航'}
+      >
+        {isOpen ? (
+          // 关闭图标 X
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+            <path d="M18 6L6 18M6 6l12 12" />
+          </svg>
+        ) : (
+          // 汉堡图标
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+            <path d="M3 6h18M3 12h18M3 18h18" />
+          </svg>
+        )}
+      </button>
+
+      {/* 导航栏主体
+          - PC端 (md+): 始终展开，translateX(0)
+          - 移动端: 根据 isOpen 控制位移 */}
+      <nav
+        className={`fixed left-0 top-0 bottom-0 w-64 md:w-44 lg:w-56 z-50
+                    border-r border-white/20 shadow-2xl shadow-black/40
+                    flex flex-col overflow-hidden
+                    transition-transform duration-300 ease-out
+                    ${isOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}`}
+        style={{
+          backgroundImage: `url(${navbarBg})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center top',
+          backgroundRepeat: 'no-repeat',
+        }}
+        aria-label="主导航"
+      >
+        {/* 顶部 Logo */}
+        <div className="relative px-5 py-6 border-b border-white/15">
+          <div className="text-cyan-300 font-mono font-bold text-2xl tracking-tight drop-shadow-md">
+            {'</LZH>'}
+          </div>
+          <div className="text-cyan-100/70 text-xs mt-1 font-medium drop-shadow-sm">林志辉 · 个人空间</div>
+        </div>
+
+        {/* 导航项列表 */}
+        <div className="relative flex-1 overflow-y-auto py-3 px-2 space-y-0.5">
+          {NAV_ITEMS.map((item) => {
+            const isActive = activeSection === item.id;
+            return (
+              <button
+                key={item.id}
+                type="button"
+                onClick={() => handleClick(item.id)}
+                className={`
+                  w-full flex items-center gap-3 px-4 py-3 rounded-xl
+                  text-left transition-all duration-200 group
+                  ${isActive
+                    ? 'bg-white/20 text-white border border-white/40 shadow-lg shadow-cyan-500/20 backdrop-blur-sm'
+                    : 'text-white/85 hover:bg-white/10 hover:text-white border border-transparent hover:border-white/20'
+                  }
+                `}
               >
-                {item.label}
-              </span>
-              {/* 激活指示条 */}
-              {isActive && (
-                <span className="ml-auto w-1.5 h-1.5 bg-cyan-400 rounded-full animate-pulse shadow-sm shadow-cyan-300/60" />
-              )}
-            </button>
-          );
-        })}
-      </div>
-
-      {/* 底部信息 */}
-      <div className="relative px-4 sm:px-5 py-3 sm:py-4 border-t border-white/15 text-white/50 text-xs">
-        <div className="flex items-center gap-1.5">
-          <span className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse shadow-sm shadow-green-300/60" />
-          <span>在线 · 欢迎交流</span>
+                <img
+                  src={item.icon}
+                  alt={item.label}
+                  className={`w-8 h-8 flex-shrink-0 object-contain drop-shadow-md transition-transform duration-200 ${
+                    isActive ? 'scale-110' : 'group-hover:scale-105'
+                  }`}
+                  draggable={false}
+                />
+                <span
+                  className="font-medium text-sm md:text-base whitespace-nowrap transition-colors"
+                  style={{
+                    color: isActive ? '#ffffff' : 'rgb(0, 150, 245)',
+                    fontWeight: isActive ? 700 : 500,
+                  }}
+                >
+                  {item.label}
+                </span>
+                {isActive && (
+                  <span className="ml-auto w-1.5 h-1.5 bg-cyan-400 rounded-full animate-pulse shadow-sm shadow-cyan-300/60" />
+                )}
+              </button>
+            );
+          })}
         </div>
-      </div>
-    </nav>
+
+        {/* 底部信息 */}
+        <div className="relative px-5 py-4 border-t border-white/15 text-white/50 text-xs">
+          <div className="flex items-center gap-1.5">
+            <span className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse shadow-sm shadow-green-300/60" />
+            <span>在线 · 欢迎交流</span>
+          </div>
+        </div>
+      </nav>
+    </>
   );
 }
