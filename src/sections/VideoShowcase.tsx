@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { videoWorks } from '../data/resumeData';
 import type { VideoWork } from '../types';
 import {
@@ -151,10 +151,24 @@ function VideoDetailDialog({
 }) {
   if (!video) return null;
 
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  // 弹窗打开时自动播放（程序化 play 比 autoPlay 属性更可靠）
+  useEffect(() => {
+    if (open && videoRef.current) {
+      const vid = videoRef.current;
+      // 确保静音（浏览器静音策略要求）
+      vid.muted = true;
+      // 小延迟确保 Dialog 动画完成、DOM 就绪
+      const t = setTimeout(() => vid.play().catch(() => {}), 150);
+      return () => clearTimeout(t);
+    }
+  }, [open]);
+
   // 视频在背景图中的位置（PS: x=360, y=140, 画布 1080×1920）
   // 放大 80px: 宽 +80/1080=+7.41%, 高 +80/1920=+4.17%, left/top 各减半居中
   const videoLeft = 29.63;
-  const videoTop = 5.21;
+  const videoTop = 6.25;
   const videoW = 40.74;
   const videoH = 37.50;
 
@@ -189,12 +203,13 @@ function VideoDetailDialog({
           >
             {video.videoUrl ? (
               <video
+                ref={videoRef}
                 src={video.videoUrl}
                 controls
-                autoPlay
                 muted
                 playsInline
                 loop
+                preload="auto"
                 className="w-full h-full object-contain"
                 style={{ display: 'block' }}
               >
