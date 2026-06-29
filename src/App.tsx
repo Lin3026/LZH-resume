@@ -9,6 +9,8 @@ import './App.css';
 
 export default function App() {
   const [cursorPos, setCursorPos] = useState({ x: -100, y: -100 });
+  // 是否为触摸设备（移动端隐藏自定义光标）
+  const [isTouch, setIsTouch] = useState(false);
 
   // 导航栏展开状态：
   // - PC端 (≥768px): 始终展开，忽略此 state
@@ -16,6 +18,17 @@ export default function App() {
   const [navOpen, setNavOpen] = useState(false);
 
   useEffect(() => {
+    // 检测触摸设备：有 touchstart 事件或 maxTouchPoints > 0
+    const checkTouch = () => {
+      if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
+        setIsTouch(true);
+      }
+    };
+    checkTouch();
+    // 第一次触摸时也标记
+    const onFirstTouch = () => { setIsTouch(true); };
+    window.addEventListener('touchstart', onFirstTouch, { once: true });
+
     const handleMouseMove = (e: MouseEvent) => {
       setCursorPos({ x: e.clientX, y: e.clientY });
     };
@@ -25,6 +38,7 @@ export default function App() {
     return () => {
       document.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('mouseleave', handleMouseLeave);
+      window.removeEventListener('touchstart', onFirstTouch);
     };
   }, []);
 
@@ -51,20 +65,22 @@ export default function App() {
       <MouseTrailParticles />
       <MouseClickRipple />
 
-      {/* 自定义光标 — 纸飞机美术图 */}
-      <div
-        className="fixed z-[99999] pointer-events-none select-none"
-        style={{
-          left: cursorPos.x + 10,
-          top: cursorPos.y + 10,
-          width: 28,
-          height: 28,
-          backgroundImage: `url(${cursorImg})`,
-          backgroundSize: 'contain',
-          backgroundRepeat: 'no-repeat',
-          transform: 'rotate(10deg)',
-        }}
-      />
+      {/* 自定义光标 — 仅非触摸设备显示 */}
+      {!isTouch && (
+        <div
+          className="fixed z-[99999] pointer-events-none select-none"
+          style={{
+            left: cursorPos.x + 10,
+            top: cursorPos.y + 10,
+            width: 28,
+            height: 28,
+            backgroundImage: `url(${cursorImg})`,
+            backgroundSize: 'contain',
+            backgroundRepeat: 'no-repeat',
+            transform: 'rotate(10deg)',
+          }}
+        />
+      )}
 
       {/* 主内容区
           - PC端 (md+): 左侧留出导航栏宽度 (ml-44 lg:ml-56)

@@ -94,7 +94,7 @@ function VideoSlot({
         top: `${slot.top}%`,
         width: `${slot.width}%`,
         height: `${slot.height}%`,
-        borderRadius: '40px',
+        borderRadius: 'min(40px, 3%)',
         border: '3px solid rgba(255,255,255,0.85)',
         boxShadow: '0 0 12px rgba(255,255,255,0.25)',
       }}
