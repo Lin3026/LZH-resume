@@ -13,12 +13,14 @@
 
 /* === 视频框描边规范类 === */
 .video-slot-border {
-  border-width: 3px;
-  border-style: solid;
-  border-color: #ffffff;
+  border-width: 3px !important;
+  border-style: solid !important;
+  border-color: #ffffff !important;
   box-sizing: border-box;
   box-shadow: 0 0 12px rgba(255,255,255,0.25);
-  appearance: none;
+  -webkit-appearance: none !important;
+  appearance: none !important;
+  outline: none !important;
 }
 
 /* 仅在 PC 端隐藏原生光标（通过 .cursor-hidden 类控制） */

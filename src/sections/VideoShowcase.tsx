@@ -106,6 +106,10 @@ function VideoSlot({
         top: `${slot.top}%`,
         width: `${slot.width}%`,
         height: `${slot.height}%`,
+        borderWidth: '3px',
+        borderStyle: 'solid',
+        borderColor: '#ffffff',
+        boxSizing: 'border-box',
       }}
       className="
         video-slot-border
@@ -157,21 +161,45 @@ function VideoDetailDialog({
   const videoRef = useRef<HTMLVideoElement>(null);
 
   // 弹窗打开时自动播放（先尝试有声播放，被浏览器拦截则降级为静音播放）
+  // 播放成功后立即隐藏原生控件，用户点击/触摸时临时显示（2秒后自动隐藏）
   useEffect(() => {
-    if (open && video?.videoUrl && videoRef.current) {
-      const vid = videoRef.current;
-      // 延迟 300ms 确保 Dialog 动画完成、video DOM 就绪
-      const t = setTimeout(() => {
-        // 先尝试有声播放
-        vid.muted = false;
-        vid.play().catch(() => {
-          // 浏览器自动播放策略拦截 → 降级静音播放
-          vid.muted = true;
-          vid.play().catch(() => {});
-        });
-      }, 300);
-      return () => clearTimeout(t);
-    }
+    if (!open || !video?.videoUrl || !videoRef.current) return;
+
+    const vid = videoRef.current;
+    let hideTimer: ReturnType<typeof setTimeout> | null = null;
+
+    // 用户交互时临时显示控件，2秒后自动隐藏
+    const showControlsTemporarily = () => {
+      vid.controls = true;
+      if (hideTimer) clearTimeout(hideTimer);
+      hideTimer = setTimeout(() => { vid.controls = false; }, 2000);
+    };
+
+    const t = setTimeout(() => {
+      // 先尝试有声播放
+      vid.muted = false;
+      vid.play().then(() => {
+        // 播放成功 → 立即隐藏控件
+        vid.controls = false;
+      }).catch(() => {
+        // 浏览器自动播放策略拦截 → 降级静音播放
+        vid.muted = true;
+        vid.play().then(() => {
+          vid.controls = false;
+        }).catch(() => {});
+      });
+    }, 300);
+
+    // 用户点击/触摸视频时恢复控件显示
+    vid.addEventListener('click', showControlsTemporarily);
+    vid.addEventListener('touchstart', showControlsTemporarily);
+
+    return () => {
+      clearTimeout(t);
+      if (hideTimer) clearTimeout(hideTimer);
+      vid.removeEventListener('click', showControlsTemporarily);
+      vid.removeEventListener('touchstart', showControlsTemporarily);
+    };
   }, [open, video]);
 
   if (!video) return null;
@@ -207,6 +235,10 @@ function VideoDetailDialog({
               height: `${videoH}%`,
               boxShadow: '0 0 16px rgba(255,255,255,0.3)',
               backgroundColor: '#000',
+              borderWidth: '3px',
+              borderStyle: 'solid',
+              borderColor: '#ffffff',
+              boxSizing: 'border-box',
             }}
           >
             {video.videoUrl ? (
