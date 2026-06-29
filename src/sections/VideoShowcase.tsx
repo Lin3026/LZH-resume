@@ -174,7 +174,7 @@ function VideoDetailDialog({
 
           {/* 视频播放区域 — 按 PS 坐标定位 */}
           <div
-            className="absolute overflow-hidden flex items-center justify-center"
+            className="absolute overflow-hidden"
             style={{
               left: `${videoLeft}%`,
               top: `${videoTop}%`,
@@ -185,26 +185,24 @@ function VideoDetailDialog({
               borderColor: '#ffffff',
               boxSizing: 'border-box',
               boxShadow: '0 0 16px rgba(255,255,255,0.3)',
+              backgroundColor: '#000',
             }}
           >
-            {video.thumbnail ? (
-              <img src={video.thumbnail} alt={video.title} className="w-full h-full object-cover" />
-            ) : video.videoUrl ? (
-              <a
-                href={video.videoUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex flex-col items-center justify-center gap-2 w-full h-full bg-black/30 text-white hover:bg-black/50 transition-colors no-underline"
+            {video.videoUrl ? (
+              <video
+                src={video.videoUrl}
+                controls
+                autoPlay
+                playsInline
+                className="w-full h-full object-contain"
+                style={{ display: 'block' }}
               >
-                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/90 flex items-center justify-center shadow-lg">
-                  <svg className="w-5 h-5 sm:w-6 sm:h-6 text-blue-500 ml-0.5" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M8 5v14l11-7z" />
-                  </svg>
-                </div>
-                <span className="text-xs sm:text-sm font-medium">观看视频 ↗</span>
-              </a>
+                您的浏览器不支持视频播放
+              </video>
+            ) : video.thumbnail ? (
+              <img src={video.thumbnail} alt={video.title} className="w-full h-full object-cover" />
             ) : (
-              <div className="flex flex-col items-center gap-2 text-white/60">
+              <div className="flex flex-col items-center justify-center gap-2 w-full h-full text-white/60">
                 <svg className="w-8 h-8 sm:w-10 sm:h-10 opacity-40" viewBox="0 0 64 64" fill="none">
                   <rect x="10" y="14" width="44" height="36" rx="4" stroke="currentColor" strokeWidth="2" />
                   <circle cx="32" cy="32" r="8" stroke="currentColor" strokeWidth="2" />
