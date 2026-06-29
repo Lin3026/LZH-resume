@@ -1,5 +1,26 @@
 /* App 级别全局覆盖 */
 
+/* === Z-index 层级规范（避免魔法数字） === */
+:root {
+  --z-base: 0;
+  --z-content: 20;
+  --z-particles: 30;
+  --z-nav: 50;
+  --z-overlay: 40;
+  --z-dialog: 50;
+  --z-cursor: 99999;
+}
+
+/* === 视频框描边规范类 === */
+.video-slot-border {
+  border-width: 3px;
+  border-style: solid;
+  border-color: #ffffff;
+  box-sizing: border-box;
+  box-shadow: 0 0 12px rgba(255,255,255,0.25);
+  appearance: none;
+}
+
 /* 仅在 PC 端隐藏原生光标（通过 .cursor-hidden 类控制） */
 .cursor-hidden *,
 .cursor-hidden *::before,

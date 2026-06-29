@@ -71,15 +71,16 @@ export default function App() {
       <MouseTrailParticles />
       <MouseClickRipple />
 
-      {/* 自定义光标 — 仅 PC 端显示，始终渲染（z-[99999] 保证在弹窗上方） */}
+      {/* 自定义光标 — 仅 PC 端显示，始终渲染（z-index 用常量保证在弹窗上方） */}
       {showCustomCursor && (
         <div
-          className="fixed z-[99999] pointer-events-none select-none"
+          className="fixed pointer-events-none select-none"
           style={{
             left: cursorPos.x + 10,
             top: cursorPos.y + 10,
             width: 28,
             height: 28,
+            zIndex: 'var(--z-cursor)',
             backgroundImage: `url(${cursorImg})`,
             backgroundSize: 'contain',
             backgroundRepeat: 'no-repeat',

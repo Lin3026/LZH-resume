@@ -106,13 +106,9 @@ function VideoSlot({
         top: `${slot.top}%`,
         width: `${slot.width}%`,
         height: `${slot.height}%`,
-        borderWidth: '3px',
-        borderStyle: 'solid',
-        borderColor: '#ffffff',
-        boxSizing: 'border-box',
-        boxShadow: '0 0 12px rgba(255,255,255,0.25)',
       }}
       className="
+        video-slot-border
         bg-transparent hover:bg-white/20
         backdrop-blur-sm
         group flex items-center justify-center
@@ -120,7 +116,6 @@ function VideoSlot({
         focus:outline-none focus:ring-4 focus:ring-white/40
         cursor-pointer
         overflow-hidden
-        appearance-none
       "
       aria-label={`查看作品 ${index + 1}：${video.title}`}
     >
@@ -205,16 +200,12 @@ function VideoDetailDialog({
 
           {/* 视频播放区域 — 按 PS 坐标定位 */}
           <div
-            className="absolute overflow-hidden"
+            className="absolute overflow-hidden video-slot-border"
             style={{
               left: `${videoLeft}%`,
               top: `${videoTop}%`,
               width: `${videoW}%`,
               height: `${videoH}%`,
-              borderWidth: '3px',
-              borderStyle: 'solid',
-              borderColor: '#ffffff',
-              boxSizing: 'border-box',
               boxShadow: '0 0 16px rgba(255,255,255,0.3)',
               backgroundColor: '#000',
             }}

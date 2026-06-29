@@ -128,7 +128,7 @@ export default function Navbar({ isOpen, onToggle }: NavbarProps) {
                     ${isOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}`}
         style={{
           backgroundImage: `url(${navbarBg})`,
-          backgroundSize: 'cover',
+          backgroundSize: '100% 100%',
           backgroundPosition: 'center top',
           backgroundRepeat: 'no-repeat',
         }}
@@ -169,10 +169,11 @@ export default function Navbar({ isOpen, onToggle }: NavbarProps) {
                   draggable={false}
                 />
                 <span
-                  className="font-medium text-sm md:text-base whitespace-nowrap transition-colors"
+                  className="font-medium whitespace-nowrap transition-colors"
                   style={{
                     color: isActive ? '#ffffff' : 'rgb(0, 150, 245)',
                     fontWeight: isActive ? 700 : 500,
+                    fontSize: '14px',
                   }}
                 >
                   {item.label}
