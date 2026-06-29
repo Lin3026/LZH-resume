@@ -279,14 +279,15 @@ function VideoDetailDialog({
             )}
           </div>
 
-          {/* 右上角关闭按钮 */}
+          {/* 右上角关闭按钮 — 48x48px 确保移动端易点击 */}
           <button
             type="button"
             onClick={onClose}
-            className="absolute top-2 right-2 z-10 w-8 h-8 rounded-full bg-white/80 hover:bg-white flex items-center justify-center shadow-md transition-colors"
+            className="absolute top-2 right-2 z-20 w-12 h-12 rounded-full bg-white/90 hover:bg-white flex items-center justify-center shadow-lg transition-all hover:scale-110 active:scale-95"
             aria-label="关闭"
+            style={{ WebkitAppearance: 'none', appearance: 'none', touchAction: 'manipulation' }}
           >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#334155" strokeWidth="2.5" strokeLinecap="round">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#334155" strokeWidth="2.5" strokeLinecap="round">
               <path d="M18 6L6 18M6 6l12 12" />
             </svg>
           </button>
