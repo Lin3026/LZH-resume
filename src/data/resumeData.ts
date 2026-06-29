@@ -1,5 +1,9 @@
 import type { PersonalInfo, WorkExperience, Education, Skill, Project, VideoWork } from '../types';
 
+// GitHub Pages 子路径部署：用 BASE_URL 拼接 public 资源路径
+// base: './' → BASE_URL = './'，保证 /LZH-resume/ 子路径下资源正确加载
+const BASE = import.meta.env.BASE_URL;
+
 export const personalInfo: PersonalInfo = {
   name: '林志辉',
   title: '高级广告创意设计师 / 游戏视频设计师',
@@ -83,11 +87,11 @@ export const educations: Education[] = [
 ];
 
 export const skills: Skill[] = [
-  { name: 'Photoshop', icon: '/icons/Ps.png', level: 5, category: '设计工具' },
-  { name: 'After Effects', icon: '/icons/Ae.png', level: 5, category: '设计工具' },
-  { name: 'Premiere Pro', icon: '/icons/Pr.png', level: 5, category: '设计工具' },
-  { name: 'Cinema 4D', icon: '/icons/c4d.png', level: 4, category: '设计工具' },
-  { name: 'Unity', icon: '/icons/unity.png', level: 3, category: '设计工具' },
+  { name: 'Photoshop', icon: `${BASE}icons/Ps.png`, level: 5, category: '设计工具' },
+  { name: 'After Effects', icon: `${BASE}icons/Ae.png`, level: 5, category: '设计工具' },
+  { name: 'Premiere Pro', icon: `${BASE}icons/Pr.png`, level: 5, category: '设计工具' },
+  { name: 'Cinema 4D', icon: `${BASE}icons/c4d.png`, level: 4, category: '设计工具' },
+  { name: 'Unity', icon: `${BASE}icons/unity.png`, level: 3, category: '设计工具' },
   { name: '即梦', icon: '🤖', level: 5, category: 'AI 工具' },
   { name: 'ChatGPT', icon: '💬', level: 5, category: 'AI 工具' },
 ];
@@ -494,8 +498,8 @@ export const videoWorks: VideoWork[] = [
     company: '乐元素科技(北京)股份有限公司',
     role: '高级广告创意设计师',
     period: '2022-05 — 至今',
-    thumbnail: '/video-01-cover.jpg',
-    videoUrl: '/video-01.mp4',
+    thumbnail: `${BASE}video-01-cover.jpg`,
+    videoUrl: `${BASE}video-01.mp4`,
     description: '负责开心消消乐、开心水族箱、假日乐消消等多款游戏创意方向，对接外包视频制作及投放数据分析。',
     views: '日活 3000 万+',
     cpi: 'CPI 降低 35%',
