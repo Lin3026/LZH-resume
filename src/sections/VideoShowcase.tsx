@@ -156,18 +156,16 @@ function VideoDetailDialog({
 }) {
   const videoRef = useRef<HTMLVideoElement>(null);
 
-  // 弹窗打开时自动播放（程序化 play 比 autoPlay 属性更可靠）
+  // 弹窗打开时自动播放（先尝试有声播放，被浏览器拦截则降级为静音播放）
   useEffect(() => {
     if (open && video?.videoUrl && videoRef.current) {
       const vid = videoRef.current;
-      // 强制静音（浏览器自动播放策略要求）
-      vid.muted = true;
-      vid.volume = 0;
       // 延迟 300ms 确保 Dialog 动画完成、video DOM 就绪
       const t = setTimeout(() => {
+        // 先尝试有声播放
+        vid.muted = false;
         vid.play().catch(() => {
-          // 如果 play 被拒绝，尝试 load 后再 play
-          vid.load();
+          // 浏览器自动播放策略拦截 → 降级静音播放
           vid.muted = true;
           vid.play().catch(() => {});
         });
@@ -179,10 +177,11 @@ function VideoDetailDialog({
   if (!video) return null;
 
   // 视频在背景图中的位置（PS: x=360, y=140, 画布 1080×1920）
-  // 放大 80px: 宽 +80/1080=+7.41%, 高 +80/1920=+4.17%, left/top 各减半居中
-  const videoLeft = 29.63;
+  // 视频实际尺寸 400×712（9:16竖屏），容器宽高比须匹配视频
+  // 高 37.50% → 720px，宽 = 720×(9/16) = 405px → 37.50%，居中 left = 31.25%
+  const videoLeft = 31.25;
   const videoTop = 6.25;
-  const videoW = 40.74;
+  const videoW = 37.50;
   const videoH = 37.50;
 
   return (
@@ -216,7 +215,6 @@ function VideoDetailDialog({
                 src={video.videoUrl}
                 poster={video.thumbnail || undefined}
                 controls
-                muted
                 playsInline
                 loop
                 preload="auto"

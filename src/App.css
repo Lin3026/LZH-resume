@@ -33,3 +33,19 @@ body.dialog-open,
 body.dialog-open * {
   cursor: none !important;
 }
+
+/* 原生 <video controls> 的进度条/按钮等在 Shadow DOM 中，需要单独穿透 */
+body.dialog-open video,
+body.dialog-open video::-webkit-media-controls,
+body.dialog-open video::-webkit-media-controls-enclosure,
+body.dialog-open video::-webkit-media-controls-panel,
+body.dialog-open video::-webkit-media-controls-play-button,
+body.dialog-open video::-webkit-media-controls-timeline,
+body.dialog-open video::-webkit-media-controls-current-time-display,
+body.dialog-open video::-webkit-media-controls-time-remaining-display,
+body.dialog-open video::-webkit-media-controls-mute-button,
+body.dialog-open video::-webkit-media-controls-volume-slider,
+body.dialog-open video::-webkit-media-controls-fullscreen-button,
+body.dialog-open video::-webkit-media-controls-toggle-closed-captions-button {
+  cursor: none !important;
+}
