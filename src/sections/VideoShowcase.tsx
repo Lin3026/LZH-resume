@@ -106,7 +106,10 @@ function VideoSlot({
         top: `${slot.top}%`,
         width: `${slot.width}%`,
         height: `${slot.height}%`,
-        border: '3px solid #ffffff',
+        borderWidth: '3px',
+        borderStyle: 'solid',
+        borderColor: '#ffffff',
+        boxSizing: 'border-box',
         boxShadow: '0 0 12px rgba(255,255,255,0.25)',
       }}
       className="
@@ -117,7 +120,7 @@ function VideoSlot({
         focus:outline-none focus:ring-4 focus:ring-white/40
         cursor-pointer
         overflow-hidden
-        [&:hover]:!border-[3px] [&:hover]:!border-white/80
+        appearance-none
       "
       aria-label={`查看作品 ${index + 1}：${video.title}`}
     >
@@ -177,7 +180,10 @@ function VideoDetailDialog({
               top: `${videoTop}%`,
               width: `${videoW}%`,
               height: `${videoH}%`,
-              border: '3px solid #ffffff',
+              borderWidth: '3px',
+              borderStyle: 'solid',
+              borderColor: '#ffffff',
+              boxSizing: 'border-box',
               boxShadow: '0 0 16px rgba(255,255,255,0.3)',
             }}
           >
