@@ -106,8 +106,7 @@ function VideoSlot({
         top: `${slot.top}%`,
         width: `${slot.width}%`,
         height: `${slot.height}%`,
-        borderRadius: '40px',
-        border: '3px solid rgba(255,255,255,0.85)',
+        border: '3px solid #ffffff',
         boxShadow: '0 0 12px rgba(255,255,255,0.25)',
       }}
       className="
@@ -178,8 +177,7 @@ function VideoDetailDialog({
               top: `${videoTop}%`,
               width: `${videoW}%`,
               height: `${videoH}%`,
-              border: '3px solid rgba(255,255,255,0.9)',
-              borderRadius: '8px',
+              border: '3px solid #ffffff',
               boxShadow: '0 0 16px rgba(255,255,255,0.3)',
             }}
           >
