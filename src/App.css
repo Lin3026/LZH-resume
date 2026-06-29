@@ -11,6 +11,15 @@
   --z-cursor: 99999;
 }
 
+/* === 导航栏按钮 — 移动端默认 appearance 重置 === */
+.nav-btn {
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  appearance: none !important;
+  background-color: transparent;
+  outline: none !important;
+}
+
 /* === 视频框描边规范类 === */
 .video-slot-border {
   border-width: 3px !important;

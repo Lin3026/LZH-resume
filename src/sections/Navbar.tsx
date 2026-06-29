@@ -98,10 +98,14 @@ export default function Navbar({ isOpen, onToggle }: NavbarProps) {
       <button
         type="button"
         onClick={onToggle}
-        className="md:hidden fixed top-4 left-4 z-50 w-11 h-11 rounded-xl
-                   bg-slate-900/80 backdrop-blur-md border border-cyan-400/40
-                   flex items-center justify-center text-cyan-300
-                   shadow-lg shadow-black/40 transition-all hover:scale-105 active:scale-95"
+        className="nav-btn md:hidden fixed top-4 left-4 z-50 w-11 h-11 rounded-xl border border-cyan-400/40 flex items-center justify-center text-cyan-300 shadow-lg shadow-black/40 transition-all hover:scale-105 active:scale-95"
+        style={{
+          backgroundColor: 'rgba(15,23,42,0.85)',
+          backdropFilter: 'blur(12px)',
+          WebkitBackdropFilter: 'blur(12px)',
+          WebkitAppearance: 'none',
+          appearance: 'none',
+        }}
         aria-label={isOpen ? '收起导航' : '展开导航'}
       >
         {isOpen ? (
@@ -151,21 +155,27 @@ export default function Navbar({ isOpen, onToggle }: NavbarProps) {
                 key={item.id}
                 type="button"
                 onClick={() => handleClick(item.id)}
-                className={`
-                  w-full flex items-center gap-3 px-4 py-3 rounded-xl
-                  text-left transition-all duration-200 group
-                  ${isActive
-                    ? 'bg-white/20 text-white border border-white/40 shadow-lg shadow-cyan-500/20 backdrop-blur-sm'
-                    : 'text-white/85 hover:bg-white/10 hover:text-white border border-transparent hover:border-white/20'
-                  }
-                `}
+                className="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left transition-all duration-200 group border"
+                style={{
+                  // 内联样式确保移动端不被默认 appearance 覆盖
+                  backgroundColor: isActive ? 'rgba(255,255,255,0.22)' : 'transparent',
+                  borderColor: isActive ? 'rgba(255,255,255,0.45)' : 'transparent',
+                  boxShadow: isActive ? '0 4px 16px rgba(0,200,255,0.25)' : 'none',
+                  WebkitAppearance: 'none',
+                  appearance: 'none',
+                }}
               >
                 <img
                   src={item.icon}
                   alt={item.label}
-                  className={`w-8 h-8 flex-shrink-0 object-contain drop-shadow-md transition-transform duration-200 ${
-                    isActive ? 'scale-110' : 'group-hover:scale-105'
-                  }`}
+                  className="w-8 h-8 flex-shrink-0 object-contain transition-transform duration-200"
+                  style={{
+                    // 选中时图标加亮发光，未选中时正常
+                    filter: isActive
+                      ? 'brightness(1.4) drop-shadow(0 0 6px rgba(0,220,255,0.7))'
+                      : 'drop-shadow(0 1px 3px rgba(0,0,0,0.4))',
+                    transform: isActive ? 'scale(1.1)' : undefined,
+                  }}
                   draggable={false}
                 />
                 <span
