@@ -84,7 +84,7 @@ export default function Navbar({ isOpen, onToggle }: NavbarProps) {
       {/* 移动端遮罩层 — 展开时显示，点击关闭 */}
       {isOpen && (
         <div
-          className="md:hidden fixed inset-0 bg-black/50 z-40 backdrop-blur-sm"
+          className="md:hidden fixed inset-0 bg-black/60 z-40"
           onClick={onToggle}
           aria-hidden="true"
         />
@@ -117,7 +117,7 @@ export default function Navbar({ isOpen, onToggle }: NavbarProps) {
           - PC端 (md+): 始终展开，translateX(0)
           - 移动端: 根据 isOpen 控制位移 */}
       <nav
-        className={`fixed left-0 top-0 bottom-0 w-64 md:w-44 lg:w-56 z-50
+        className={`fixed left-0 top-0 bottom-0 w-52 md:w-44 lg:w-56 z-50
                     border-r border-white/20 shadow-2xl shadow-black/40
                     flex flex-col overflow-hidden
                     transition-transform duration-300 ease-out
@@ -130,6 +130,9 @@ export default function Navbar({ isOpen, onToggle }: NavbarProps) {
         }}
         aria-label="主导航"
       >
+        {/* 背景颜色叠加层 — 统一移动端/PC端的UI风格 */}
+        <div className="absolute inset-0 bg-gradient-to-b from-blue-950/60 via-blue-950/40 to-slate-950/70 pointer-events-none" />
+
         {/* 顶部 Logo */}
         <div className="relative px-5 py-6 border-b border-white/15">
           <div className="text-cyan-300 font-mono font-bold text-2xl tracking-tight drop-shadow-md">

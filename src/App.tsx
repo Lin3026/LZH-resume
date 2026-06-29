@@ -1,34 +1,28 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import cursorImg from './assets/cursor.png';
 import Navbar from './sections/Navbar';
 import VideoShowcase from './sections/VideoShowcase';
 import MouseTrailParticles from './hooks/MouseTrailParticles';
 import MouseClickRipple from './hooks/MouseClickRipple';
 import ScrollParticles from './hooks/ScrollParticles';
+import { useIsMobile } from './hooks/use-mobile';
 import './App.css';
 
 export default function App() {
   const [cursorPos, setCursorPos] = useState({ x: -100, y: -100 });
-  // 是否为触摸设备（移动端隐藏自定义光标）
-  const [isTouch, setIsTouch] = useState(false);
+
+  // 用 useIsMobile (基于屏幕宽度 < 768px) 判断，避免触屏笔记本误判
+  const isMobile = useIsMobile();
 
   // 导航栏展开状态：
   // - PC端 (≥768px): 始终展开，忽略此 state
   // - 移动端 (<768px): 默认收起，点击汉堡按钮展开
   const [navOpen, setNavOpen] = useState(false);
 
-  useEffect(() => {
-    // 检测触摸设备：有 touchstart 事件或 maxTouchPoints > 0
-    const checkTouch = () => {
-      if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
-        setIsTouch(true);
-      }
-    };
-    checkTouch();
-    // 第一次触摸时也标记
-    const onFirstTouch = () => { setIsTouch(true); };
-    window.addEventListener('touchstart', onFirstTouch, { once: true });
+  // 光标控制：仅 PC 端使用自定义光标，移动端用原生光标
+  const showCustomCursor = useMemo(() => !isMobile, [isMobile]);
 
+  useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       setCursorPos({ x: e.clientX, y: e.clientY });
     };
@@ -38,7 +32,6 @@ export default function App() {
     return () => {
       document.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('mouseleave', handleMouseLeave);
-      window.removeEventListener('touchstart', onFirstTouch);
     };
   }, []);
 
@@ -54,7 +47,7 @@ export default function App() {
   }, []);
 
   return (
-    <div className="min-h-screen text-white bg-slate-950 cursor-none">
+    <div className={`min-h-screen text-white bg-slate-950 ${showCustomCursor ? 'cursor-hidden' : ''}`}>
       {/* 左侧导航栏
           - PC端：始终展开，固定宽度，主内容区留出对应左边距
           - 移动端：默认收起，点击汉堡按钮展开（覆盖在内容上，不挤内容） */}
@@ -65,8 +58,8 @@ export default function App() {
       <MouseTrailParticles />
       <MouseClickRipple />
 
-      {/* 自定义光标 — 仅非触摸设备显示 */}
-      {!isTouch && (
+      {/* 自定义光标 — 仅 PC 端显示 */}
+      {showCustomCursor && (
         <div
           className="fixed z-[99999] pointer-events-none select-none"
           style={{
