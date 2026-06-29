@@ -159,48 +159,38 @@ function VideoDetailDialog({
   onClose: () => void;
 }) {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [showIcon, setShowIcon] = useState(false);
+  const iconTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // 弹窗打开时自动播放（先尝试有声播放，被浏览器拦截则降级为静音播放）
-  // 播放成功后立即隐藏原生控件，用户点击/触摸时临时显示（2秒后自动隐藏）
+  // 弹窗打开时自动播放（先尝试有声，被浏览器拦截则降级静音）
   useEffect(() => {
     if (!open || !video?.videoUrl || !videoRef.current) return;
-
     const vid = videoRef.current;
-    let hideTimer: ReturnType<typeof setTimeout> | null = null;
-
-    // 用户交互时临时显示控件，2秒后自动隐藏
-    const showControlsTemporarily = () => {
-      vid.controls = true;
-      if (hideTimer) clearTimeout(hideTimer);
-      hideTimer = setTimeout(() => { vid.controls = false; }, 2000);
-    };
-
     const t = setTimeout(() => {
-      // 先尝试有声播放
       vid.muted = false;
-      vid.play().then(() => {
-        // 播放成功 → 立即隐藏控件
-        vid.controls = false;
-      }).catch(() => {
-        // 浏览器自动播放策略拦截 → 降级静音播放
+      vid.play().then(() => setIsPlaying(true)).catch(() => {
         vid.muted = true;
-        vid.play().then(() => {
-          vid.controls = false;
-        }).catch(() => {});
+        vid.play().then(() => setIsPlaying(true)).catch(() => {});
       });
     }, 300);
-
-    // 用户点击/触摸视频时恢复控件显示
-    vid.addEventListener('click', showControlsTemporarily);
-    vid.addEventListener('touchstart', showControlsTemporarily);
-
-    return () => {
-      clearTimeout(t);
-      if (hideTimer) clearTimeout(hideTimer);
-      vid.removeEventListener('click', showControlsTemporarily);
-      vid.removeEventListener('touchstart', showControlsTemporarily);
-    };
+    return () => clearTimeout(t);
   }, [open, video]);
+
+  // 点击视频 → 切换播放/暂停 + 短暂显示图标（0.8秒淡出）
+  const handleVideoClick = () => {
+    const vid = videoRef.current;
+    if (!vid) return;
+    if (vid.paused) {
+      vid.play().then(() => setIsPlaying(true)).catch(() => {});
+    } else {
+      vid.pause();
+      setIsPlaying(false);
+    }
+    setShowIcon(true);
+    if (iconTimer.current) clearTimeout(iconTimer.current);
+    iconTimer.current = setTimeout(() => setShowIcon(false), 800);
+  };
 
   if (!video) return null;
 
@@ -242,20 +232,38 @@ function VideoDetailDialog({
             }}
           >
             {video.videoUrl ? (
-              <video
-                ref={videoRef}
-                src={video.videoUrl}
-                poster={video.thumbnail || undefined}
-                controls
-                playsInline
-                loop
-                preload="auto"
-                autoPlay
-                className="w-full h-full object-contain"
-                style={{ display: 'block' }}
-              >
-                您的浏览器不支持视频播放
-              </video>
+              <div className="relative w-full h-full" onClick={handleVideoClick}>
+                <video
+                  ref={videoRef}
+                  src={video.videoUrl}
+                  poster={video.thumbnail || undefined}
+                  playsInline
+                  loop
+                  preload="auto"
+                  autoPlay
+                  className="w-full h-full object-contain"
+                  style={{ display: 'block' }}
+                >
+                  您的浏览器不支持视频播放
+                </video>
+                {/* 自定义播放/暂停图标 — 点击后显示0.8秒淡出，自动播放时无图标 */}
+                <div
+                  className="absolute inset-0 flex items-center justify-center pointer-events-none transition-opacity duration-300"
+                  style={{ opacity: showIcon ? 1 : 0 }}
+                >
+                  <div className="w-14 h-14 md:w-16 md:h-16 rounded-full bg-black/50 backdrop-blur-sm flex items-center justify-center">
+                    {isPlaying ? (
+                      <svg className="w-7 h-7 md:w-8 md:h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z" />
+                      </svg>
+                    ) : (
+                      <svg className="w-7 h-7 md:w-8 md:h-8 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M8 5v14l11-7z" />
+                      </svg>
+                    )}
+                  </div>
+                </div>
+              </div>
             ) : video.thumbnail ? (
               <img src={video.thumbnail} alt={video.title} className="w-full h-full object-cover" />
             ) : (
