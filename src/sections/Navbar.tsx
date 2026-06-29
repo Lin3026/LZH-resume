@@ -130,9 +130,6 @@ export default function Navbar({ isOpen, onToggle }: NavbarProps) {
         }}
         aria-label="主导航"
       >
-        {/* 背景颜色叠加层 — 统一移动端/PC端的UI风格 */}
-        <div className="absolute inset-0 bg-gradient-to-b from-blue-950/60 via-blue-950/40 to-slate-950/70 pointer-events-none" />
-
         {/* 顶部 Logo */}
         <div className="relative px-5 py-6 border-b border-white/15">
           <div className="text-cyan-300 font-mono font-bold text-2xl tracking-tight drop-shadow-md">

@@ -31,8 +31,21 @@ const VIDEO_SLOTS = [
   { left: 65.63, top: 70.63, width: 25.00, height: 6.04 },
 ];
 
-export default function VideoShowcase() {
+export default function VideoShowcase({
+  onDialogOpenChange,
+}: {
+  onDialogOpenChange: (open: boolean) => void;
+}) {
   const [selectedVideo, setSelectedVideo] = useState<VideoWork | null>(null);
+
+  const handleOpen = (video: VideoWork) => {
+    setSelectedVideo(video);
+    onDialogOpenChange(true);
+  };
+  const handleClose = () => {
+    setSelectedVideo(null);
+    onDialogOpenChange(false);
+  };
 
   return (
     <div className="relative w-full">
@@ -55,7 +68,7 @@ export default function VideoShowcase() {
               video={video}
               index={index}
               slot={slot}
-              onClick={() => setSelectedVideo(video)}
+              onClick={() => handleOpen(video)}
             />
           );
         })}
@@ -65,7 +78,7 @@ export default function VideoShowcase() {
       <VideoDetailDialog
         video={selectedVideo}
         open={!!selectedVideo}
-        onClose={() => setSelectedVideo(null)}
+        onClose={handleClose}
       />
     </div>
   );
@@ -93,7 +106,7 @@ function VideoSlot({
         top: `${slot.top}%`,
         width: `${slot.width}%`,
         height: `${slot.height}%`,
-        borderRadius: 'min(40px, 3%)',
+        borderRadius: '40px',
         border: '3px solid rgba(255,255,255,0.85)',
         boxShadow: '0 0 12px rgba(255,255,255,0.25)',
       }}
@@ -140,9 +153,9 @@ function VideoDetailDialog({
   // left: 360/1080 = 33.33%, top: 140/1920 = 7.29%
   const videoLeft = 33.33;
   const videoTop = 7.29;
-  // 视频宽 360px / 1080 = 33.33%，16:9 高 = 360 * 9/16 = 202.5 / 1920 = 10.55%
+  // 视频宽 360px / 1080 = 33.33%，9:16 竖屏高 = 360 × 16/9 = 640 / 1920 = 33.33%
   const videoW = 33.33;
-  const videoH = 10.55;
+  const videoH = 33.33;
 
   return (
     <Dialog open={open} onOpenChange={(v) => !v && onClose()}>

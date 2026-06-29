@@ -14,10 +14,11 @@ export default function App() {
   // 用 useIsMobile (基于屏幕宽度 < 768px) 判断，避免触屏笔记本误判
   const isMobile = useIsMobile();
 
-  // 导航栏展开状态：
-  // - PC端 (≥768px): 始终展开，忽略此 state
-  // - 移动端 (<768px): 默认收起，点击汉堡按钮展开
+  // 导航栏展开状态 — 移动端默认收起
   const [navOpen, setNavOpen] = useState(false);
+
+  // 视频详情弹窗是否打开（用于隐藏自定义光标）
+  const [dialogOpen, setDialogOpen] = useState(false);
 
   // 光标控制：仅 PC 端使用自定义光标，移动端用原生光标
   const showCustomCursor = useMemo(() => !isMobile, [isMobile]);
@@ -58,8 +59,8 @@ export default function App() {
       <MouseTrailParticles />
       <MouseClickRipple />
 
-      {/* 自定义光标 — 仅 PC 端显示 */}
-      {showCustomCursor && (
+      {/* 自定义光标 — 仅 PC 端显示，弹窗打开时隐藏 */}
+      {showCustomCursor && !dialogOpen && (
         <div
           className="fixed z-[99999] pointer-events-none select-none"
           style={{
@@ -79,7 +80,7 @@ export default function App() {
           - PC端 (md+): 左侧留出导航栏宽度 (ml-44 lg:ml-56)
           - 移动端 (<768px): 无左边距，导航栏展开时覆盖在内容上方 */}
       <main className="relative z-20 md:ml-44 lg:ml-56">
-        <VideoShowcase />
+        <VideoShowcase onDialogOpenChange={setDialogOpen} />
       </main>
     </div>
   );
