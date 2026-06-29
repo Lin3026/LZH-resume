@@ -195,12 +195,13 @@ function VideoDetailDialog({
   if (!video) return null;
 
   // 视频在背景图中的位置（PS: x=360, y=140, 画布 1080×1920）
-  // 视频实际尺寸 400×712（9:16竖屏），容器宽高比须匹配视频
-  // 高 37.50% → 720px，宽 = 720×(9/16) = 405px → 37.50%，居中 left = 31.25%
+  // 视频实际尺寸 400×712（比例 0.5618，非标准9:16）
+  // 宽 37.50% → 405px，高 = 405×(712/400) = 720.9px → 37.55% of 1920
+  // 居中 left = (100 - 37.50) / 2 = 31.25%
   const videoLeft = 31.25;
   const videoTop = 6.25;
   const videoW = 37.50;
-  const videoH = 37.50;
+  const videoH = 37.55;
 
   return (
     <Dialog open={open} onOpenChange={(v) => !v && onClose()}>
@@ -241,7 +242,7 @@ function VideoDetailDialog({
                   loop
                   preload="auto"
                   autoPlay
-                  className="w-full h-full object-contain"
+                  className="w-full h-full object-cover"
                   style={{ display: 'block' }}
                 >
                   您的浏览器不支持视频播放
