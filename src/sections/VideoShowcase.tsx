@@ -96,10 +96,45 @@ function VideoSlot({
   slot: { left: number; top: number; width: number; height: number };
   onClick: () => void;
 }) {
+  const [previewing, setPreviewing] = useState(false);
+  const previewRef = useRef<HTMLVideoElement>(null);
+  const hoverTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // 鼠标停留0.5秒后自动播放预览（静音）
+  const handleMouseEnter = () => {
+    if (!video.videoUrl) return;
+    hoverTimer.current = setTimeout(() => {
+      setPreviewing(true);
+    }, 500);
+  };
+
+  // 鼠标离开 → 停止预览，恢复封面
+  const handleMouseLeave = () => {
+    if (hoverTimer.current) {
+      clearTimeout(hoverTimer.current);
+      hoverTimer.current = null;
+    }
+    if (previewRef.current) {
+      previewRef.current.pause();
+      previewRef.current.currentTime = 0;
+    }
+    setPreviewing(false);
+  };
+
+  // 预览视频就绪后自动播放
+  useEffect(() => {
+    if (!previewing || !previewRef.current) return;
+    const vid = previewRef.current;
+    vid.muted = true;
+    vid.play().catch(() => {});
+  }, [previewing]);
+
   return (
     <button
       type="button"
       onClick={onClick}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
       style={{
         position: 'absolute',
         left: `${slot.left}%`,
@@ -123,8 +158,8 @@ function VideoSlot({
       "
       aria-label={`查看作品 ${index + 1}：${video.title}`}
     >
-      {/* 封面缩略图（如有） */}
-      {video.thumbnail && (
+      {/* 封面缩略图（hover预览时隐藏） */}
+      {video.thumbnail && !previewing && (
         <img
           src={video.thumbnail}
           alt={video.title}
@@ -133,12 +168,28 @@ function VideoSlot({
         />
       )}
 
-      {/* hover 播放图标 */}
-      <div className="w-12 h-12 md:w-16 md:h-16 rounded-full bg-white/90 flex items-center justify-center shadow-2xl opacity-0 group-hover:opacity-100 scale-50 group-hover:scale-100 transition-all duration-300">
-        <svg className="w-6 h-6 md:w-8 md:h-8 text-blue-500 ml-1" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M8 5v14l11-7z" />
-        </svg>
-      </div>
+      {/* hover 0.5秒后视频预览（静音自动播放） */}
+      {previewing && video.videoUrl && (
+        <video
+          ref={previewRef}
+          src={video.videoUrl}
+          muted
+          playsInline
+          loop
+          preload="none"
+          className="absolute inset-0 w-full h-full object-cover"
+          style={{ display: 'block' }}
+        />
+      )}
+
+      {/* hover 播放图标（预览时隐藏） */}
+      {!previewing && (
+        <div className="w-12 h-12 md:w-16 md:h-16 rounded-full bg-white/90 flex items-center justify-center shadow-2xl opacity-0 group-hover:opacity-100 scale-50 group-hover:scale-100 transition-all duration-300">
+          <svg className="w-6 h-6 md:w-8 md:h-8 text-blue-500 ml-1" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M8 5v14l11-7z" />
+          </svg>
+        </div>
+      )}
 
       {/* 编号角标 */}
       <div className="absolute top-1.5 left-1.5 w-6 h-6 md:w-8 md:h-8 rounded-full bg-gradient-to-br from-blue-400 to-cyan-400 text-white font-bold text-xs flex items-center justify-center shadow-lg opacity-50 group-hover:opacity-100 transition-opacity border-2 border-white/80">
