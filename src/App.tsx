@@ -20,6 +20,16 @@ export default function App() {
   // 视频详情弹窗开关（值未直接使用，通过 setDialogOpen 回调传递）
   const [, setDialogOpen] = useState(false);
 
+  // 弹窗打开/关闭时切换 body class，全局隐藏原生光标让纸飞机穿透
+  const handleDialogOpenChange = (open: boolean) => {
+    setDialogOpen(open);
+    if (open) {
+      document.body.classList.add('dialog-open');
+    } else {
+      document.body.classList.remove('dialog-open');
+    }
+  };
+
   // 光标控制：仅 PC 端使用自定义光标，移动端用原生光标
   const showCustomCursor = useMemo(() => !isMobile, [isMobile]);
 
@@ -33,6 +43,8 @@ export default function App() {
     return () => {
       document.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('mouseleave', handleMouseLeave);
+      // 清理：组件卸载时移除 body class
+      document.body.classList.remove('dialog-open');
     };
   }, []);
 
@@ -80,7 +92,7 @@ export default function App() {
           - PC端 (md+): 左侧留出导航栏宽度 (ml-44 lg:ml-56)
           - 移动端 (<768px): 无左边距，导航栏展开时覆盖在内容上方 */}
       <main className="relative z-20 md:ml-44 lg:ml-56">
-        <VideoShowcase onDialogOpenChange={setDialogOpen} />
+        <VideoShowcase onDialogOpenChange={handleDialogOpenChange} />
       </main>
     </div>
   );
