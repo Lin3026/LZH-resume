@@ -47,16 +47,19 @@ export default function Navbar({ isOpen, onToggle }: NavbarProps) {
   const [activeSection, setActiveSection] = useState('hero');
 
   // 监听滚动，高亮当前所在模块
+  // 注意：百分比基于背景图原始高度(19197px)，而背景图实际高度 ≈ scrollHeight
+  // 因此分母必须用 scrollHeight，不能用 (scrollHeight - innerHeight)
   useEffect(() => {
     const handleScroll = () => {
       const scrollY = window.scrollY;
-      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-      const scrollPercent = (scrollY / docHeight) * 100;
+      const docTotalHeight = document.documentElement.scrollHeight;
+
+      const scrollPercent = (scrollY / docTotalHeight) * 100;
 
       let current = 'hero';
       for (const item of NAV_ITEMS) {
         const pos = SECTION_POSITIONS[item.id];
-        if (scrollPercent >= pos - 3) {
+        if (scrollPercent >= pos - 1.5) {
           current = item.id;
         }
       }
@@ -68,10 +71,11 @@ export default function Navbar({ isOpen, onToggle }: NavbarProps) {
   }, []);
 
   // 点击导航项 — 平滑滚动到对应位置（移动端点击后自动收起）
+  // 百分比基于背景图高度(≈scrollHeight)，不是可滚动距离
   const handleClick = (id: string) => {
-    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const docTotalHeight = document.documentElement.scrollHeight;
     const targetPercent = SECTION_POSITIONS[id] || 0;
-    const targetY = (targetPercent / 100) * docHeight;
+    const targetY = (targetPercent / 100) * docTotalHeight;
     window.scrollTo({ top: targetY, behavior: 'smooth' });
     // 移动端点击后收起
     if (window.innerWidth < 768) {
