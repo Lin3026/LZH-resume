@@ -124,6 +124,16 @@ function VideoSlot({
       "
       aria-label={`查看作品 ${index + 1}：${video.title}`}
     >
+      {/* 封面缩略图（如有） */}
+      {video.thumbnail && (
+        <img
+          src={video.thumbnail}
+          alt={video.title}
+          className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity"
+          draggable={false}
+        />
+      )}
+
       {/* hover 播放图标 */}
       <div className="w-12 h-12 md:w-16 md:h-16 rounded-full bg-white/90 flex items-center justify-center shadow-2xl opacity-0 group-hover:opacity-100 scale-50 group-hover:scale-100 transition-all duration-300">
         <svg className="w-6 h-6 md:w-8 md:h-8 text-blue-500 ml-1" fill="currentColor" viewBox="0 0 24 24">
@@ -149,21 +159,29 @@ function VideoDetailDialog({
   open: boolean;
   onClose: () => void;
 }) {
-  if (!video) return null;
-
   const videoRef = useRef<HTMLVideoElement>(null);
 
   // 弹窗打开时自动播放（程序化 play 比 autoPlay 属性更可靠）
   useEffect(() => {
-    if (open && videoRef.current) {
+    if (open && video?.videoUrl && videoRef.current) {
       const vid = videoRef.current;
-      // 确保静音（浏览器静音策略要求）
+      // 强制静音（浏览器自动播放策略要求）
       vid.muted = true;
-      // 小延迟确保 Dialog 动画完成、DOM 就绪
-      const t = setTimeout(() => vid.play().catch(() => {}), 150);
+      vid.volume = 0;
+      // 延迟 300ms 确保 Dialog 动画完成、video DOM 就绪
+      const t = setTimeout(() => {
+        vid.play().catch(() => {
+          // 如果 play 被拒绝，尝试 load 后再 play
+          vid.load();
+          vid.muted = true;
+          vid.play().catch(() => {});
+        });
+      }, 300);
       return () => clearTimeout(t);
     }
-  }, [open]);
+  }, [open, video]);
+
+  if (!video) return null;
 
   // 视频在背景图中的位置（PS: x=360, y=140, 画布 1080×1920）
   // 放大 80px: 宽 +80/1080=+7.41%, 高 +80/1920=+4.17%, left/top 各减半居中
@@ -205,11 +223,13 @@ function VideoDetailDialog({
               <video
                 ref={videoRef}
                 src={video.videoUrl}
+                poster={video.thumbnail || undefined}
                 controls
                 muted
                 playsInline
                 loop
                 preload="auto"
+                autoPlay
                 className="w-full h-full object-contain"
                 style={{ display: 'block' }}
               >

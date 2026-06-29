@@ -494,7 +494,7 @@ export const videoWorks: VideoWork[] = [
     company: '乐元素科技(北京)股份有限公司',
     role: '高级广告创意设计师',
     period: '2022-05 — 至今',
-    thumbnail: '',
+    thumbnail: '/video-01-cover.jpg',
     videoUrl: '/video-01.mp4',
     description: '负责开心消消乐、开心水族箱、假日乐消消等多款游戏创意方向，对接外包视频制作及投放数据分析。',
     views: '日活 3000 万+',
