@@ -17,8 +17,8 @@ export default function App() {
   // 导航栏展开状态 — 移动端默认收起
   const [navOpen, setNavOpen] = useState(false);
 
-  // 视频详情弹窗是否打开（用于隐藏自定义光标）
-  const [dialogOpen, setDialogOpen] = useState(false);
+  // 视频详情弹窗开关（值未直接使用，通过 setDialogOpen 回调传递）
+  const [, setDialogOpen] = useState(false);
 
   // 光标控制：仅 PC 端使用自定义光标，移动端用原生光标
   const showCustomCursor = useMemo(() => !isMobile, [isMobile]);
