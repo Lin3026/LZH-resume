@@ -145,6 +145,7 @@ function VideoSlot({
         borderStyle: 'solid',
         borderColor: '#ffffff',
         boxSizing: 'border-box',
+        boxShadow: '0 2px 8px rgba(0,0,0,0.3), 0 0 12px rgba(255,255,255,0.15)',
       }}
       className="
         video-slot-border
@@ -275,7 +276,7 @@ function VideoDetailDialog({
               top: `${videoTop}%`,
               width: `${videoW}%`,
               height: `${videoH}%`,
-              boxShadow: '0 0 16px rgba(255,255,255,0.3)',
+              boxShadow: '0 2px 12px rgba(0,0,0,0.4), 0 0 16px rgba(255,255,255,0.3)',
               backgroundColor: '#000',
               borderWidth: '3px',
               borderStyle: 'solid',
