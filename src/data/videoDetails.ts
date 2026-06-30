@@ -33,8 +33,8 @@ export interface VideoDetailData {
 export const videoDetails: Record<string, VideoDetailData> = {
   'video-1': {
     id: 'video-1',
-    projectIntro: '测试文字',
-    creativeThinking: '测试文字',
+    projectIntro: '游戏：假日乐消消，用户人群女性占比较多，',
+    creativeThinking: '主要突出的是连续消除的爽感，这种是录屏没有办法体现的节奏',
     metrics: {
       ctr: '5%',
       cvr: '60%',
@@ -42,12 +42,12 @@ export const videoDetails: Record<string, VideoDetailData> = {
       firstDayPayRate: '2%',
       firstDayRoi: '3%',
     },
-    bottomNote: '测试文字',
+    bottomNote: 'ctr和转化率都高于平均水平，而且持续每天都有付费，证明抓到了核心用户',
   },
   'video-2': {
     id: 'video-2',
-    projectIntro: '测试文字',
-    creativeThinking: '测试文字',
+    projectIntro: '游戏：假日乐消消',
+    creativeThinking: '在解救素材上加上抖音热点音频，开头3秒直接抓到用户',
     metrics: {
       ctr: '5%',
       cvr: '60%',
@@ -55,7 +55,7 @@ export const videoDetails: Record<string, VideoDetailData> = {
       firstDayPayRate: '2%',
       firstDayRoi: '3%',
     },
-    bottomNote: '测试文字',
+    bottomNote: 'ctr和转化率都高于平均水平，',
   },
   'video-3': {
     id: 'video-3',
