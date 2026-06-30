@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { videoWorks } from '../data/resumeData';
 import type { VideoWork } from '../types';
+import { getVideoDetail } from '../data/videoDetails';
 import {
   Dialog,
   DialogContent,
@@ -243,19 +244,21 @@ function VideoDetailDialog({
 
   if (!video) return null;
 
-  // 视频在背景图中的位置（PS: x=360, y=140, 画布 1080×1920）
-  // 视频实际尺寸 400×712（比例 0.5618，非标准9:16）
-  // 宽 37.50% → 405px，高 = 405×(712/400) = 720.9px → 37.55% of 1920
-  // 居中 left = (100 - 37.50) / 2 = 31.25%
-  const videoLeft = 31.25;
-  const videoTop = 6.25;
-  const videoW = 37.50;
-  const videoH = 37.55;
+  const detail = getVideoDetail(video.id);
+
+  // 新详情页背景 1080×1920 布局：
+  // 视频在顶部天空区域，下面是项目简介 / 创意思路 / 数据分析 三个白色卡片
+  // 视频比例保持 400:712（≈9:16），在新背景中适当缩小并居中
+  const videoTop = 6.0;
+  const videoH = 26.0;
+  // 在 1080×1920 容器内保持 400:712 比例：width% ≈ height% × 1.0
+  const videoW = 35.0;
+  const videoLeft = (100 - videoW) / 2; // 32.5
 
   return (
     <Dialog open={open} onOpenChange={(v) => !v && onClose()}>
       <DialogContent className="max-w-[360px] sm:max-w-[400px] md:max-w-[540px] max-h-[95vh] overflow-hidden p-0 rounded-2xl shadow-2xl border-0 bg-transparent [&>button]:hidden">
-        {/* 背景底图 + 视频层，同比例 */}
+        {/* 背景底图 + 内容层，同比例 1080:1920 */}
         <div className="relative" style={{ aspectRatio: '1080/1920' }}>
           {/* 背景底图 — 详情页 */}
           <img
@@ -265,7 +268,7 @@ function VideoDetailDialog({
             draggable={false}
           />
 
-          {/* 视频播放区域 — 按 PS 坐标定位 */}
+          {/* 视频播放区域 — 顶部天空区 */}
           <div
             className="absolute overflow-hidden video-slot-border"
             style={{
@@ -326,6 +329,72 @@ function VideoDetailDialog({
                 <span className="text-xs">视频待上传</span>
               </div>
             )}
+          </div>
+
+          {/* 项目简介 */}
+          <div
+            className="absolute flex flex-col px-6 py-3 overflow-hidden"
+            style={{
+              left: '8%',
+              top: '36%',
+              width: '84%',
+              height: '12%',
+              color: '#1e3a8a',
+            }}
+          >
+            <p className="text-[10px] sm:text-xs font-medium text-blue-900/70 mb-1">项目简介</p>
+            <p className="text-[11px] sm:text-sm leading-tight text-blue-950/90 line-clamp-4">{detail.projectIntro}</p>
+          </div>
+
+          {/* 创意思路 */}
+          <div
+            className="absolute flex flex-col px-6 py-3 overflow-hidden"
+            style={{
+              left: '8%',
+              top: '50%',
+              width: '84%',
+              height: '12%',
+              color: '#1e3a8a',
+            }}
+          >
+            <p className="text-[10px] sm:text-xs font-medium text-blue-900/70 mb-1">创意思路</p>
+            <p className="text-[11px] sm:text-sm leading-tight text-blue-950/90 line-clamp-4">{detail.creativeThinking}</p>
+          </div>
+
+          {/* 数据分析 */}
+          <div
+            className="absolute flex flex-col px-6 py-3 overflow-hidden"
+            style={{
+              left: '8%',
+              top: '64%',
+              width: '84%',
+              height: '14%',
+              color: '#1e3a8a',
+            }}
+          >
+            <p className="text-[10px] sm:text-xs font-medium text-blue-900/70 mb-2">数据分析</p>
+            <div className="grid grid-cols-5 gap-1 text-center">
+              <div>
+                <p className="text-[8px] sm:text-[10px] text-blue-800/60">CTR</p>
+                <p className="text-[10px] sm:text-xs font-bold text-blue-900">{detail.metrics.ctr}</p>
+              </div>
+              <div>
+                <p className="text-[8px] sm:text-[10px] text-blue-800/60">CVR</p>
+                <p className="text-[10px] sm:text-xs font-bold text-blue-900">{detail.metrics.cvr}</p>
+              </div>
+              <div>
+                <p className="text-[8px] sm:text-[10px] text-blue-800/60">新增</p>
+                <p className="text-[10px] sm:text-xs font-bold text-blue-900">{detail.metrics.newUsers}</p>
+              </div>
+              <div>
+                <p className="text-[8px] sm:text-[10px] text-blue-800/60">首日付费率</p>
+                <p className="text-[10px] sm:text-xs font-bold text-blue-900">{detail.metrics.firstDayPayRate}</p>
+              </div>
+              <div>
+                <p className="text-[8px] sm:text-[10px] text-blue-800/60">首日ROI</p>
+                <p className="text-[10px] sm:text-xs font-bold text-blue-900">{detail.metrics.firstDayRoi}</p>
+              </div>
+            </div>
           </div>
 
           {/* 右上角关闭按钮 — 48x48px 确保移动端易点击 */}
