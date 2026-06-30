@@ -388,7 +388,7 @@ function VideoDetailDialog({
               height: '6%',
             }}
           >
-            <p className="text-[10px] sm:text-[12px] leading-snug text-blue-950/70">{detail.bottomNote || ''}</p>
+            <p className="text-[11px] sm:text-[13px] leading-snug text-blue-950/90">{detail.bottomNote || ''}</p>
           </div>
 
           {/* 右上角关闭按钮 — 48x48px 确保移动端易点击 */}
