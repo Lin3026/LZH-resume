@@ -22,18 +22,18 @@ const NAV_ITEMS = [
 ];
 
 // 各模块标题在背景图中的纵向位置（百分比，相对于 15745px 高度）
-// 基于新背景图 2560×15745 视觉估算：
+// 用户PS精确测量（终稿1.jpg 2560×15745）：
 //   个人空间=0px      关于我=1440px    工作经历=2840px   工作内容=4280px
-//   作品展示=9000px   教育经历=12200px 技术能力=13600px  联系我=14800px
+//   作品展示=9180px   教育经历=11425px 技术能力=12867px  联系我=14306px
 const SECTION_POSITIONS: Record<string, number> = {
   hero:       0,
   about:      9.15,
   experience: 18.04,
   work:       27.18,
-  works:      57.16,
-  education:  77.48,
-  skills:     86.38,
-  contact:    94.00,
+  works:      57.99,    // 9180/15745
+  education:  72.56,    // 11425/15745
+  skills:     81.72,    // 12867/15745
+  contact:    90.72,    // 14306/15745
 };
 
 interface NavbarProps {
@@ -47,26 +47,35 @@ export default function Navbar({ isOpen, onToggle }: NavbarProps) {
   const [activeSection, setActiveSection] = useState('hero');
 
   // 监听滚动，高亮当前所在模块
-  // 注意：百分比基于背景图原始高度(15745px)，而背景图实际高度 ≈ scrollHeight
-  // 因此分母必须用 scrollHeight，不能用 (scrollHeight - innerHeight)
+  // 使用视口参考点（从视口顶部往下 35%），比纯百分比更稳，且兜底底部激活“联系我”
   useEffect(() => {
     const handleScroll = () => {
       const scrollY = window.scrollY;
       const docTotalHeight = document.documentElement.scrollHeight;
+      const innerHeight = window.innerHeight;
 
-      const scrollPercent = (scrollY / docTotalHeight) * 100;
+      // 用户视线参考点：视口顶部往下 35% 处
+      const viewportRef = scrollY + innerHeight * 0.35;
 
       let current = 'hero';
       for (const item of NAV_ITEMS) {
-        const pos = SECTION_POSITIONS[item.id];
-        if (scrollPercent >= pos - 1.5) {
+        const posPixel = (SECTION_POSITIONS[item.id] / 100) * docTotalHeight;
+        if (viewportRef >= posPixel) {
           current = item.id;
         }
       }
+
+      // 兜底：滚动到接近底部时，强制激活最后一个模块“联系我”
+      const maxScroll = docTotalHeight - innerHeight;
+      if (maxScroll > 0 && scrollY >= maxScroll - 50) {
+        current = 'contact';
+      }
+
       setActiveSection(current);
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll(); // 初始化一次
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
