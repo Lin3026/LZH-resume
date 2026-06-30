@@ -100,9 +100,9 @@ function VideoSlot({
   const previewRef = useRef<HTMLVideoElement>(null);
   const hoverTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // 鼠标停留0.5秒后自动播放预览（静音）
+  // 鼠标停留0.5秒后自动播放预览（静音）— 用轻量 previewUrl 替代完整 videoUrl
   const handleMouseEnter = () => {
-    if (!video.videoUrl) return;
+    if (!video.previewUrl && !video.videoUrl) return;
     hoverTimer.current = setTimeout(() => {
       setPreviewing(true);
     }, 500);
@@ -169,15 +169,15 @@ function VideoSlot({
         />
       )}
 
-      {/* hover 0.5秒后视频预览（静音自动播放） */}
-      {previewing && video.videoUrl && (
+      {/* hover 0.5秒后视频预览（静音自动播放）— 优先用轻量 previewUrl */}
+      {previewing && (video.previewUrl || video.videoUrl) && (
         <video
           ref={previewRef}
-          src={video.videoUrl}
+          src={video.previewUrl || video.videoUrl}
           muted
           playsInline
           loop
-          preload="none"
+          preload="auto"
           className="absolute inset-0 w-full h-full object-cover"
           style={{ display: 'block' }}
         />

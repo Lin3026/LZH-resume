@@ -43,7 +43,8 @@ export interface VideoWork {
   role: string;           // 角色：创意策划 / 视频制作 / 后期合成 等
   period: string;         // 时间段
   thumbnail: string;      // 缩略图 URL（留空则显示占位）
-  videoUrl?: string;      // 视频链接
+  videoUrl?: string;      // 视频链接（详情页播放用）
+  previewUrl?: string;    // 轻量预览视频（hover 自动播放用，200px宽无音频）
   description: string;    // 简介
   // 数据分析字段
   views?: string;         // 播放量 / 下载量
