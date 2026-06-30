@@ -42,6 +42,7 @@ export const videoDetails: Record<string, VideoDetailData> = {
       firstDayPayRate: '2%',
       firstDayRoi: '3%',
     },
+    bottomNote: '测试文字',
   },
   'video-2': {
     id: 'video-2',
@@ -54,6 +55,7 @@ export const videoDetails: Record<string, VideoDetailData> = {
       firstDayPayRate: '2%',
       firstDayRoi: '3%',
     },
+    bottomNote: '测试文字',
   },
   'video-3': {
     id: 'video-3',
@@ -66,6 +68,7 @@ export const videoDetails: Record<string, VideoDetailData> = {
       firstDayPayRate: '2%',
       firstDayRoi: '3%',
     },
+    bottomNote: '测试文字',
   },
   'video-4': {
     id: 'video-4',
@@ -78,6 +81,7 @@ export const videoDetails: Record<string, VideoDetailData> = {
       firstDayPayRate: '2%',
       firstDayRoi: '3%',
     },
+    bottomNote: '测试文字',
   },
   'video-5': {
     id: 'video-5',
@@ -90,6 +94,7 @@ export const videoDetails: Record<string, VideoDetailData> = {
       firstDayPayRate: '2%',
       firstDayRoi: '3%',
     },
+    bottomNote: '测试文字',
   },
   'video-6': {
     id: 'video-6',
@@ -102,6 +107,7 @@ export const videoDetails: Record<string, VideoDetailData> = {
       firstDayPayRate: '2%',
       firstDayRoi: '3%',
     },
+    bottomNote: '测试文字',
   },
   'video-7': {
     id: 'video-7',
@@ -114,6 +120,7 @@ export const videoDetails: Record<string, VideoDetailData> = {
       firstDayPayRate: '2%',
       firstDayRoi: '3%',
     },
+    bottomNote: '测试文字',
   },
   'video-8': {
     id: 'video-8',
@@ -126,6 +133,7 @@ export const videoDetails: Record<string, VideoDetailData> = {
       firstDayPayRate: '2%',
       firstDayRoi: '3%',
     },
+    bottomNote: '测试文字',
   },
   'video-9': {
     id: 'video-9',
@@ -138,6 +146,7 @@ export const videoDetails: Record<string, VideoDetailData> = {
       firstDayPayRate: '2%',
       firstDayRoi: '3%',
     },
+    bottomNote: '测试文字',
   },
   'video-10': {
     id: 'video-10',
@@ -150,6 +159,7 @@ export const videoDetails: Record<string, VideoDetailData> = {
       firstDayPayRate: '2%',
       firstDayRoi: '3%',
     },
+    bottomNote: '测试文字',
   },
 };
 
@@ -168,5 +178,6 @@ export function getVideoDetail(id: string): VideoDetailData {
       firstDayPayRate: '2%',
       firstDayRoi: '3%',
     },
+    bottomNote: '测试文字',
   };
 }

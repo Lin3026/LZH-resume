@@ -248,12 +248,11 @@ function VideoDetailDialog({
 
   // 新详情页背景 1080×1920 布局：
   // 视频在顶部天空区域，下面是项目简介 / 创意思路 / 数据分析 三个白色卡片
-  // 视频比例保持 400:712（≈9:16），在新背景中适当缩小并居中
+  // 视频比例 400:712 — 在 1080×1920 画布中：高=712/1920≈37.08%，宽=400/1080≈37.04%
   const videoTop = 6.0;
-  const videoH = 26.0;
-  // 在 1080×1920 容器内保持 400:712 比例：width% ≈ height% × 1.0
-  const videoW = 35.0;
-  const videoLeft = (100 - videoW) / 2; // 32.5
+  const videoH = 37.08;
+  const videoW = 37.04;
+  const videoLeft = (100 - videoW) / 2; // ≈31.48
 
   return (
     <Dialog open={open} onOpenChange={(v) => !v && onClose()}>
