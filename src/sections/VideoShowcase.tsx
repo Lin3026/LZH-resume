@@ -9,26 +9,23 @@ import oceanBg from '../assets/ocean-bg.jpg';
 import detailBg from '../assets/detail-bg.jpg';
 
 /**
- * 12 个视频槽位坐标（百分比，相对于背景图）
- * 作品展示区域，3列 x 4行
+ * 10 个视频槽位坐标（百分比，相对于背景图 2560×15745）
+ * 作品展示区域，2行 x 5列，视频框比例 400:712
+ * 第1行 y=9800px, 第2行 y=10600px
  */
 const VIDEO_SLOTS = [
-  // 第1行 (y=9810px)
-  { left: 8.59,  top: 51.10, width: 25.00, height: 6.04 },
-  { left: 37.11, top: 51.10, width: 25.00, height: 6.04 },
-  { left: 65.63, top: 51.10, width: 25.00, height: 6.04 },
-  // 第2行 (y=11060px)
-  { left: 8.59,  top: 57.61, width: 25.00, height: 6.04 },
-  { left: 37.11, top: 57.61, width: 25.00, height: 6.04 },
-  { left: 65.63, top: 57.61, width: 25.00, height: 6.04 },
-  // 第3行 (y=12310px)
-  { left: 8.59,  top: 64.12, width: 25.00, height: 6.04 },
-  { left: 37.11, top: 64.12, width: 25.00, height: 6.04 },
-  { left: 65.63, top: 64.12, width: 25.00, height: 6.04 },
-  // 第4行 (y=13560px)
-  { left: 8.59,  top: 70.63, width: 25.00, height: 6.04 },
-  { left: 37.11, top: 70.63, width: 25.00, height: 6.04 },
-  { left: 65.63, top: 70.63, width: 25.00, height: 6.04 },
+  // 第1行 (y=9800px, top=62.24%)
+  { left: 3.33,  top: 62.24, width: 16.00, height: 4.63 },
+  { left: 22.67, top: 62.24, width: 16.00, height: 4.63 },
+  { left: 42.00, top: 62.24, width: 16.00, height: 4.63 },
+  { left: 61.33, top: 62.24, width: 16.00, height: 4.63 },
+  { left: 80.67, top: 62.24, width: 16.00, height: 4.63 },
+  // 第2行 (y=10600px, top=67.32%)
+  { left: 3.33,  top: 67.32, width: 16.00, height: 4.63 },
+  { left: 22.67, top: 67.32, width: 16.00, height: 4.63 },
+  { left: 42.00, top: 67.32, width: 16.00, height: 4.63 },
+  { left: 61.33, top: 67.32, width: 16.00, height: 4.63 },
+  { left: 80.67, top: 67.32, width: 16.00, height: 4.63 },
 ];
 
 export default function VideoShowcase({
@@ -49,7 +46,7 @@ export default function VideoShowcase({
 
   return (
     <div className="relative w-full">
-      {/* 背景图 — 铺满剩余宽度（自适应各设备），高度按原比例（2560x19197）自动计算 */}
+      {/* 背景图 — 铺满剩余宽度（自适应各设备），高度按原比例（2560×15745）自动计算 */}
       <div className="relative w-full">
           <img
             src={oceanBg}
@@ -59,19 +56,19 @@ export default function VideoShowcase({
             style={{ pointerEvents: 'none' }}
           />
 
-        {/* 12 个视频点击槽位 — 绝对定位覆盖在背景图的作品展示区域 */}
-        {videoWorks.map((video, index) => {
-          const slot = VIDEO_SLOTS[index] || VIDEO_SLOTS[0];
-          return (
-            <VideoSlot
-              key={video.id}
-              video={video}
-              index={index}
-              slot={slot}
-              onClick={() => handleOpen(video)}
-            />
-          );
-        })}
+      {/* 10 个视频点击槽位 — 绝对定位覆盖在背景图的作品展示区域 */}
+      {videoWorks.slice(0, 10).map((video, index) => {
+        const slot = VIDEO_SLOTS[index] || VIDEO_SLOTS[0];
+        return (
+          <VideoSlot
+            key={video.id}
+            video={video}
+            index={index}
+            slot={slot}
+            onClick={() => handleOpen(video)}
+          />
+        );
+      })}
       </div>
 
       {/* 视频详情弹窗 */}

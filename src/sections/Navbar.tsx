@@ -21,19 +21,19 @@ const NAV_ITEMS = [
   { id: 'contact',    label: '联系我',   icon: iconContact },
 ];
 
-// 各模块标题在背景图中的纵向位置（百分比，相对于 19197px 高度）
-// 用户PS精确测量（最终版）：
-//   个人空间=0px  关于我=1440px  工作经历=2840px  工作内容=4280px
-//   作品展示=8830px  教育经历=14877px  技术能力=16320px  联系我=17757px
+// 各模块标题在背景图中的纵向位置（百分比，相对于 15745px 高度）
+// 基于新背景图 2560×15745 视觉估算：
+//   个人空间=0px      关于我=1440px    工作经历=2840px   工作内容=4280px
+//   作品展示=9000px   教育经历=12200px 技术能力=13600px  联系我=14800px
 const SECTION_POSITIONS: Record<string, number> = {
   hero:       0,
-  about:      7.50,
-  experience: 14.79,
-  work:       22.29,
-  works:      45.99,
-  education:  77.49,
-  skills:     85.01,
-  contact:    92.51,
+  about:      9.15,
+  experience: 18.04,
+  work:       27.18,
+  works:      57.16,
+  education:  77.48,
+  skills:     86.38,
+  contact:    94.00,
 };
 
 interface NavbarProps {
@@ -47,7 +47,7 @@ export default function Navbar({ isOpen, onToggle }: NavbarProps) {
   const [activeSection, setActiveSection] = useState('hero');
 
   // 监听滚动，高亮当前所在模块
-  // 注意：百分比基于背景图原始高度(19197px)，而背景图实际高度 ≈ scrollHeight
+  // 注意：百分比基于背景图原始高度(15745px)，而背景图实际高度 ≈ scrollHeight
   // 因此分母必须用 scrollHeight，不能用 (scrollHeight - innerHeight)
   useEffect(() => {
     const handleScroll = () => {
