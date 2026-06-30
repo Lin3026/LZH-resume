@@ -4,10 +4,16 @@
  * 在这里填写每个视频的详情页文案，方便本地上编辑。
  * 每个条目对应一个 videoWorks 中的视频（通过 id 关联）。
  * 
- * 字段说明：
- * - projectIntro: 项目简介（对应背景图上的「项目简介」区域）
- * - creativeThinking: 创意思路（对应背景图上的「创意思路」区域）
- * - metrics: 数据分析（对应背景图上的「数据分析」区域）
+ * 字段说明（坐标基于PS画布 1080×1920）：
+ * - projectIntro:     项目简介文本 → PS: x=100, y=960（top 50.00%）
+ * - creativeThinking: 创意思路文本 → PS: x=100, y=1230（top 64.06%）
+ * - metrics:          数据分析，5个数值 → PS: y=1590（top 82.81%）
+ *     ctr:              CTR          → x=170（left 15.74%）
+ *     cvr:              CVR          → x=355（left 32.87%）
+ *     newUsers:         新增         → x=540（left 50.00%）
+ *     firstDayPayRate:  首日付费率   → x=720（left 66.67%）
+ *     firstDayRoi:      首日ROI      → x=911（left 84.35%）
+ * - bottomNote:       底部备注文本（可选）→ PS: x=100, y=1684（top 87.71%）
  */
 
 export interface VideoDetailData {
@@ -21,6 +27,7 @@ export interface VideoDetailData {
     firstDayPayRate: string;  // 首日付费率
     firstDayRoi: string;      // 首日ROI
   };
+  bottomNote?: string;  // 底部备注文本（可选）
 }
 
 export const videoDetails: Record<string, VideoDetailData> = {

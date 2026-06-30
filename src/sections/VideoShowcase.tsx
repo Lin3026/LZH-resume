@@ -331,70 +331,65 @@ function VideoDetailDialog({
             )}
           </div>
 
-          {/* 项目简介 */}
+          {/* 项目简介 — PS: x=100, y=960 → left=9.26%, top=50.00% */}
           <div
-            className="absolute flex flex-col px-6 py-3 overflow-hidden"
+            className="absolute overflow-hidden"
             style={{
-              left: '8%',
-              top: '36%',
-              width: '84%',
-              height: '12%',
-              color: '#1e3a8a',
+              left: '9.26%',
+              top: '50.00%',
+              width: '81.48%',
+              height: '14.06%',
             }}
           >
-            <p className="text-[10px] sm:text-xs font-medium text-blue-900/70 mb-1">项目简介</p>
-            <p className="text-[11px] sm:text-sm leading-tight text-blue-950/90 line-clamp-4">{detail.projectIntro}</p>
+            <p className="text-[11px] sm:text-[13px] leading-snug text-blue-950/90">{detail.projectIntro}</p>
           </div>
 
-          {/* 创意思路 */}
+          {/* 创意思路 — PS: x=100, y=1230 → left=9.26%, top=64.06% */}
           <div
-            className="absolute flex flex-col px-6 py-3 overflow-hidden"
+            className="absolute overflow-hidden"
             style={{
-              left: '8%',
-              top: '50%',
-              width: '84%',
-              height: '12%',
-              color: '#1e3a8a',
+              left: '9.26%',
+              top: '64.06%',
+              width: '81.48%',
+              height: '14.84%',
             }}
           >
-            <p className="text-[10px] sm:text-xs font-medium text-blue-900/70 mb-1">创意思路</p>
-            <p className="text-[11px] sm:text-sm leading-tight text-blue-950/90 line-clamp-4">{detail.creativeThinking}</p>
+            <p className="text-[11px] sm:text-[13px] leading-snug text-blue-950/90">{detail.creativeThinking}</p>
           </div>
 
-          {/* 数据分析 */}
+          {/* 数据分析 — 5个数值独立绝对定位，PS y=1590 → top=82.81% */}
+          {/* CTR — x=170 → left=15.74% */}
+          <div className="absolute" style={{ left: '15.74%', top: '82.81%', transform: 'translateX(-50%)' }}>
+            <p className="text-[10px] sm:text-xs font-bold text-blue-900 leading-none whitespace-nowrap">{detail.metrics.ctr}</p>
+          </div>
+          {/* CVR — x=355 → left=32.87% */}
+          <div className="absolute" style={{ left: '32.87%', top: '82.81%', transform: 'translateX(-50%)' }}>
+            <p className="text-[10px] sm:text-xs font-bold text-blue-900 leading-none whitespace-nowrap">{detail.metrics.cvr}</p>
+          </div>
+          {/* 新增 — x=540 → left=50.00% */}
+          <div className="absolute" style={{ left: '50.00%', top: '82.81%', transform: 'translateX(-50%)' }}>
+            <p className="text-[10px] sm:text-xs font-bold text-blue-900 leading-none whitespace-nowrap">{detail.metrics.newUsers}</p>
+          </div>
+          {/* 首日付费率 — x=720 → left=66.67% */}
+          <div className="absolute" style={{ left: '66.67%', top: '82.81%', transform: 'translateX(-50%)' }}>
+            <p className="text-[10px] sm:text-xs font-bold text-blue-900 leading-none whitespace-nowrap">{detail.metrics.firstDayPayRate}</p>
+          </div>
+          {/* 首日ROI — x=911 → left=84.35% */}
+          <div className="absolute" style={{ left: '84.35%', top: '82.81%', transform: 'translateX(-50%)' }}>
+            <p className="text-[10px] sm:text-xs font-bold text-blue-900 leading-none whitespace-nowrap">{detail.metrics.firstDayRoi}</p>
+          </div>
+
+          {/* 底部文本行 — PS: x=100, y=1684 → left=9.26%, top=87.71% */}
           <div
-            className="absolute flex flex-col px-6 py-3 overflow-hidden"
+            className="absolute overflow-hidden"
             style={{
-              left: '8%',
-              top: '64%',
-              width: '84%',
-              height: '14%',
-              color: '#1e3a8a',
+              left: '9.26%',
+              top: '87.71%',
+              width: '81.48%',
+              height: '6%',
             }}
           >
-            <p className="text-[10px] sm:text-xs font-medium text-blue-900/70 mb-2">数据分析</p>
-            <div className="grid grid-cols-5 gap-1 text-center">
-              <div>
-                <p className="text-[8px] sm:text-[10px] text-blue-800/60">CTR</p>
-                <p className="text-[10px] sm:text-xs font-bold text-blue-900">{detail.metrics.ctr}</p>
-              </div>
-              <div>
-                <p className="text-[8px] sm:text-[10px] text-blue-800/60">CVR</p>
-                <p className="text-[10px] sm:text-xs font-bold text-blue-900">{detail.metrics.cvr}</p>
-              </div>
-              <div>
-                <p className="text-[8px] sm:text-[10px] text-blue-800/60">新增</p>
-                <p className="text-[10px] sm:text-xs font-bold text-blue-900">{detail.metrics.newUsers}</p>
-              </div>
-              <div>
-                <p className="text-[8px] sm:text-[10px] text-blue-800/60">首日付费率</p>
-                <p className="text-[10px] sm:text-xs font-bold text-blue-900">{detail.metrics.firstDayPayRate}</p>
-              </div>
-              <div>
-                <p className="text-[8px] sm:text-[10px] text-blue-800/60">首日ROI</p>
-                <p className="text-[10px] sm:text-xs font-bold text-blue-900">{detail.metrics.firstDayRoi}</p>
-              </div>
-            </div>
+            <p className="text-[10px] sm:text-[12px] leading-snug text-blue-950/70">{detail.bottomNote || ''}</p>
           </div>
 
           {/* 右上角关闭按钮 — 48x48px 确保移动端易点击 */}
