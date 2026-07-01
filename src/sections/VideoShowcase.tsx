@@ -246,19 +246,20 @@ function VideoDetailDialog({
 
   const detail = getVideoDetail(video.id);
 
-  // 新详情页背景 1080×1920 布局：
+  // 新详情页背景 1080×2305 布局：
   // 视频在顶部天空区域，下面是项目简介 / 创意思路 / 数据分析 三个白色卡片
-  // 视频比例 400:712 — 在 1080×1920 画布中：高=712/1920≈37.08%，宽=400/1080≈37.04%
-  const videoTop = 6.0;
-  const videoH = 37.08;
+  // 视频比例 400:712 — 宽=400/1080≈37.04%，高=712/2305≈30.89%
+  // 文本坐标基于原1920px PS稿，按 ×(1920/2305) 换算到新画布
+  const videoTop = 4.99;   // 原6.0% × 1920/2305
+  const videoH = 30.89;    // 712/2305
   const videoW = 37.04;
   const videoLeft = (100 - videoW) / 2; // ≈31.48
 
   return (
     <Dialog open={open} onOpenChange={(v) => !v && onClose()}>
       <DialogContent className="max-w-[360px] sm:max-w-[400px] md:max-w-[540px] max-h-[95vh] overflow-hidden p-0 rounded-2xl shadow-2xl border-0 bg-transparent [&>button]:hidden">
-        {/* 背景底图 + 内容层，同比例 1080:1920 */}
-        <div className="relative" style={{ aspectRatio: '1080/1920' }}>
+        {/* 背景底图 + 内容层，同比例 1080:2305 */}
+        <div className="relative" style={{ aspectRatio: '1080/2305' }}>
           {/* 背景底图 — 详情页 */}
           <img
             src={detailBg}
@@ -330,62 +331,62 @@ function VideoDetailDialog({
             )}
           </div>
 
-          {/* 项目简介 — PS: x=100, y=960 → left=9.26%, top=50.00% */}
+          {/* 项目简介 — PS: x=100, y=960(1920) → left=9.26%, top=41.65%(2305) */}
           <div
             className="absolute overflow-hidden"
             style={{
               left: '9.26%',
-              top: '50.00%',
+              top: '41.65%',
               width: '81.48%',
-              height: '14.06%',
+              height: '11.71%',
             }}
           >
             <p className="text-[11px] sm:text-[13px] leading-snug text-blue-950/90">{detail.projectIntro}</p>
           </div>
 
-          {/* 创意思路 — PS: x=100, y=1230 → left=9.26%, top=64.06% */}
+          {/* 创意思路 — PS: x=100, y=1230(1920) → left=9.26%, top=53.34%(2305) */}
           <div
             className="absolute overflow-hidden"
             style={{
               left: '9.26%',
-              top: '64.06%',
+              top: '53.34%',
               width: '81.48%',
-              height: '14.84%',
+              height: '12.36%',
             }}
           >
             <p className="text-[11px] sm:text-[13px] leading-snug text-blue-950/90">{detail.creativeThinking}</p>
           </div>
 
-          {/* 数据分析 — 5个数值独立绝对定位，PS y=1590 → top=82.81% */}
+          {/* 数据分析 — 5个数值独立绝对定位，PS y=1590(1920) → top=68.95%(2305) */}
           {/* CTR — x=170 → left=15.74% */}
-          <div className="absolute" style={{ left: '15.74%', top: '82.81%', transform: 'translateX(-50%)' }}>
+          <div className="absolute" style={{ left: '15.74%', top: '68.95%', transform: 'translateX(-50%)' }}>
             <p className="text-[10px] sm:text-xs font-bold text-blue-900 leading-none whitespace-nowrap">{detail.metrics.ctr}</p>
           </div>
           {/* CVR — x=355 → left=32.87% */}
-          <div className="absolute" style={{ left: '32.87%', top: '82.81%', transform: 'translateX(-50%)' }}>
+          <div className="absolute" style={{ left: '32.87%', top: '68.95%', transform: 'translateX(-50%)' }}>
             <p className="text-[10px] sm:text-xs font-bold text-blue-900 leading-none whitespace-nowrap">{detail.metrics.cvr}</p>
           </div>
           {/* 新增 — x=540 → left=50.00% */}
-          <div className="absolute" style={{ left: '50.00%', top: '82.81%', transform: 'translateX(-50%)' }}>
+          <div className="absolute" style={{ left: '50.00%', top: '68.95%', transform: 'translateX(-50%)' }}>
             <p className="text-[10px] sm:text-xs font-bold text-blue-900 leading-none whitespace-nowrap">{detail.metrics.newUsers}</p>
           </div>
           {/* 首日付费率 — x=720 → left=66.67% */}
-          <div className="absolute" style={{ left: '66.67%', top: '82.81%', transform: 'translateX(-50%)' }}>
+          <div className="absolute" style={{ left: '66.67%', top: '68.95%', transform: 'translateX(-50%)' }}>
             <p className="text-[10px] sm:text-xs font-bold text-blue-900 leading-none whitespace-nowrap">{detail.metrics.firstDayPayRate}</p>
           </div>
           {/* 首日ROI — x=911 → left=84.35% */}
-          <div className="absolute" style={{ left: '84.35%', top: '82.81%', transform: 'translateX(-50%)' }}>
+          <div className="absolute" style={{ left: '84.35%', top: '68.95%', transform: 'translateX(-50%)' }}>
             <p className="text-[10px] sm:text-xs font-bold text-blue-900 leading-none whitespace-nowrap">{detail.metrics.firstDayRoi}</p>
           </div>
 
-          {/* 底部文本行 — PS: x=100, y=1684 → left=9.26%, top=87.71% */}
+          {/* 底部文本行 — PS: x=125, y=1684(1920) → left=11.57%, top=73.03%(2305) */}
           <div
             className="absolute overflow-hidden"
             style={{
-              left: '9.26%',
-              top: '87.71%',
-              width: '81.48%',
-              height: '6%',
+              left: '11.57%',
+              top: '73.03%',
+              width: '79.17%',
+              height: '5.00%',
             }}
           >
             <p className="text-[11px] sm:text-[13px] leading-snug text-blue-950/90">{detail.bottomNote || ''}</p>
