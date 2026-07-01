@@ -199,7 +199,9 @@ function VideoSlot({
 }
 
 // ========== 视频详情弹窗 ==========
-// 设计稿像素坐标，转换为百分比（基于 1080×1890）
+// 页面内容区：1080×1890（视频、文字等元素设计于此区域内）
+// 背景图：1080×2305（比内容区高415px，不压缩不裁剪，产生自然滚动空间）
+// 百分比基于 1080×2305（背景图全尺寸），内容元素集中在顶部 1890/2305≈82% 区域
 function VideoDetailDialog({
   video,
   open,
@@ -249,29 +251,27 @@ function VideoDetailDialog({
   return (
     <Dialog open={open} onOpenChange={(v) => !v && onClose()}>
       <DialogContent className="max-w-[540px] max-h-[90vh] overflow-y-auto p-0 rounded-2xl shadow-2xl border-0 bg-transparent [&>button]:hidden">
-        {/* 内容容器：宽度100%填满弹窗，高度由 aspect-ratio 自动按 1080:1890 计算 */}
-        {/* 如果容器高度 > max-h-[90vh]，DialogContent 的 overflow-y-auto 会产生滚动条 */}
+        {/* 容器比例 = 背景图比例 1080:2305，不裁剪不压缩 */}
         <div
           className="relative w-full"
-          style={{ aspectRatio: '1080 / 1890' }}
+          style={{ aspectRatio: '1080 / 2305' }}
         >
-          {/* 背景底图 — 铺满容器 */}
+          {/* 背景底图 — 完整显示 1080×2305，不裁剪 */}
           <img
             src={detailBg}
             alt="视频详情"
             className="absolute inset-0 w-full h-full select-none"
-            style={{ objectFit: 'cover', objectPosition: 'top' }}
             draggable={false}
           />
 
-          {/* 视频播放区域 — PS: x=340(31.48%), y=115(6.08%), w=400(37.04%), h=712(37.67%) */}
+          {/* 视频播放区域 — (基于 2305 高度换算) top=115/2305=4.99%, h=712/2305=30.89% */}
           <div
             className="absolute"
             style={{
               left: '31.48%',
-              top: '6.08%',
+              top: '4.99%',
               width: '37.04%',
-              height: '37.67%',
+              height: '30.89%',
               boxShadow: '0 2px 12px rgba(0,0,0,0.4), 0 0 16px rgba(255,255,255,0.3)',
               backgroundColor: '#000',
               border: '3px solid #fff',
@@ -326,57 +326,57 @@ function VideoDetailDialog({
               )}
             </div>
 
-            {/* 项目简介 — PS: x=100(9.26%), y=945(50.00%), w=880(81.48%), h=270(14.29%) */}
+            {/* 项目简介 — top=945/2305=40.99%, h=270/2305=11.71% */}
           <div
             className="absolute overflow-hidden"
-            style={{ left: '9.26%', top: '50.00%', width: '81.48%', height: '14.29%' }}
+            style={{ left: '9.26%', top: '40.99%', width: '81.48%', height: '11.71%' }}
           >
             <p style={{ fontSize: 13, lineHeight: 1.4, color: 'rgba(23, 37, 84, 0.9)' }}>{detail.projectIntro}</p>
           </div>
 
-          {/* 创意思路 — PS: x=100(9.26%), y=1210(64.02%), w=880(81.48%), h=285(15.08%) */}
+          {/* 创意思路 — top=1210/2305=52.49%, h=285/2305=12.36% */}
           <div
             className="absolute overflow-hidden"
-            style={{ left: '9.26%', top: '64.02%', width: '81.48%', height: '15.08%' }}
+            style={{ left: '9.26%', top: '52.49%', width: '81.48%', height: '12.36%' }}
           >
             <p style={{ fontSize: 13, lineHeight: 1.4, color: 'rgba(23, 37, 84, 0.9)' }}>{detail.creativeThinking}</p>
           </div>
 
-          {/* 数据分析 — 5个数值，PS y=1563(82.70%) */}
-          <div className="absolute" style={{ left: '15.74%', top: '82.70%', transform: 'translateX(-50%)' }}>
+          {/* 数据分析 — 5个数值，top=1563/2305=67.81% */}
+          <div className="absolute" style={{ left: '15.74%', top: '67.81%', transform: 'translateX(-50%)' }}>
             <p style={{ fontSize: 12, fontWeight: 'bold', color: '#1e3a8a', whiteSpace: 'nowrap' }}>{detail.metrics.ctr}</p>
           </div>
-          <div className="absolute" style={{ left: '32.87%', top: '82.70%', transform: 'translateX(-50%)' }}>
+          <div className="absolute" style={{ left: '32.87%', top: '67.81%', transform: 'translateX(-50%)' }}>
             <p style={{ fontSize: 12, fontWeight: 'bold', color: '#1e3a8a', whiteSpace: 'nowrap' }}>{detail.metrics.cvr}</p>
           </div>
-          <div className="absolute" style={{ left: '50.00%', top: '82.70%', transform: 'translateX(-50%)' }}>
+          <div className="absolute" style={{ left: '50.00%', top: '67.81%', transform: 'translateX(-50%)' }}>
             <p style={{ fontSize: 12, fontWeight: 'bold', color: '#1e3a8a', whiteSpace: 'nowrap' }}>{detail.metrics.newUsers}</p>
           </div>
-          <div className="absolute" style={{ left: '66.67%', top: '82.70%', transform: 'translateX(-50%)' }}>
+          <div className="absolute" style={{ left: '66.67%', top: '67.81%', transform: 'translateX(-50%)' }}>
             <p style={{ fontSize: 12, fontWeight: 'bold', color: '#1e3a8a', whiteSpace: 'nowrap' }}>{detail.metrics.firstDayPayRate}</p>
           </div>
-          <div className="absolute" style={{ left: '84.35%', top: '82.70%', transform: 'translateX(-50%)' }}>
+          <div className="absolute" style={{ left: '84.35%', top: '67.81%', transform: 'translateX(-50%)' }}>
             <p style={{ fontSize: 12, fontWeight: 'bold', color: '#1e3a8a', whiteSpace: 'nowrap' }}>{detail.metrics.firstDayRoi}</p>
           </div>
 
-          {/* 底部文本 — PS: x=125(11.57%), y=1656(87.62%), w=855(79.17%), h=95(5.03%) */}
+          {/* 底部文本 — top=1656/2305=71.84%, x=125=11.57%, h=95/2305=4.12% */}
           <div
             className="absolute overflow-hidden"
-            style={{ left: '11.57%', top: '87.62%', width: '79.17%', height: '5.03%' }}
+            style={{ left: '11.57%', top: '71.84%', width: '79.17%', height: '4.12%' }}
           >
             <p style={{ fontSize: 13, lineHeight: 1.4, color: 'rgba(23, 37, 84, 0.9)' }}>{detail.bottomNote || ''}</p>
           </div>
 
-          {/* 右上角关闭按钮 */}
+          {/* 右上角关闭按钮 — top=16/2305=0.69% */}
           <button
             type="button"
             onClick={onClose}
             className="absolute z-20 rounded-full bg-white/90 hover:bg-white flex items-center justify-center shadow-lg transition-all hover:scale-110 active:scale-95"
             style={{
-              top: '0.85%',
+              top: '0.69%',
               right: '1.48%',
               width: '4.44%',
-              height: '2.54%',
+              height: '2.08%',
               minWidth: 40,
               minHeight: 40,
               border: 'none',
