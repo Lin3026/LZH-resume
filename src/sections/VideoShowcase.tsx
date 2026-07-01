@@ -199,10 +199,7 @@ function VideoSlot({
 }
 
 // ========== 视频详情弹窗 ==========
-// 设计稿固定尺寸
-const DESIGN_W = 1080;
-const DESIGN_H = 1890;
-
+// 设计稿像素坐标，转换为百分比（基于 1080×1890）
 function VideoDetailDialog({
   video,
   open,
@@ -215,20 +212,7 @@ function VideoDetailDialog({
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [showIcon, setShowIcon] = useState(false);
-  const [scale, setScale] = useState(1);
-  const wrapperRef = useRef<HTMLDivElement>(null);
   const iconTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  // 弹窗打开时计算缩放比例：让 1080px 宽的画布缩放到填满弹窗可用宽度
-  useEffect(() => {
-    if (open && wrapperRef.current) {
-      const parent = wrapperRef.current.parentElement;
-      if (parent) {
-        const availableWidth = parent.clientWidth;
-        setScale(availableWidth / DESIGN_W);
-      }
-    }
-  }, [open]);
 
   // 弹窗打开时自动播放
   useEffect(() => {
@@ -265,42 +249,36 @@ function VideoDetailDialog({
   return (
     <Dialog open={open} onOpenChange={(v) => !v && onClose()}>
       <DialogContent className="max-w-[540px] max-h-[90vh] overflow-y-auto p-0 rounded-2xl shadow-2xl border-0 bg-transparent [&>button]:hidden">
-        {/* 外层包裹：高度随缩放比例变化，确保弹窗滚动区域正确 */}
-        <div ref={wrapperRef} className="overflow-hidden" style={{ height: DESIGN_H * scale }}>
-          {/* 固定 1080×1890 画布，通过 transform scale 缩放到弹窗宽度 */}
+        {/* 内容容器：宽度100%填满弹窗，高度由 aspect-ratio 自动按 1080:1890 计算 */}
+        {/* 如果容器高度 > max-h-[90vh]，DialogContent 的 overflow-y-auto 会产生滚动条 */}
+        <div
+          className="relative w-full"
+          style={{ aspectRatio: '1080 / 1890' }}
+        >
+          {/* 背景底图 — 铺满容器 */}
+          <img
+            src={detailBg}
+            alt="视频详情"
+            className="absolute inset-0 w-full h-full select-none"
+            style={{ objectFit: 'cover', objectPosition: 'top' }}
+            draggable={false}
+          />
+
+          {/* 视频播放区域 — PS: x=340(31.48%), y=115(6.08%), w=400(37.04%), h=712(37.67%) */}
           <div
+            className="absolute"
             style={{
-              width: DESIGN_W,
-              height: DESIGN_H,
-              transform: `scale(${scale})`,
-              transformOrigin: 'top left',
-              position: 'relative',
+              left: '31.48%',
+              top: '6.08%',
+              width: '37.04%',
+              height: '37.67%',
+              boxShadow: '0 2px 12px rgba(0,0,0,0.4), 0 0 16px rgba(255,255,255,0.3)',
+              backgroundColor: '#000',
+              border: '3px solid #fff',
+              overflow: 'hidden',
+              boxSizing: 'border-box',
             }}
           >
-            {/* 背景底图 — 铺满 1080×1890 画布，显示图片上半部分 */}
-            <img
-              src={detailBg}
-              alt="视频详情"
-              className="absolute inset-0 w-full h-full select-none"
-              style={{ objectFit: 'cover', objectPosition: 'top' }}
-              draggable={false}
-            />
-
-            {/* 视频播放区域 — PS: x=340, y=115, w=400, h=712 */}
-            <div
-              style={{
-                position: 'absolute',
-                left: 340,
-                top: 115,
-                width: 400,
-                height: 712,
-                boxShadow: '0 2px 12px rgba(0,0,0,0.4), 0 0 16px rgba(255,255,255,0.3)',
-                backgroundColor: '#000',
-                border: '3px solid #fff',
-                overflow: 'hidden',
-                boxSizing: 'border-box',
-              }}
-            >
               {video.videoUrl ? (
                 <div className="relative w-full h-full" onClick={handleVideoClick}>
                   <video
@@ -348,67 +326,71 @@ function VideoDetailDialog({
               )}
             </div>
 
-            {/* 项目简介 — PS: x=100, y=945 (960×1890/1920), w=880, h=270 */}
-            <div style={{ position: 'absolute', left: 100, top: 945, width: 880, height: 270, overflow: 'hidden' }}>
-              <p style={{ fontSize: 13, lineHeight: 1.4, color: 'rgba(23, 37, 84, 0.9)' }}>{detail.projectIntro}</p>
-            </div>
-
-            {/* 创意思路 — PS: x=100, y=1210 (1230×1890/1920), w=880, h=285 */}
-            <div style={{ position: 'absolute', left: 100, top: 1210, width: 880, height: 285, overflow: 'hidden' }}>
-              <p style={{ fontSize: 13, lineHeight: 1.4, color: 'rgba(23, 37, 84, 0.9)' }}>{detail.creativeThinking}</p>
-            </div>
-
-            {/* 数据分析 — 5个数值，PS y=1563 (1590×1890/1920) */}
-            <div style={{ position: 'absolute', left: 170, top: 1563, transform: 'translateX(-50%)' }}>
-              <p style={{ fontSize: 12, fontWeight: 'bold', color: '#1e3a8a', whiteSpace: 'nowrap' }}>{detail.metrics.ctr}</p>
-            </div>
-            <div style={{ position: 'absolute', left: 355, top: 1563, transform: 'translateX(-50%)' }}>
-              <p style={{ fontSize: 12, fontWeight: 'bold', color: '#1e3a8a', whiteSpace: 'nowrap' }}>{detail.metrics.cvr}</p>
-            </div>
-            <div style={{ position: 'absolute', left: 540, top: 1563, transform: 'translateX(-50%)' }}>
-              <p style={{ fontSize: 12, fontWeight: 'bold', color: '#1e3a8a', whiteSpace: 'nowrap' }}>{detail.metrics.newUsers}</p>
-            </div>
-            <div style={{ position: 'absolute', left: 720, top: 1563, transform: 'translateX(-50%)' }}>
-              <p style={{ fontSize: 12, fontWeight: 'bold', color: '#1e3a8a', whiteSpace: 'nowrap' }}>{detail.metrics.firstDayPayRate}</p>
-            </div>
-            <div style={{ position: 'absolute', left: 911, top: 1563, transform: 'translateX(-50%)' }}>
-              <p style={{ fontSize: 12, fontWeight: 'bold', color: '#1e3a8a', whiteSpace: 'nowrap' }}>{detail.metrics.firstDayRoi}</p>
-            </div>
-
-            {/* 底部文本 — PS: x=125, y=1656 (1684×1890/1920), w=855, h=95 */}
-            <div style={{ position: 'absolute', left: 125, top: 1656, width: 855, height: 95, overflow: 'hidden' }}>
-              <p style={{ fontSize: 13, lineHeight: 1.4, color: 'rgba(23, 37, 84, 0.9)' }}>{detail.bottomNote || ''}</p>
-            </div>
-
-            {/* 右上角关闭按钮 — PS: 48x48px */}
-            <button
-              type="button"
-              onClick={onClose}
-              style={{
-                position: 'absolute',
-                top: 16,
-                right: 16,
-                zIndex: 20,
-                width: 48,
-                height: 48,
-                borderRadius: '50%',
-                backgroundColor: 'rgba(255,255,255,0.9)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                border: 'none',
-                cursor: 'pointer',
-                WebkitAppearance: 'none',
-                appearance: 'none',
-                touchAction: 'manipulation',
-              }}
-              aria-label="关闭"
-            >
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#334155" strokeWidth="2.5" strokeLinecap="round">
-                <path d="M18 6L6 18M6 6l12 12" />
-              </svg>
-            </button>
+            {/* 项目简介 — PS: x=100(9.26%), y=945(50.00%), w=880(81.48%), h=270(14.29%) */}
+          <div
+            className="absolute overflow-hidden"
+            style={{ left: '9.26%', top: '50.00%', width: '81.48%', height: '14.29%' }}
+          >
+            <p style={{ fontSize: 13, lineHeight: 1.4, color: 'rgba(23, 37, 84, 0.9)' }}>{detail.projectIntro}</p>
           </div>
+
+          {/* 创意思路 — PS: x=100(9.26%), y=1210(64.02%), w=880(81.48%), h=285(15.08%) */}
+          <div
+            className="absolute overflow-hidden"
+            style={{ left: '9.26%', top: '64.02%', width: '81.48%', height: '15.08%' }}
+          >
+            <p style={{ fontSize: 13, lineHeight: 1.4, color: 'rgba(23, 37, 84, 0.9)' }}>{detail.creativeThinking}</p>
+          </div>
+
+          {/* 数据分析 — 5个数值，PS y=1563(82.70%) */}
+          <div className="absolute" style={{ left: '15.74%', top: '82.70%', transform: 'translateX(-50%)' }}>
+            <p style={{ fontSize: 12, fontWeight: 'bold', color: '#1e3a8a', whiteSpace: 'nowrap' }}>{detail.metrics.ctr}</p>
+          </div>
+          <div className="absolute" style={{ left: '32.87%', top: '82.70%', transform: 'translateX(-50%)' }}>
+            <p style={{ fontSize: 12, fontWeight: 'bold', color: '#1e3a8a', whiteSpace: 'nowrap' }}>{detail.metrics.cvr}</p>
+          </div>
+          <div className="absolute" style={{ left: '50.00%', top: '82.70%', transform: 'translateX(-50%)' }}>
+            <p style={{ fontSize: 12, fontWeight: 'bold', color: '#1e3a8a', whiteSpace: 'nowrap' }}>{detail.metrics.newUsers}</p>
+          </div>
+          <div className="absolute" style={{ left: '66.67%', top: '82.70%', transform: 'translateX(-50%)' }}>
+            <p style={{ fontSize: 12, fontWeight: 'bold', color: '#1e3a8a', whiteSpace: 'nowrap' }}>{detail.metrics.firstDayPayRate}</p>
+          </div>
+          <div className="absolute" style={{ left: '84.35%', top: '82.70%', transform: 'translateX(-50%)' }}>
+            <p style={{ fontSize: 12, fontWeight: 'bold', color: '#1e3a8a', whiteSpace: 'nowrap' }}>{detail.metrics.firstDayRoi}</p>
+          </div>
+
+          {/* 底部文本 — PS: x=125(11.57%), y=1656(87.62%), w=855(79.17%), h=95(5.03%) */}
+          <div
+            className="absolute overflow-hidden"
+            style={{ left: '11.57%', top: '87.62%', width: '79.17%', height: '5.03%' }}
+          >
+            <p style={{ fontSize: 13, lineHeight: 1.4, color: 'rgba(23, 37, 84, 0.9)' }}>{detail.bottomNote || ''}</p>
+          </div>
+
+          {/* 右上角关闭按钮 */}
+          <button
+            type="button"
+            onClick={onClose}
+            className="absolute z-20 rounded-full bg-white/90 hover:bg-white flex items-center justify-center shadow-lg transition-all hover:scale-110 active:scale-95"
+            style={{
+              top: '0.85%',
+              right: '1.48%',
+              width: '4.44%',
+              height: '2.54%',
+              minWidth: 40,
+              minHeight: 40,
+              border: 'none',
+              cursor: 'pointer',
+              WebkitAppearance: 'none',
+              appearance: 'none',
+              touchAction: 'manipulation',
+            }}
+            aria-label="关闭"
+          >
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#334155" strokeWidth="2.5" strokeLinecap="round">
+              <path d="M18 6L6 18M6 6l12 12" />
+            </svg>
+          </button>
         </div>
       </DialogContent>
     </Dialog>
