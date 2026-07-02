@@ -17,6 +17,7 @@ concurrency:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -27,13 +28,15 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: npm
 
       - name: Install dependencies
+        timeout-minutes: 5
         run: npm ci
 
       - name: Build
+        timeout-minutes: 5
         run: npm run build
 
       - name: Setup Pages
