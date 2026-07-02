@@ -1,4 +1,4 @@
-import { useRef, useEffect, useCallback, useReducer } from 'react';
+import { useRef, useEffect, useCallback } from 'react';
 import type { MusicTrack, PlayMode, PlayerState } from '../types/music';
 
 // ─── Reducer ───────────────────────────────────────────────

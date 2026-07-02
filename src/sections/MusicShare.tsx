@@ -1,5 +1,5 @@
 import { useState, useCallback, useReducer, useMemo } from 'react';
-import MusicPlayer, { playerReducer, initialState, getNextIndex, getPrevIndex } from '../components/MusicPlayer';
+import MusicPlayer, { playerReducer, initialState } from '../components/MusicPlayer';
 import { MUSIC_TRACKS, CATEGORIES } from '../data/musicData';
 import type { MusicTrack, MusicCategory } from '../types/music';
 
@@ -99,16 +99,7 @@ export default function MusicShare({ onBack }: MusicShareProps) {
     requestAnimationFrame(() => dispatch({ type: 'PLAY' }));
   }, [filteredTracks]);
 
-  // 上一首 / 下一首（由播放器按钮触发）
-  const handlePrev = useCallback(() => {
-    const idx = getPrevIndex(currentIndex, filteredTracks.length, playerState.playMode);
-    playTrack(idx);
-  }, [currentIndex, filteredTracks, playerState.playMode, playTrack]);
-
-  const handleNext = useCallback(() => {
-    const idx = getNextIndex(currentIndex, filteredTracks.length, playerState.playMode);
-    playTrack(idx);
-  }, [currentIndex, filteredTracks, playerState.playMode, playTrack]);
+  // 上一首 / 下一首逻辑已内置在 MusicPlayer 组件中
 
   const activeTrack = currentIndex >= 0 ? filteredTracks[currentIndex] : null;
 

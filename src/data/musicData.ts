@@ -1,4 +1,4 @@
-import type { MusicTrack } from '../types/music';
+import type { MusicTrack, MusicCategory } from '../types/music';
 
 /** 音乐作品数据 — 封面使用 picsum 占位图，音频文件留待用户替换 */
 export const MUSIC_TRACKS: MusicTrack[] = [
