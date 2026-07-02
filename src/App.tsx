@@ -127,10 +127,14 @@ export default function App() {
         <Navbar isOpen={navOpen} onToggle={() => setNavOpen((v) => !v)} />
       )}
 
-      {/* 粒子特效 */}
-      <ScrollParticles />
-      <MouseTrailParticles />
-      <MouseClickRipple />
+      {/* 粒子特效 — 仅首页显示，音乐页由 TargetCursor 接管交互视觉 */}
+      {currentPage === 'home' && (
+        <>
+          <ScrollParticles />
+          <MouseTrailParticles />
+          <MouseClickRipple />
+        </>
+      )}
 
       {/* 自定义光标 — 仅 PC 端 + 首页显示（音乐页由 TargetCursor 接管），z-index 用常量保证在弹窗上方 */}
       {showCustomCursor && currentPage === 'home' && (
