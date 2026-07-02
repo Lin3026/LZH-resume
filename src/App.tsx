@@ -61,6 +61,29 @@ export default function App() {
 
   return (
     <div className={`min-h-screen text-white bg-slate-950 ${showCustomCursor ? 'cursor-hidden' : ''}`}>
+      {/* 顶部固定导航栏 — 半透明，常驻不随滚动隐藏 */}
+      <header
+        className="fixed top-0 left-0 right-0 z-50 flex items-center justify-center gap-8 md:gap-16"
+        style={{
+          height: '100px',
+          background: 'rgba(15, 23, 42, 0.55)',
+          backdropFilter: 'blur(12px)',
+          WebkitBackdropFilter: 'blur(12px)',
+          borderBottom: '1px solid rgba(255,255,255,0.08)',
+        }}
+      >
+        {['个人空间', '音乐分享', '个人分享', '老家分享'].map((name) => (
+          <a
+            key={name}
+            href="#"
+            className="text-white/80 hover:text-white font-medium tracking-wide transition-colors duration-200 text-sm md:text-base select-none"
+            style={{ textShadow: '0 1px 4px rgba(0,0,0,0.4)' }}
+          >
+            {name}
+          </a>
+        ))}
+      </header>
+
       {/* 左侧导航栏
           - PC端：始终展开，固定宽度，主内容区留出对应左边距
           - 移动端：默认收起，点击汉堡按钮展开（覆盖在内容上，不挤内容） */}
