@@ -6,7 +6,7 @@ import {
   Dialog,
   DialogContent,
 } from '@/components/ui/dialog';
-import oceanBg from '../assets/ocean-bg.jpg';
+import oceanBg from '../assets/ocean-bg.webp';
 import detailBg from '../assets/detail-bg.jpg';
 
 /**
