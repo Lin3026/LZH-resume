@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, lazy, Suspense } from 'react';
 import cursorImg from './assets/cursor.png';
 import Navbar from './sections/Navbar';
 import VideoShowcase from './sections/VideoShowcase';
@@ -8,8 +8,17 @@ import ScrollParticles from './hooks/ScrollParticles';
 import { useIsMobile } from './hooks/use-mobile';
 import './App.css';
 
+// 音乐分享页面懒加载，减小首屏体积
+const MusicShare = lazy(() => import('./sections/MusicShare'));
+
+/** 页面视图 */
+type PageView = 'home' | 'music';
+
 export default function App() {
   const [cursorPos, setCursorPos] = useState({ x: -100, y: -100 });
+
+  // 当前页面视图
+  const [currentPage, setCurrentPage] = useState<PageView>('home');
 
   // 用 useIsMobile (基于屏幕宽度 < 768px) 判断，避免触屏笔记本误判
   const isMobile = useIsMobile();
@@ -27,6 +36,21 @@ export default function App() {
       document.body.classList.add('dialog-open');
     } else {
       document.body.classList.remove('dialog-open');
+    }
+  };
+
+  // 顶部导航栏链接配置 — 点击切换页面视图
+  const topNavLinks = [
+    { label: '个人空间', page: 'home' as PageView },
+    { label: '音乐分享', page: 'music' as PageView },
+    { label: '个人分享', page: null }, // 暂未实现
+    { label: '老家分享', page: null }, // 暂未实现
+  ];
+
+  const handleTopNavClick = (page: PageView | null) => {
+    if (page) {
+      setCurrentPage(page);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
 
@@ -72,22 +96,36 @@ export default function App() {
           borderBottom: '1px solid rgba(255,255,255,0.08)',
         }}
       >
-        {['个人空间', '音乐分享', '个人分享', '老家分享'].map((name) => (
-          <a
-            key={name}
-            href="#"
-            className="text-white/80 hover:text-white font-medium tracking-wide transition-colors duration-200 text-sm md:text-base select-none"
-            style={{ textShadow: '0 1px 4px rgba(0,0,0,0.4)' }}
-          >
-            {name}
-          </a>
-        ))}
+        {topNavLinks.map(({ label, page }) => {
+          const isActive = page === currentPage;
+          return (
+            <button
+              key={label}
+              onClick={() => handleTopNavClick(page)}
+              className="text-white/80 hover:text-white font-medium tracking-wide transition-all duration-200 text-sm md:text-base select-none"
+              style={{
+                textShadow: '0 1px 4px rgba(0,0,0,0.4)',
+                color: isActive ? '#22d3ee' : undefined,
+                borderBottom: isActive ? '2px solid #22d3ee' : '2px solid transparent',
+                paddingBottom: '2px',
+                WebkitAppearance: 'none',
+                appearance: 'none',
+                background: 'none',
+                cursor: 'pointer',
+              }}
+            >
+              {label}
+            </button>
+          );
+        })}
       </header>
 
-      {/* 左侧导航栏
+      {/* 左侧导航栏 — 仅在个人空间页面显示
           - PC端：始终展开，固定宽度，主内容区留出对应左边距
           - 移动端：默认收起，点击汉堡按钮展开（覆盖在内容上，不挤内容） */}
-      <Navbar isOpen={navOpen} onToggle={() => setNavOpen((v) => !v)} />
+      {currentPage === 'home' && (
+        <Navbar isOpen={navOpen} onToggle={() => setNavOpen((v) => !v)} />
+      )}
 
       {/* 粒子特效 */}
       <ScrollParticles />
@@ -113,11 +151,21 @@ export default function App() {
       )}
 
       {/* 主内容区
-          - PC端 (md+): 左侧留出导航栏宽度 (ml-44 lg:ml-56)
-          - 移动端 (<768px): 无左边距，导航栏展开时覆盖在内容上方 */}
-      <main className="relative z-20 md:ml-44 lg:ml-56">
-        <VideoShowcase onDialogOpenChange={handleDialogOpenChange} />
-      </main>
+          - 个人空间页 (home): 左侧留出导航栏宽度
+          - 音乐分享页 (music): 全宽，由 MusicShare 自行控制版心 */}
+      {currentPage === 'home' ? (
+        <main className="relative z-20 md:ml-44 lg:ml-56">
+          <VideoShowcase onDialogOpenChange={handleDialogOpenChange} />
+        </main>
+      ) : (
+        <Suspense fallback={
+          <div className="flex items-center justify-center min-h-[60vh]">
+            <div className="w-8 h-8 border-2 border-cyan-400 border-t-transparent rounded-full animate-spin" />
+          </div>
+        }>
+          <MusicShare onBack={() => setCurrentPage('home')} />
+        </Suspense>
+      )}
     </div>
   );
 }
