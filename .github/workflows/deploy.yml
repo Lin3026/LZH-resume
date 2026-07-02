@@ -17,7 +17,7 @@ concurrency:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -32,12 +32,12 @@ jobs:
           cache: npm
 
       - name: Install dependencies
-        timeout-minutes: 5
-        run: npm ci
+        run: npm ci --prefer-offline
 
       - name: Build
-        timeout-minutes: 5
         run: npm run build
+        env:
+          NODE_OPTIONS: --max-old-space-size=4096
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
