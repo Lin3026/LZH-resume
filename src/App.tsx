@@ -84,7 +84,7 @@ export default function App() {
   }, []);
 
   return (
-    <div className={`min-h-screen text-white bg-slate-950 ${showCustomCursor ? 'cursor-hidden' : ''}`}>
+    <div className={`min-h-screen text-white bg-slate-950 ${showCustomCursor && currentPage === 'home' ? 'cursor-hidden' : ''}`}>
       {/* 顶部固定导航栏 — 半透明，常驻不随滚动隐藏 */}
       <header
         className="fixed top-0 left-0 right-0 z-50 flex items-center justify-center gap-8 md:gap-16"
@@ -132,8 +132,8 @@ export default function App() {
       <MouseTrailParticles />
       <MouseClickRipple />
 
-      {/* 自定义光标 — 仅 PC 端显示，始终渲染（z-index 用常量保证在弹窗上方） */}
-      {showCustomCursor && (
+      {/* 自定义光标 — 仅 PC 端 + 首页显示（音乐页由 TargetCursor 接管），z-index 用常量保证在弹窗上方 */}
+      {showCustomCursor && currentPage === 'home' && (
         <div
           className="fixed pointer-events-none select-none"
           style={{

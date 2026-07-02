@@ -1,4 +1,5 @@
 import { useState, useCallback, useReducer, useMemo } from 'react';
+import TargetCursor from '../components/TargetCursor';
 import MusicPlayer, { playerReducer, initialState } from '../components/MusicPlayer';
 import { MUSIC_TRACKS, CATEGORIES } from '../data/musicData';
 import type { MusicTrack, MusicCategory } from '../types/music';
@@ -18,7 +19,7 @@ function TrackCard({
   return (
     <div
       onClick={onPlay}
-      className={`group relative rounded-2xl overflow-hidden cursor-pointer transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl hover:shadow-cyan-500/10 ${
+      className={`group relative rounded-2xl overflow-hidden cursor-target transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl hover:shadow-cyan-500/10 ${
         isActive ? 'ring-2 ring-cyan-400 shadow-lg shadow-cyan-400/20' : ''
       }`}
       style={{ background: 'rgba(30,41,59,0.6)', backdropFilter: 'blur(8px)' }}
@@ -105,6 +106,17 @@ export default function MusicShare({ onBack }: MusicShareProps) {
 
   return (
     <div className="min-h-screen text-white" style={{ paddingTop: '40px', paddingBottom: playerState.currentTrack ? '100px' : '40px' }}>
+      {/* 定制光标 — 音乐页专用，青色主题配色 */}
+      <TargetCursor
+        targetSelector=".cursor-target"
+        spinDuration={2.5}
+        hideDefaultCursor={true}
+        hoverDuration={0.25}
+        parallaxOn={true}
+        cursorColor="#22d3ee"
+        cursorColorOnTarget="#818cf8"
+      />
+
       {/* 页面头部 */}
       <div className="relative overflow-hidden" style={{ background: 'linear-gradient(180deg, rgba(15,23,42,0) 0%, rgba(15,23,42,0.6) 100%)' }}>
         <div className="max-w-[1700px] mx-auto px-6 md:px-12 lg:px-16 py-12 md:py-16">
@@ -112,7 +124,7 @@ export default function MusicShare({ onBack }: MusicShareProps) {
           {onBack && (
             <button
               onClick={onBack}
-              className="flex items-center gap-2 text-white/50 hover:text-white transition-colors mb-8 text-sm"
+              className="cursor-target flex items-center gap-2 text-white/50 hover:text-white transition-colors mb-8 text-sm"
               style={{ WebkitAppearance: 'none', appearance: 'none', border: 'none', background: 'none', cursor: 'pointer' }}>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
                 <path d="M19 12H5M12 19l-7-7 7-7" />
@@ -140,7 +152,7 @@ export default function MusicShare({ onBack }: MusicShareProps) {
               <button
                 key={cat}
                 onClick={() => setActiveCategory(cat as MusicCategory | '全部')}
-                className={`px-5 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all duration-200 border ${
+                className={`cursor-target px-5 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all duration-200 border ${
                   isActive
                     ? 'bg-cyan-400/20 border-cyan-400/50 text-cyan-300'
                     : 'bg-white/5 border-white/10 text-white/60 hover:text-white hover:border-white/20'

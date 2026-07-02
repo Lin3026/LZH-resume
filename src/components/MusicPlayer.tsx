@@ -254,7 +254,7 @@ export default function MusicPlayer({ state, dispatch, currentIndex, onPlayTrack
             {/* 播放模式 */}
             <button
               onClick={() => dispatch({ type: 'SET_PLAY_MODE', mode: nextMode[state.playMode] })}
-              className="text-white/50 hover:text-white transition-colors"
+              className="cursor-target text-white/50 hover:text-white transition-colors"
               title={modeIcons[state.playMode].label}
               style={{ WebkitAppearance: 'none', appearance: 'none', border: 'none', background: 'none', cursor: 'pointer' }}
             >
@@ -264,7 +264,7 @@ export default function MusicPlayer({ state, dispatch, currentIndex, onPlayTrack
             </button>
 
             {/* 上一首 */}
-            <button onClick={handlePrev} className="text-white/70 hover:text-white transition-colors"
+            <button onClick={handlePrev} className="cursor-target text-white/70 hover:text-white transition-colors"
               style={{ WebkitAppearance: 'none', appearance: 'none', border: 'none', background: 'none', cursor: 'pointer' }}>
               <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M6 6h2v12H6zm3.5 6l8.5 6V6z" />
@@ -274,7 +274,7 @@ export default function MusicPlayer({ state, dispatch, currentIndex, onPlayTrack
             {/* 播放/暂停 */}
             <button
               onClick={() => dispatch({ type: 'TOGGLE_PLAY' })}
-              className="w-11 h-11 rounded-full bg-white flex items-center justify-center hover:scale-105 transition-transform shadow-lg shadow-black/20"
+              className="cursor-target w-11 h-11 rounded-full bg-white flex items-center justify-center hover:scale-105 transition-transform shadow-lg shadow-black/20"
               style={{ WebkitAppearance: 'none', appearance: 'none', border: 'none', cursor: 'pointer' }}>
               {state.isPlaying ? (
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="#1e293b">
@@ -288,7 +288,7 @@ export default function MusicPlayer({ state, dispatch, currentIndex, onPlayTrack
             </button>
 
             {/* 下一首 */}
-            <button onClick={handleNext} className="text-white/70 hover:text-white transition-colors"
+            <button onClick={handleNext} className="cursor-target text-white/70 hover:text-white transition-colors"
               style={{ WebkitAppearance: 'none', appearance: 'none', border: 'none', background: 'none', cursor: 'pointer' }}>
               <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M6 18l8.5-6L6 6v12zm10-12v12h2V6h-2z" />
@@ -299,7 +299,7 @@ export default function MusicPlayer({ state, dispatch, currentIndex, onPlayTrack
             {lyricsLines.length > 0 && (
               <button
                 onClick={() => dispatch({ type: 'TOGGLE_LYRICS' })}
-                className={`transition-colors ${state.showLyrics ? 'text-cyan-400' : 'text-white/50 hover:text-white'}`}
+                className={`cursor-target transition-colors ${state.showLyrics ? 'text-cyan-400' : 'text-white/50 hover:text-white'}`}
                 title="歌词"
                 style={{ WebkitAppearance: 'none', appearance: 'none', border: 'none', background: 'none', cursor: 'pointer' }}>
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
@@ -321,7 +321,7 @@ export default function MusicPlayer({ state, dispatch, currentIndex, onPlayTrack
         <div className="hidden md:flex items-center gap-2 w-[180px] justify-end">
           <button
             onClick={() => dispatch({ type: 'TOGGLE_MUTE' })}
-            className="text-white/50 hover:text-white transition-colors flex-shrink-0"
+            className="cursor-target text-white/50 hover:text-white transition-colors flex-shrink-0"
             style={{ WebkitAppearance: 'none', appearance: 'none', border: 'none', background: 'none', cursor: 'pointer' }}>
             {state.isMuted || state.volume === 0 ? (
               <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
@@ -340,7 +340,7 @@ export default function MusicPlayer({ state, dispatch, currentIndex, onPlayTrack
             step="0.01"
             value={state.isMuted ? 0 : state.volume}
             onChange={(e) => dispatch({ type: 'SET_VOLUME', volume: parseFloat(e.target.value) })}
-            className="w-20 h-1 bg-white/20 rounded-full appearance-none cursor-pointer"
+            className="cursor-target w-20 h-1 bg-white/20 rounded-full appearance-none cursor-pointer"
             style={{
               accentColor: '#22d3ee',
               WebkitAppearance: 'none',
