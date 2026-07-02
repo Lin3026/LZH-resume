@@ -65,7 +65,7 @@ export default function App() {
       <header
         className="fixed top-0 left-0 right-0 z-50 flex items-center justify-center gap-8 md:gap-16"
         style={{
-          height: '100px',
+          height: '40px',
           background: 'rgba(15, 23, 42, 0.55)',
           backdropFilter: 'blur(12px)',
           WebkitBackdropFilter: 'blur(12px)',
