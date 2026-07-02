@@ -87,7 +87,7 @@ export default function App() {
     <div className={`min-h-screen text-white bg-slate-950 ${showCustomCursor && currentPage === 'home' ? 'cursor-hidden' : ''}`}>
       {/* 顶部固定导航栏 — 半透明，常驻不随滚动隐藏 */}
       <header
-        className="fixed top-0 left-0 right-0 z-50 flex items-center justify-center gap-8 md:gap-16"
+        className="fixed top-0 left-0 right-0 z-[60] flex items-center justify-center gap-8 md:gap-16"
         style={{
           height: '40px',
           background: 'rgba(15, 23, 42, 0.55)',

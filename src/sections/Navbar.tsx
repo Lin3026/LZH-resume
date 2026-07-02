@@ -147,16 +147,8 @@ export default function Navbar({ isOpen, onToggle }: NavbarProps) {
         }}
         aria-label="主导航"
       >
-        {/* 顶部 Logo */}
-        <div className="relative px-5 py-6 border-b border-white/15">
-          <div className="text-cyan-300 font-mono font-bold text-2xl tracking-tight drop-shadow-md">
-            {'</LZH>'}
-          </div>
-          <div className="text-cyan-100/70 text-xs mt-1 font-medium drop-shadow-sm">林志辉 · 个人空间</div>
-        </div>
-
-        {/* 导航项列表 */}
-        <div className="relative flex-1 overflow-y-auto py-3 px-2 space-y-0.5">
+        {/* 导航项列表 — 顶部留出 40px 给固定导航栏 */}
+        <div className="relative flex-1 overflow-y-auto pt-10 pb-3 px-2 space-y-0.5">
           {NAV_ITEMS.map((item) => {
             const isActive = activeSection === item.id;
             return (
