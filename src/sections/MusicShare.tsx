@@ -110,8 +110,8 @@ export default function MusicShare({ onBack }: MusicShareProps) {
       {/* DotField 点阵动效背景 — 鼠标交互的青色/靛蓝渐变点阵 */}
       <div className="fixed inset-0" style={{ zIndex: 0, pointerEvents: 'none' }}>
         <DotField
-          dotRadius={1.5}
-          dotSpacing={14}
+          dotRadius={3}
+          dotSpacing={28}
           bulgeOnly={true}
           bulgeStrength={60}
           glowRadius={160}
