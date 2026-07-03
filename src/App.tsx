@@ -10,9 +10,11 @@ import './App.css';
 
 // 音乐分享页面懒加载，减小首屏体积
 const MusicShare = lazy(() => import('./sections/MusicShare'));
+// 互动加载页（三消小游戏 + 资源预加载）懒加载
+const GameLoading = lazy(() => import('./sections/GameLoading'));
 
 /** 页面视图 */
-type PageView = 'home' | 'music';
+type PageView = 'home' | 'music' | 'game';
 
 export default function App() {
   const [cursorPos, setCursorPos] = useState({ x: -100, y: -100 });
@@ -43,7 +45,7 @@ export default function App() {
   const topNavLinks = [
     { label: '个人空间', page: 'home' as PageView },
     { label: '音乐分享', page: 'music' as PageView },
-    { label: '个人分享', page: null }, // 暂未实现
+    { label: '互动入口', page: 'game' as PageView },
     { label: '老家分享', page: null }, // 暂未实现
   ];
 
@@ -156,18 +158,29 @@ export default function App() {
 
       {/* 主内容区
           - 个人空间页 (home): 左侧留出导航栏宽度
-          - 音乐分享页 (music): 全宽，由 MusicShare 自行控制版心 */}
-      {currentPage === 'home' ? (
+          - 音乐分享页 (music): 全宽，由 MusicShare 自行控制版心
+          - 互动入口 (game): 全宽，三消加载页 */}
+      {currentPage === 'home' && (
         <main className="relative z-20 md:ml-44 lg:ml-56">
           <VideoShowcase onDialogOpenChange={handleDialogOpenChange} />
         </main>
-      ) : (
+      )}
+      {currentPage === 'music' && (
         <Suspense fallback={
           <div className="flex items-center justify-center min-h-[60vh]">
             <div className="w-8 h-8 border-2 border-cyan-400 border-t-transparent rounded-full animate-spin" />
           </div>
         }>
           <MusicShare onBack={() => setCurrentPage('home')} />
+        </Suspense>
+      )}
+      {currentPage === 'game' && (
+        <Suspense fallback={
+          <div className="flex items-center justify-center min-h-[60vh]">
+            <div className="w-8 h-8 border-2 border-cyan-400 border-t-transparent rounded-full animate-spin" />
+          </div>
+        }>
+          <GameLoading onComplete={() => setCurrentPage('home')} />
         </Suspense>
       )}
     </div>
