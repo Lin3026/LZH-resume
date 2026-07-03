@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import './GameLoading.css';
 
 // 首页关键图片资源 — import 拿到构建后 URL，用于后台预加载
-import oceanBg from '../assets/ocean-bg.webp';
+import oceanBg from '../assets/终稿1.jpg';
 import detailBg from '../assets/detail-bg.jpg';
 import navbarBg from '../assets/navbar-bg.jpg';
 
