@@ -1,5 +1,6 @@
 import { useState, useCallback, useReducer, useMemo } from 'react';
 import TargetCursor from '../components/TargetCursor';
+import DotField from '../components/DotField';
 import MusicPlayer, { playerReducer, initialState } from '../components/MusicPlayer';
 import { MUSIC_TRACKS, CATEGORIES } from '../data/musicData';
 import type { MusicTrack, MusicCategory } from '../types/music';
@@ -105,17 +106,36 @@ export default function MusicShare({ onBack }: MusicShareProps) {
   const activeTrack = currentIndex >= 0 ? filteredTracks[currentIndex] : null;
 
   return (
-    <div className="min-h-screen text-white" style={{ paddingTop: '40px', paddingBottom: playerState.currentTrack ? '100px' : '40px' }}>
+    <div className="min-h-screen text-white relative" style={{ paddingTop: '40px', paddingBottom: playerState.currentTrack ? '100px' : '40px' }}>
+      {/* DotField 点阵动效背景 — 鼠标交互的青色/靛蓝渐变点阵 */}
+      <div className="fixed inset-0" style={{ zIndex: 0, pointerEvents: 'none' }}>
+        <DotField
+          dotRadius={1.5}
+          dotSpacing={14}
+          bulgeOnly={true}
+          bulgeStrength={60}
+          glowRadius={160}
+          sparkle={true}
+          waveAmplitude={0}
+          cursorRadius={600}
+          cursorForce={0.12}
+          gradientFrom="rgba(34, 211, 238, 0.28)"
+          gradientTo="rgba(129, 140, 248, 0.15)"
+          glowColor="#0e7490"
+        />
+      </div>
+
       {/* 定制光标 — 音乐页专用，青色主题配色 */}
-      <TargetCursor
-        targetSelector=".cursor-target"
-        spinDuration={2.5}
-        hideDefaultCursor={true}
-        hoverDuration={0.25}
-        parallaxOn={true}
-        cursorColor="#22d3ee"
-        cursorColorOnTarget="#818cf8"
-      />
+      <div className="relative" style={{ zIndex: 1 }}>
+        <TargetCursor
+          targetSelector=".cursor-target"
+          spinDuration={2.5}
+          hideDefaultCursor={true}
+          hoverDuration={0.25}
+          parallaxOn={true}
+          cursorColor="#22d3ee"
+          cursorColorOnTarget="#818cf8"
+        />
 
       {/* 页面头部 */}
       <div className="relative overflow-hidden" style={{ background: 'linear-gradient(180deg, rgba(15,23,42,0) 0%, rgba(15,23,42,0.6) 100%)' }}>
@@ -210,6 +230,7 @@ export default function MusicShare({ onBack }: MusicShareProps) {
           音频文件尚未上传，请将对应的 .mp3 文件放入 public 目录
         </div>
       )}
+      </div>
     </div>
   );
 }
