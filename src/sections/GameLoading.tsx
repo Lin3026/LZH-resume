@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
+import Lightfall from '../components/Lightfall';
 import './GameLoading.css';
 
 // 首页关键图片资源 — import 拿到构建后 URL，用于后台预加载
@@ -435,6 +436,27 @@ export default function GameLoading({ onComplete }: GameLoadingProps) {
         className="game-loading"
         style={{ transform: `scale(${scale})`, transformOrigin: 'top left', width: 1920, height: 1080 }}
       >
+        <div className="game-loading-bg">
+          <Lightfall
+            colors={['#22d3ee', '#818cf8', '#6366f1']}
+            backgroundColor="#061521"
+            speed={0.4}
+            streakCount={3}
+            streakWidth={0.8}
+            streakLength={1.2}
+            glow={0.7}
+            density={0.5}
+            twinkle={0.8}
+            zoom={3.5}
+            backgroundGlow={0.4}
+            opacity={0.6}
+            mouseInteraction={true}
+            mouseStrength={0.3}
+            mouseRadius={0.8}
+            mouseDampening={0.2}
+            mixBlendMode="screen"
+          />
+        </div>
         <div className="game-loading-inner">
           <header className="game-header">
             <h1>欢迎来到我的空间</h1>
