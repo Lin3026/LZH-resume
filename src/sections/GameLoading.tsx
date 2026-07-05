@@ -8,7 +8,7 @@ import detailBg from '../assets/detail-bg.jpg';
 import navbarBg from '../assets/navbar-bg.jpg';
 
 // 方块颜色配置 — 编辑 src/config/gemSequence.ts 可自定义下落顺序
-import { nextGemType, resetGemSequence, GEM_VALUES, GEM_NAMES } from '../config/gemSequence';
+import { nextGemType, resetGemSequence } from '../config/gemSequence';
 
 const RESOURCES = [oceanBg, detailBg, navbarBg];
 
@@ -149,15 +149,6 @@ export default function GameLoading({ onComplete }: GameLoadingProps) {
   const [floatScore, setFloatScore] = useState<{ id: number; value: number } | null>(null);
   const floatIdRef = useRef(0);
   
-  // 1920×1080 画布按视口等比缩放，居中显示
-  const [scale, setScale] = useState(1);
-  useEffect(() => {
-    const calc = () => setScale(Math.min(window.innerWidth / 1920, window.innerHeight / 1080));
-    calc();
-    window.addEventListener('resize', calc);
-    return () => window.removeEventListener('resize', calc);
-  }, []);
-
   // 每次进入游戏页，重置颜色序列
   useEffect(() => { 
     resetGemSequence(); 
@@ -300,8 +291,8 @@ export default function GameLoading({ onComplete }: GameLoadingProps) {
       const ds = dragStateRef.current;
       if (!ds) return;
 
-      const rawDx = (e.clientX - ds.startX) / scale;
-      const rawDy = (e.clientY - ds.startY) / scale;
+      const rawDx = e.clientX - ds.startX;
+      const rawDy = e.clientY - ds.startY;
 
       // 首次移动锁定轴（5px 死区）
       if (!ds.axis) {
@@ -422,7 +413,7 @@ export default function GameLoading({ onComplete }: GameLoadingProps) {
       document.removeEventListener('mousemove', handleMove);
       document.removeEventListener('mouseup', handleUp);
     };
-  }, [doSwap, scale]);
+  }, [doSwap]);
 
   const board = boardRef.current;
   const scoreReady = score >= TARGET_SCORE;
@@ -432,31 +423,28 @@ export default function GameLoading({ onComplete }: GameLoadingProps) {
 
   return (
     <div className="game-loading-viewport">
-      <div
-        className="game-loading"
-        style={{ transform: `scale(${scale})`, transformOrigin: 'top left', width: 1920, height: 1080 }}
-      >
-        <div className="game-loading-bg">
-          <Lightfall
-            colors={['#22d3ee', '#818cf8', '#6366f1']}
-            backgroundColor="#061521"
-            speed={0.4}
-            streakCount={3}
-            streakWidth={0.8}
-            streakLength={1.2}
-            glow={0.7}
-            density={0.5}
-            twinkle={0.8}
-            zoom={3.5}
-            backgroundGlow={0.4}
-            opacity={0.6}
-            mouseInteraction={true}
-            mouseStrength={0.3}
-            mouseRadius={0.8}
-            mouseDampening={0.2}
-            mixBlendMode="screen"
-          />
-        </div>
+      <div className="game-loading-bg">
+        <Lightfall
+          colors={['#22d3ee', '#818cf8', '#6366f1']}
+          backgroundColor="#061521"
+          speed={0.4}
+          streakCount={3}
+          streakWidth={0.8}
+          streakLength={1.2}
+          glow={0.7}
+          density={0.5}
+          twinkle={0.8}
+          zoom={3.5}
+          backgroundGlow={0.4}
+          opacity={0.6}
+          mouseInteraction={true}
+          mouseStrength={0.3}
+          mouseRadius={0.8}
+          mouseDampening={0.2}
+          mixBlendMode="screen"
+        />
+      </div>
+      <div className="game-loading">
         <div className="game-loading-inner">
           <header className="game-header">
             <h1>欢迎来到我的空间</h1>
@@ -542,21 +530,6 @@ export default function GameLoading({ onComplete }: GameLoadingProps) {
                   <li>消除后上方方块下落，顶部补齐新方块</li>
                   <li>连锁消除得分翻倍</li>
                 </ul>
-                <div className="gem-values">
-                  <h4>颜色数值</h4>
-                  <div className="value-item">
-                    <span className="value-dot red"></span>
-                    <span>红色 = {GEM_VALUES[0]} 分</span>
-                  </div>
-                  <div className="value-item">
-                    <span className="value-dot yellow"></span>
-                    <span>黄色 = {GEM_VALUES[1]} 分</span>
-                  </div>
-                  <div className="value-item">
-                    <span className="value-dot green"></span>
-                    <span>绿色 = {GEM_VALUES[2]} 分</span>
-                  </div>
-                </div>
               </div>
 
               <button
