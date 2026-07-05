@@ -448,8 +448,8 @@ export default function GameLoading({ onComplete }: GameLoadingProps) {
       <div className="game-loading">
         <div className="game-loading-inner">
           <header className="game-header">
-            <h1>欢迎来到我的空间</h1>
-            <p>用一步消除所有的棋子</p>
+            <h1>用一步消除所有的棋子</h1>
+            <p>欢迎来到我的空间</p>
           </header>
 
           <div className="game-body">
