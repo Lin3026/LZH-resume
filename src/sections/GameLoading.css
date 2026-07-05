@@ -226,91 +226,28 @@
   100% { opacity: 0; transform: translate(-50%, -140%) scale(1); }
 }
 
-/* ===== 侧栏信息面板 ===== */
+/* ===== 侧栏：仅居中放置进入按钮 ===== */
 .game-side {
-  width: 420px;
+  width: 300px;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
   gap: 24px;
 }
 
-.stat-card {
-  padding: 28px 32px;
-  border-radius: 20px;
-  background: rgba(15, 23, 42, 0.55);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-}
-.stat-label {
-  font-size: 1.1rem;
-  color: rgba(230, 246, 251, 0.55);
-  letter-spacing: 2px;
-  text-transform: uppercase;
-}
-.stat-value {
-  font-size: 2.8rem;
-  font-weight: 800;
-  color: #e6f6fb;
-  margin: 4px 0 16px;
-}
-.progress-track {
-  height: 10px;
-  border-radius: 6px;
-  background: rgba(255, 255, 255, 0.1);
-  overflow: hidden;
-}
-.progress-fill {
-  height: 100%;
-  border-radius: 6px;
-  transition: width 0.4s ease;
-}
-.progress-fill.score {
-  background: linear-gradient(90deg, #22d3ee, #818cf8);
-  box-shadow: 0 0 14px rgba(34, 211, 238, 0.6);
-}
-.progress-fill.load {
-  background: linear-gradient(90deg, #34d399, #22d3ee);
-  box-shadow: 0 0 14px rgba(52, 211, 153, 0.5);
-}
-.stat-hint {
-  font-size: 1.1rem;
-  color: rgba(230, 246, 251, 0.65);
-  margin-top: 12px;
-}
-
-.game-tips {
-  padding: 28px 32px;
-  border-radius: 20px;
-  background: rgba(15, 23, 42, 0.4);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-}
-.game-tips h3 {
-  font-size: 1.4rem;
-  color: #22d3ee;
-  margin: 0 0 14px;
-}
-.game-tips ul {
-  margin: 0;
-  padding-left: 28px;
-  font-size: 1.2rem;
-  line-height: 2;
-  color: rgba(230, 246, 251, 0.7);
-}
-
-
 /* 进入按钮 */
 .enter-btn {
-  margin-top: 8px;
-  padding: 24px 36px;
+  padding: 28px 48px;
   border-radius: 16px;
   border: 1px solid rgba(255, 255, 255, 0.12);
   background: rgba(255, 255, 255, 0.05);
-  color: rgba(230, 246, 251, 0.45);
-  font-size: 1.4rem;
+  color: rgba(230, 246, 251, 0.5);
+  font-size: 1.5rem;
   font-weight: 600;
   cursor: not-allowed;
   transition: all 0.3s ease;
+  white-space: nowrap;
 }
 .enter-btn.ready {
   background: linear-gradient(90deg, #22d3ee, #818cf8);

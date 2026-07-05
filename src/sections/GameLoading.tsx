@@ -449,7 +449,7 @@ export default function GameLoading({ onComplete }: GameLoadingProps) {
         <div className="game-loading-inner">
           <header className="game-header">
             <h1>欢迎来到我的空间</h1>
-            <p>玩个三消小游戏，资源正在后台加载 — 达成 {TARGET_SCORE} 分即可进入</p>
+            <p>用一步消除所有的棋子</p>
           </header>
 
           <div className="game-body">
@@ -515,50 +515,12 @@ export default function GameLoading({ onComplete }: GameLoadingProps) {
 
             {/* 信息面板 */}
             <aside className="game-side">
-              <div className="stat-card">
-                <div className="stat-label">当前得分</div>
-                <div className="stat-value">{score}</div>
-                <div className="progress-track">
-                  <div className="progress-fill score" style={{ width: `${scorePct}%` }} />
-                </div>
-                <div className="stat-hint">
-                  {scoreReady ? '✓ 目标达成' : `还需 ${TARGET_SCORE - score} 分`}
-                </div>
-              </div>
-
-              <div className="stat-card">
-                <div className="stat-label">资源加载</div>
-                <div className="stat-value">{Math.round(loadProgress * 100)}%</div>
-                <div className="progress-track">
-                  <div className="progress-fill load" style={{ width: `${loadProgress * 100}%` }} />
-                </div>
-                <div className="stat-hint">
-                  {resReady ? '✓ 资源就绪' : '加载中…'}
-                </div>
-              </div>
-
-              <div className="game-tips">
-                <h3>玩法</h3>
-                <ul>
-                  <li>按住一个方块拖到相邻方块，松开互换位置</li>
-                  <li>三个及以上同色连线即可消除</li>
-                  <li>消除后上方方块下落，顶部补齐新方块</li>
-                  <li>连锁消除得分翻倍</li>
-                </ul>
-              </div>
-
               <button
                 className={`enter-btn${canEnter ? ' ready' : ''}`}
                 disabled={!canEnter}
                 onClick={onComplete}
               >
-                {canEnter
-                  ? '进入个人空间 →'
-                  : scoreReady
-                    ? '资源加载中…'
-                    : resReady
-                      ? '继续消除达成目标'
-                      : '努力消除中…'}
+                {canEnter ? '进入个人空间 →' : '消除达成目标'}
               </button>
             </aside>
           </div>
