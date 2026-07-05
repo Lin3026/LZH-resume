@@ -75,16 +75,15 @@
 .board-wrap {
   position: relative;
 }
+/* BorderGlow 内层容器：不裁剪浮动得分动画 */
+.board-glow .border-glow-inner {
+  overflow: visible;
+}
+/* 棋盘：仅作为宝石定位容器，背景/边框由 BorderGlow 提供 */
 .game-board {
   position: relative;
   width: 640px;
   height: 640px;
-  border-radius: 24px;
-  background: rgba(15, 23, 42, 0.55);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.06);
 }
 
 /* 单个方块：绝对定位，由 --r/--c 驱动（4×4 每格占 25%） */

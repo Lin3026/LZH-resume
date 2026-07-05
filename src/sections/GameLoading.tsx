@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import Lightfall from '../components/Lightfall';
+import BorderGlow from '../components/BorderGlow';
 import './GameLoading.css';
 
 // 首页关键图片资源 — import 拿到构建后 URL，用于后台预加载
@@ -454,43 +455,57 @@ export default function GameLoading({ onComplete }: GameLoadingProps) {
           <div className="game-body">
             {/* 棋盘 */}
             <div className="board-wrap">
-              <div
-                className="game-board"
-                role="grid"
-                aria-label="三消游戏棋盘"
+              <BorderGlow
+                className="board-glow"
+                edgeSensitivity={25}
+                glowColor="190 85 65"
+                backgroundColor="#0a1428"
+                borderRadius={24}
+                glowRadius={35}
+                glowIntensity={0.8}
+                coneSpread={20}
+                animated
+                colors={['#22d3ee', '#818cf8', '#6366f1']}
+                fillOpacity={0.4}
               >
-                {board.map((row, r) =>
-                  row.map((gem, c) => {
-                    if (!gem) return null;
-                    const isSelected = selected?.r === r && selected?.c === c;
-                    const isRemoving = removingRef.current.has(gem.id);
-                    const isNew = newGemIdsRef.current.has(gem.id);
-                    const isDragTarget =
-                      !!dragTarget && dragTarget.r === r && dragTarget.c === c && !isSelected;
-                    const asset = GEM_ASSETS[gem.type];
-                    return (
-                      <button
-                        key={gem.id}
-                        data-cell
-                        data-r={r}
-                        data-c={c}
-                        draggable={false}
-                        onDragStart={(e) => e.preventDefault()}
-                        className={`gem gem-${gem.type}${isSelected ? ' selected' : ''}${isRemoving ? ' removing' : ''}${isNew ? ' entering' : ''}${isDragTarget ? ' drag-target' : ''}${asset ? ' has-asset' : ''}`}
-                        style={{
-                          ['--r' as string]: r,
-                          ['--c' as string]: c,
-                          ...(asset ? { backgroundImage: `url(${asset})` } : {}),
-                        }}
-                        onMouseDown={(e) => handleCellMouseDown(e, r, c)}
-                        aria-label={`方块 行${r + 1}列${c + 1}`}
-                      >
-                        {asset ? null : <span className="gem-inner" />}
-                      </button>
-                    );
-                  }),
-                )}
-              </div>
+                <div
+                  className="game-board"
+                  role="grid"
+                  aria-label="三消游戏棋盘"
+                >
+                  {board.map((row, r) =>
+                    row.map((gem, c) => {
+                      if (!gem) return null;
+                      const isSelected = selected?.r === r && selected?.c === c;
+                      const isRemoving = removingRef.current.has(gem.id);
+                      const isNew = newGemIdsRef.current.has(gem.id);
+                      const isDragTarget =
+                        !!dragTarget && dragTarget.r === r && dragTarget.c === c && !isSelected;
+                      const asset = GEM_ASSETS[gem.type];
+                      return (
+                        <button
+                          key={gem.id}
+                          data-cell
+                          data-r={r}
+                          data-c={c}
+                          draggable={false}
+                          onDragStart={(e) => e.preventDefault()}
+                          className={`gem gem-${gem.type}${isSelected ? ' selected' : ''}${isRemoving ? ' removing' : ''}${isNew ? ' entering' : ''}${isDragTarget ? ' drag-target' : ''}${asset ? ' has-asset' : ''}`}
+                          style={{
+                            ['--r' as string]: r,
+                            ['--c' as string]: c,
+                            ...(asset ? { backgroundImage: `url(${asset})` } : {}),
+                          }}
+                          onMouseDown={(e) => handleCellMouseDown(e, r, c)}
+                          aria-label={`方块 行${r + 1}列${c + 1}`}
+                        >
+                          {asset ? null : <span className="gem-inner" />}
+                        </button>
+                      );
+                    }),
+                  )}
+                </div>
+              </BorderGlow>
               {floatScore && (
                 <div key={floatScore.id} className="float-score">
                   +{floatScore.value}
