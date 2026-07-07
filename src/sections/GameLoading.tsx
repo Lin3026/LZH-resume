@@ -43,27 +43,26 @@ const newGem = (): Gem => {
   return { id: gemIdCounter++, type };
 };
 
-/** 生成棋盘 — 使用配置序列中的颜色 */
+/** 开局固定布局（0=红 1=黄 2=绿）
+ *  一步交换「第2行第1列 ↔ 第2行第2列」即可连锁清空全 16 格（不补新子）。
+ *  验证：交换后第1列4连 + 第2行3连同时消除，重力落下后第2/3/4列各3连清空全盘。 */
+const INITIAL_LAYOUT: number[][] = [
+  [1, 2, 1, 2],
+  [0, 1, 0, 0],
+  [1, 2, 1, 2],
+  [1, 2, 1, 2],
+];
+
+/** 生成棋盘 — 使用固定开局布局（保证一步可全清） */
 function createInitialBoard(): Board {
-  // 重置序列索引，保证每次新游戏从序列开头开始
+  // 重置序列索引，保证消除后补充新子从序列开头开始
   resetGemSequence();
-  
+
   const board: Board = [];
   for (let r = 0; r < BOARD_SIZE; r++) {
     board[r] = [];
     for (let c = 0; c < BOARD_SIZE; c++) {
-      let type: number;
-      let tries = 0;
-      do {
-        // 从配置序列中读取下一个颜色
-        type = nextGemType();
-        tries++;
-      } while (
-        tries < 20 &&
-        ((c >= 2 && board[r][c - 1]?.type === type && board[r][c - 2]?.type === type) ||
-          (r >= 2 && board[r - 1][c]?.type === type && board[r - 2][c]?.type === type))
-      );
-      board[r][c] = { id: gemIdCounter++, type };
+      board[r][c] = { id: gemIdCounter++, type: INITIAL_LAYOUT[r][c] };
     }
   }
   return board;
