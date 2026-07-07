@@ -63,10 +63,9 @@
   margin: 0;
 }
 
-/* 主体：棋盘 + 侧栏 */
+/* 主体：棋盘（居中） */
 .game-body {
   display: flex;
-  gap: 80px;
   align-items: center;
   justify-content: center;
 }
@@ -226,18 +225,13 @@
   100% { opacity: 0; transform: translate(-50%, -140%) scale(1); }
 }
 
-/* ===== 侧栏：仅居中放置进入按钮 ===== */
-.game-side {
-  width: 300px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 24px;
-}
-
-/* 进入按钮 */
+/* ===== 进入按钮：绝对定位靠右 ===== */
 .enter-btn {
+  position: fixed;
+  right: 60px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
   padding: 28px 48px;
   border-radius: 16px;
   border: 1px solid rgba(255, 255, 255, 0.12);
@@ -258,7 +252,7 @@
   animation: pulseGlow 2s ease-in-out infinite;
 }
 .enter-btn.ready:hover {
-  transform: translateY(-3px);
+  transform: translateY(-50%) translateX(-4px);
   box-shadow: 0 16px 50px rgba(34, 211, 238, 0.6);
 }
 @keyframes pulseGlow {

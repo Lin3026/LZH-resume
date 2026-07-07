@@ -512,18 +512,16 @@ export default function GameLoading({ onComplete }: GameLoadingProps) {
                 </div>
               )}
             </div>
-
-            {/* 信息面板 */}
-            <aside className="game-side">
-              <button
-                className={`enter-btn${canEnter ? ' ready' : ''}`}
-                disabled={!canEnter}
-                onClick={onComplete}
-              >
-                {canEnter ? '进入个人空间 →' : '消除达成目标'}
-              </button>
-            </aside>
           </div>
+
+          {/* 按钮：独立靠右 */}
+          <button
+            className={`enter-btn${canEnter ? ' ready' : ''}`}
+            disabled={!canEnter}
+            onClick={onComplete}
+          >
+            {canEnter ? '进入个人空间 →' : '消除达成目标'}
+          </button>
         </div>
       </div>
     </div>
