@@ -15,7 +15,6 @@ const RESOURCES = [oceanBg, detailBg, navbarBg];
 
 const BOARD_SIZE = 4;
 const GEM_TYPES = 3; // 红黄绿三色
-const TARGET_SCORE = 100;
 
 /* ===== 美术资源预留位 =====
  * 后续把美术切图放到 src/assets/gems/ 下，import 进来填入此数组即可自动替换占位渐变。
@@ -102,8 +101,8 @@ function findMatches(board: Board): Set<string> {
   return matched;
 }
 
-/** 重力下落 + 顶部补充新宝石（原地修改 board），返回新创建宝石的 id 集合 */
-function applyGravityAndRefill(board: Board): Set<number> {
+/** 重力下落（原地修改 board）。refill=true 时顶部补新宝石，false 时顶部留空（不补子）。返回新创建宝石的 id 集合 */
+function applyGravityAndRefill(board: Board, refill: boolean): Set<number> {
   const newIds = new Set<number>();
   for (let c = 0; c < BOARD_SIZE; c++) {
     // 从底往上收集存活宝石（保持原对象引用 → 颜色不变，仅位置改变触发下落动画）
@@ -111,15 +110,17 @@ function applyGravityAndRefill(board: Board): Set<number> {
     for (let r = BOARD_SIZE - 1; r >= 0; r--) {
       if (board[r][c]) survivors.push(board[r][c]!);
     }
-    // 从底往上回填：存活宝石下沉，顶部空位补新宝石
+    // 从底往上回填：存活宝石下沉，顶部空位补新宝石或留空
     for (let r = BOARD_SIZE - 1; r >= 0; r--) {
       const idx = BOARD_SIZE - 1 - r;
       if (idx < survivors.length) {
         board[r][c] = survivors[idx]; // 存活宝石：原色下落
-      } else {
+      } else if (refill) {
         const g = newGem(); // 固定序列循环取色（非随机）
         newIds.add(g.id);
         board[r][c] = g;
+      } else {
+        board[r][c] = null; // 不补子：顶部留空
       }
     }
   }
@@ -145,9 +146,8 @@ export default function GameLoading({ onComplete }: GameLoadingProps) {
   const [selected, setSelected] = useState<Pos | null>(null);
   const [dragTarget, setDragTarget] = useState<Pos | null>(null);
   const [score, setScore] = useState(0);
-  const [loadProgress, setLoadProgress] = useState(0);
   const [floatScore, setFloatScore] = useState<{ id: number; value: number } | null>(null);
-  const [phase, setPhase] = useState<'playing' | 'failed'>('playing');
+  const [phase, setPhase] = useState<'playing' | 'failed' | 'won'>('playing');
   const floatIdRef = useRef(0);
   
   // 每次进入游戏页，重置颜色序列
@@ -155,17 +155,10 @@ export default function GameLoading({ onComplete }: GameLoadingProps) {
     resetGemSequence(); 
   }, []);
   
-  // 后台预加载首页资源
+  // 后台预加载首页资源（静默预载，不展示进度）
   useEffect(() => {
-    let loaded = 0;
     RESOURCES.forEach((url) => {
       const img = new Image();
-      const done = () => {
-        loaded++;
-        setLoadProgress(loaded / RESOURCES.length);
-      };
-      img.onload = done;
-      img.onerror = done;
       img.src = url;
     });
   }, []);
@@ -178,8 +171,8 @@ export default function GameLoading({ onComplete }: GameLoadingProps) {
     }
   }, [floatScore]);
 
-  /** 消除链：循环 消除→下落→再检查，直到无匹配 */
-  const processChain = useCallback(async () => {
+  /** 消除链：循环 消除→下落→再检查，直到无匹配。refill=false 时下落不补新子（用于一步清盘） */
+  const processChain = useCallback(async (refill: boolean) => {
     const board = boardRef.current;
     let chain = 0;
     while (true) {
@@ -208,8 +201,8 @@ export default function GameLoading({ onComplete }: GameLoadingProps) {
       });
       removingRef.current.clear();
 
-      // 下落 + 补充：存活宝石保持原色下落，新宝石标记后从顶部滑入
-      const newIds = applyGravityAndRefill(board);
+      // 下落：存活宝石保持原色下落；refill 时顶部补新宝石，否则留空
+      const newIds = applyGravityAndRefill(board, refill);
       newGemIdsRef.current = newIds;
       render();
       await sleep(400); // 等下落 + 新宝石滑入动画完成
@@ -254,12 +247,14 @@ export default function GameLoading({ onComplete }: GameLoadingProps) {
         [board[r1][c1], board[r2][c2]] = [board[r2][c2], board[r1][c1]];
         render();
         await sleep(160);
+      } else if (isWin) {
+        // 正确解：不补子，连锁清空全 16 格 → 成功弹窗
+        await processChain(false);
+        setPhase('won');
       } else {
-        await processChain();
-        // 走错一步（产生了消除但非正确解）→ 失败
-        if (!isWin) {
-          setPhase('failed');
-        }
+        // 走错一步（产生了消除但非正确解）→ 失败弹窗
+        await processChain(true);
+        setPhase('failed');
       }
       isProcessingRef.current = false;
     },
@@ -440,10 +435,6 @@ export default function GameLoading({ onComplete }: GameLoadingProps) {
   }, [doSwap]);
 
   const board = boardRef.current;
-  const scoreReady = score >= TARGET_SCORE;
-  const resReady = loadProgress >= 1;
-  const canEnter = scoreReady && resReady;
-  const scorePct = Math.min(100, (score / TARGET_SCORE) * 100);
 
   return (
     <div className="game-loading-viewport">
@@ -536,15 +527,6 @@ export default function GameLoading({ onComplete }: GameLoadingProps) {
               )}
             </div>
           </div>
-
-          {/* 按钮：独立靠右 */}
-          <button
-            className={`enter-btn${canEnter ? ' ready' : ''}`}
-            disabled={!canEnter}
-            onClick={onComplete}
-          >
-            {canEnter ? '进入个人空间 →' : '消除达成目标'}
-          </button>
         </div>
       </div>
 
@@ -562,6 +544,26 @@ export default function GameLoading({ onComplete }: GameLoadingProps) {
             <p>这一步走错了，棋盘已复原，再来一次吧！</p>
             <button className="fail-btn" autoFocus onClick={resetGame}>
               重新挑战
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* 成功弹窗：一步清盘后弹出，进入按钮在此 */}
+      {phase === 'won' && (
+        <div
+          className="win-overlay"
+          role="alertdialog"
+          aria-modal="true"
+          aria-label="挑战成功"
+        >
+          <div className="win-modal">
+            <div className="win-icon">✓</div>
+            <h2>挑战成功</h2>
+            <p>一步清盘，全部棋子已消除！</p>
+            <p className="win-score">最终得分 {score}</p>
+            <button className="win-btn" autoFocus onClick={onComplete}>
+              进入个人空间 →
             </button>
           </div>
         </div>
