@@ -147,6 +147,7 @@ export default function GameLoading({ onComplete }: GameLoadingProps) {
   const [score, setScore] = useState(0);
   const [loadProgress, setLoadProgress] = useState(0);
   const [floatScore, setFloatScore] = useState<{ id: number; value: number } | null>(null);
+  const [phase, setPhase] = useState<'playing' | 'failed'>('playing');
   const floatIdRef = useRef(0);
   
   // 每次进入游戏页，重置颜色序列
@@ -217,11 +218,30 @@ export default function GameLoading({ onComplete }: GameLoadingProps) {
     newGemIdsRef.current = new Set();
   }, [render]);
 
+  /** 复原棋盘到固定开局 + 分数清零（失败后重来） */
+  const resetGame = useCallback(() => {
+    boardRef.current = createInitialBoard();
+    removingRef.current = new Set();
+    newGemIdsRef.current = new Set();
+    setScore(0);
+    setSelected(null);
+    setDragTarget(null);
+    setPhase('playing');
+    render();
+  }, [render]);
+
+  /** 正确解：交换「第2行第1列 ↔ 第2行第2列」（红子右移一格） */
+  const isWinningSwap = (r1: number, c1: number, r2: number, c2: number) =>
+    (r1 === 1 && c1 === 0 && r2 === 1 && c2 === 1) ||
+    (r1 === 1 && c1 === 1 && r2 === 1 && c2 === 0);
+
   const doSwap = useCallback(
     async (r1: number, c1: number, r2: number, c2: number) => {
       if (isProcessingRef.current) return;
       isProcessingRef.current = true;
       const board = boardRef.current;
+
+      const isWin = isWinningSwap(r1, c1, r2, c2);
 
       // 交换
       [board[r1][c1], board[r2][c2]] = [board[r2][c2], board[r1][c1]];
@@ -236,6 +256,10 @@ export default function GameLoading({ onComplete }: GameLoadingProps) {
         await sleep(160);
       } else {
         await processChain();
+        // 走错一步（产生了消除但非正确解）→ 失败
+        if (!isWin) {
+          setPhase('failed');
+        }
       }
       isProcessingRef.current = false;
     },
@@ -266,7 +290,7 @@ export default function GameLoading({ onComplete }: GameLoadingProps) {
   };
 
   const handleCellMouseDown = (e: React.MouseEvent, r: number, c: number) => {
-    if (isProcessingRef.current) return;
+    if (isProcessingRef.current || phase !== 'playing') return;
     if (!boardRef.current[r][c]) return;
     e.preventDefault();
     const gemEl = e.currentTarget as HTMLElement;
@@ -523,6 +547,25 @@ export default function GameLoading({ onComplete }: GameLoadingProps) {
           </button>
         </div>
       </div>
+
+      {/* 失败弹窗：走错一步后弹出，棋盘复原 */}
+      {phase === 'failed' && (
+        <div
+          className="fail-overlay"
+          role="alertdialog"
+          aria-modal="true"
+          aria-label="挑战失败"
+        >
+          <div className="fail-modal">
+            <div className="fail-icon">✕</div>
+            <h2>挑战失败</h2>
+            <p>这一步走错了，棋盘已复原，再来一次吧！</p>
+            <button className="fail-btn" autoFocus onClick={resetGame}>
+              重新挑战
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -259,3 +259,82 @@
   0%, 100% { box-shadow: 0 12px 40px rgba(34, 211, 238, 0.45); }
   50% { box-shadow: 0 12px 50px rgba(129, 140, 248, 0.6); }
 }
+
+/* ===== 失败弹窗 ===== */
+.fail-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(5, 13, 26, 0.78);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  animation: failFade 0.3s ease forwards;
+}
+@keyframes failFade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.fail-modal {
+  width: min(90vw, 440px);
+  padding: 48px 40px 40px;
+  border-radius: 24px;
+  text-align: center;
+  background: linear-gradient(160deg, #0c1c30, #0a1428);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.6);
+  animation: failPop 0.4s cubic-bezier(0.34, 1.3, 0.64, 1) forwards;
+}
+@keyframes failPop {
+  from { opacity: 0; transform: translateY(20px) scale(0.92); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+.fail-icon {
+  width: 72px;
+  height: 72px;
+  margin: 0 auto 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.4rem;
+  font-weight: 800;
+  color: #fff;
+  background: linear-gradient(135deg, #f87171, #ef4444);
+  box-shadow: 0 8px 28px rgba(239, 68, 68, 0.5);
+}
+.fail-modal h2 {
+  font-size: 2rem;
+  font-weight: 800;
+  margin: 0 0 12px;
+  color: #e6f6fb;
+}
+.fail-modal p {
+  font-size: 1.15rem;
+  line-height: 1.7;
+  color: rgba(230, 246, 251, 0.65);
+  margin: 0 0 30px;
+}
+.fail-btn {
+  width: 100%;
+  padding: 18px 32px;
+  border-radius: 14px;
+  border: none;
+  background: linear-gradient(90deg, #22d3ee, #818cf8);
+  color: #061521;
+  font-size: 1.3rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 12px 40px rgba(34, 211, 238, 0.4);
+}
+.fail-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 50px rgba(34, 211, 238, 0.6);
+}
+.fail-btn:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: 3px;
+}
