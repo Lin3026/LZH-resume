@@ -70,7 +70,7 @@
   justify-content: center;
 }
 
-/* ===== 棋盘 4×4 ===== */
+/* ===== 棋盘 5×5 ===== */
 .board-wrap {
   position: relative;
 }
@@ -78,20 +78,20 @@
 .board-glow .border-glow-inner {
   overflow: visible;
 }
-/* 棋盘：仅作为宝石定位容器，背景/边框由 BorderGlow 提供 */
+/* 棋盘：仅作为宝石定位容器，背景/边框由 BorderGlow 提供；响应式正方形 */
 .game-board {
   position: relative;
-  width: 640px;
-  height: 640px;
+  width: min(640px, 86vw);
+  aspect-ratio: 1 / 1;
 }
 
-/* 单个方块：绝对定位，由 --r/--c 驱动（4×4 每格占 25%） */
+/* 单个方块：绝对定位，由 --r/--c 驱动（5×5 每格占 20%） */
 .gem {
   position: absolute;
-  width: 25%;
-  height: 25%;
-  top: calc(var(--r) * 25%);
-  left: calc(var(--c) * 25%);
+  width: 20%;
+  height: 20%;
+  top: calc(var(--r) * 20%);
+  left: calc(var(--c) * 20%);
   padding: 0;
   border: none;
   background: none;
@@ -128,10 +128,11 @@
     0 4px 10px rgba(0, 0, 0, 0.3);
 }
 
-/* 三色方块占位 — 线性渐变方格（红/黄/绿，后续替换为美术切图） */
+/* 四色方块占位 — 线性渐变方格（红/黄/绿/紫，后续替换为美术切图） */
 .gem-0 .gem-inner { background: linear-gradient(135deg, #fecaca, #ef4444 50%, #991b1b); } /* 红 */
 .gem-1 .gem-inner { background: linear-gradient(135deg, #fef3c7, #fbbf24 50%, #b45309); } /* 黄 */
 .gem-2 .gem-inner { background: linear-gradient(135deg, #bbf7d0, #22c55e 50%, #15803d); } /* 绿 */
+.gem-3 .gem-inner { background: linear-gradient(135deg, #e9d5ff, #a855f7 50%, #6b21a8); } /* 紫 */
 
 /* 有美术资源时：图片直接铺满方块，隐藏占位 */
 .gem.has-asset {

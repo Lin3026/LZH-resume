@@ -13,8 +13,8 @@ import { nextGemType, resetGemSequence } from '../config/gemSequence';
 
 const RESOURCES = [oceanBg, detailBg, navbarBg];
 
-const BOARD_SIZE = 4;
-const GEM_TYPES = 3; // 红黄绿三色
+const BOARD_SIZE = 5;
+const GEM_TYPES = 4; // 红黄绿紫四色
 
 /* ===== 美术资源预留位 =====
  * 后续把美术切图放到 src/assets/gems/ 下，import 进来填入此数组即可自动替换占位渐变。
@@ -23,9 +23,9 @@ const GEM_TYPES = 3; // 红黄绿三色
  * 示例：
  *   import gemAsset0 from '../assets/gems/tile-cyan.png';
  *   import gemAsset1 from '../assets/gems/tile-indigo.png';
- *   const GEM_ASSETS = [gemAsset0, gemAsset1, null, null];
+ *   const GEM_ASSETS = [gemAsset0, gemAsset1, null, null, null];
  */
-const GEM_ASSETS: (string | null)[] = [null, null, null];
+const GEM_ASSETS: (string | null)[] = [null, null, null, null];
 
 const sleep = (ms: number) => new Promise<void>((r) => setTimeout(r, ms));
 
@@ -42,15 +42,21 @@ const newGem = (): Gem => {
   return { id: gemIdCounter++, type };
 };
 
-/** 开局固定布局（0=红 1=黄 2=绿）
- *  一步交换「第2行第1列 ↔ 第2行第2列」即可连锁清空全 16 格（不补新子）。
- *  验证：交换后第1列4连 + 第2行3连同时消除，重力落下后第2/3/4列各3连清空全盘。 */
+/** 开局固定布局（0=红 1=黄 2=绿 3=紫）— 5×5 四色
+ *  胜利目标：一步交换「第3行第2列 ↔ 第3行第3列」(坐标 (2,1)↔(2,2)，第3行中间两颗水平互换)，
+ *  触发连锁消除 21/25 颗（不补新子），剩余 <=5 颗即视为挑战成功（= 清空 ≥80%）。
+ *  其余 9 个会产生局部消除的交换均为诱饵步（清不达标）→ 走错即失败弹窗。
+ *  模拟器全扫描验证：安全步（无匹配可重试）若干 / 失败诱饵步 9 / 一步清掉 >=20 的交换 1（唯一）。 */
 const INITIAL_LAYOUT: number[][] = [
-  [1, 2, 1, 2],
-  [0, 1, 0, 0],
-  [1, 2, 1, 2],
-  [1, 2, 1, 2],
+  [3, 2, 1, 3, 1],
+  [2, 1, 2, 0, 1],
+  [0, 3, 0, 3, 3],
+  [2, 0, 2, 0, 1],
+  [1, 0, 2, 0, 1],
 ];
+
+/** 胜利阈值：25 格中清掉 >=20 颗（剩余 <=5）即视为挑战成功 */
+const WIN_REMAINING = 5;
 
 /** 生成棋盘 — 使用固定开局布局（保证一步可全清） */
 function createInitialBoard(): Board {
@@ -223,18 +229,18 @@ export default function GameLoading({ onComplete }: GameLoadingProps) {
     render();
   }, [render]);
 
-  /** 正确解：交换「第2行第1列 ↔ 第2行第2列」（红子右移一格） */
-  const isWinningSwap = (r1: number, c1: number, r2: number, c2: number) =>
-    (r1 === 1 && c1 === 0 && r2 === 1 && c2 === 1) ||
-    (r1 === 1 && c1 === 1 && r2 === 1 && c2 === 0);
+  /** 棋盘剩余棋子是否 <= 胜利阈值（清掉 >=80% 即视为挑战成功） */
+  const isClearedEnough = (b: Board): boolean => {
+    let remaining = 0;
+    for (const row of b) for (const g of row) if (g) remaining++;
+    return remaining <= WIN_REMAINING;
+  };
 
   const doSwap = useCallback(
     async (r1: number, c1: number, r2: number, c2: number) => {
       if (isProcessingRef.current) return;
       isProcessingRef.current = true;
       const board = boardRef.current;
-
-      const isWin = isWinningSwap(r1, c1, r2, c2);
 
       // 交换
       [board[r1][c1], board[r2][c2]] = [board[r2][c2], board[r1][c1]];
@@ -243,18 +249,20 @@ export default function GameLoading({ onComplete }: GameLoadingProps) {
 
       const matches = findMatches(board);
       if (matches.size === 0) {
-        // 无匹配，换回
+        // 无匹配，换回（安全重试）
         [board[r1][c1], board[r2][c2]] = [board[r2][c2], board[r1][c1]];
         render();
         await sleep(160);
-      } else if (isWin) {
-        // 正确解：不补子，连锁清空全 16 格 → 成功弹窗
-        await processChain(false);
-        setPhase('won');
       } else {
-        // 走错一步（产生了消除但非正确解）→ 失败弹窗
-        await processChain(true);
-        setPhase('failed');
+        // 有匹配：不补子跑连锁（落子不补新子）
+        await processChain(false);
+        // 胜利判定基于「棋盘实际剩余棋子数」，而非写死的交换坐标——
+        // 清掉 >=20/25 颗（剩余 <=5）即算挑战成功，否则视为走错一步
+        if (isClearedEnough(board)) {
+          setPhase('won');
+        } else {
+          setPhase('failed');
+        }
       }
       isProcessingRef.current = false;
     },
@@ -462,7 +470,7 @@ export default function GameLoading({ onComplete }: GameLoadingProps) {
       <div className="game-loading">
         <div className="game-loading-inner">
           <header className="game-header">
-            <h1>用一步消除所有的棋子</h1>
+            <h1>用一步消除大部分棋子</h1>
             <p>欢迎来到我的空间</p>
           </header>
 
@@ -549,7 +557,7 @@ export default function GameLoading({ onComplete }: GameLoadingProps) {
         </div>
       )}
 
-      {/* 成功弹窗：一步清盘后弹出，进入按钮在此 */}
+      {/* 成功弹窗：一步清掉 >=80% 棋子后弹出，进入按钮在此 */}
       {phase === 'won' && (
         <div
           className="win-overlay"
@@ -560,7 +568,10 @@ export default function GameLoading({ onComplete }: GameLoadingProps) {
           <div className="win-modal">
             <div className="win-icon">✓</div>
             <h2>挑战成功</h2>
-            <p>一步清盘，全部棋子已消除！</p>
+            <p>
+              一步消除，已清空 {BOARD_SIZE * BOARD_SIZE - board.flat().filter((g) => g !== null).length}/
+              {BOARD_SIZE * BOARD_SIZE} 颗棋子！
+            </p>
             <p className="win-score">最终得分 {score}</p>
             <button className="win-btn" autoFocus onClick={onComplete}>
               进入个人空间 →
