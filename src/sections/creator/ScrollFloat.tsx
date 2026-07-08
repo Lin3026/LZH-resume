@@ -1,0 +1,98 @@
+import { useEffect, useMemo, useRef, type ReactNode, type RefObject } from 'react';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import './ScrollFloat.css';
+
+gsap.registerPlugin(ScrollTrigger);
+
+interface ScrollFloatProps {
+  children: ReactNode;
+  scrollContainerRef?: RefObject<HTMLElement>;
+  containerClassName?: string;
+  textClassName?: string;
+  animationDuration?: number;
+  ease?: string;
+  scrollStart?: string;
+  scrollEnd?: string;
+  stagger?: number;
+}
+
+/**
+ * ScrollFloat — 来自 React Bits 的逐字滚动浮现组件（转写为 TS strict 版本）。
+ * 子节点若为字符串，会按字符拆分，滚动到视口时逐个上浮（yPercent + scale 动画，scrub 跟随滚动）。
+ */
+const ScrollFloat = ({
+  children,
+  scrollContainerRef,
+  containerClassName = '',
+  textClassName = '',
+  animationDuration = 1,
+  ease = 'back.inOut(2)',
+  scrollStart = 'center bottom+=50%',
+  scrollEnd = 'bottom bottom-=40%',
+  stagger = 0.03,
+}: ScrollFloatProps) => {
+  const containerRef = useRef<HTMLHeadingElement>(null);
+
+  const splitText = useMemo(() => {
+    const text = typeof children === 'string' ? children : '';
+    return text.split('').map((char, index) => (
+      <span className="char" key={index}>
+        {char === ' ' ? ' ' : char}
+      </span>
+    ));
+  }, [children]);
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+
+    const scroller =
+      scrollContainerRef && scrollContainerRef.current
+        ? scrollContainerRef.current
+        : window;
+
+    const charElements = el.querySelectorAll('.char');
+
+    // gsap.context 便于在卸载/严格模式重挂载时整体清理
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        charElements,
+        {
+          willChange: 'opacity, transform',
+          opacity: 0,
+          yPercent: 120,
+          scaleY: 2.3,
+          scaleX: 0.7,
+          transformOrigin: '50% 0%',
+        },
+        {
+          duration: animationDuration,
+          ease: ease,
+          opacity: 1,
+          yPercent: 0,
+          scaleY: 1,
+          scaleX: 1,
+          stagger: stagger,
+          scrollTrigger: {
+            trigger: el,
+            scroller,
+            start: scrollStart,
+            end: scrollEnd,
+            scrub: true,
+          },
+        },
+      );
+    }, el);
+
+    return () => ctx.revert();
+  }, [scrollContainerRef, animationDuration, ease, scrollStart, scrollEnd, stagger]);
+
+  return (
+    <h2 ref={containerRef} className={`scroll-float ${containerClassName}`}>
+      <span className={`scroll-float-text ${textClassName}`}>{splitText}</span>
+    </h2>
+  );
+};
+
+export default ScrollFloat;

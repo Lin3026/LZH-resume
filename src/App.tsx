@@ -12,9 +12,11 @@ import './App.css';
 const MusicShare = lazy(() => import('./sections/MusicShare'));
 // 互动加载页（三消小游戏 + 资源预加载）懒加载
 const GameLoading = lazy(() => import('./sections/GameLoading'));
+// 老家分享页（3D Creator 作品集）懒加载
+const CreatorPortfolio = lazy(() => import('./sections/creator/CreatorPortfolio'));
 
 /** 页面视图 */
-type PageView = 'home' | 'music' | 'game';
+type PageView = 'home' | 'music' | 'game' | 'creator';
 
 export default function App() {
   const [cursorPos, setCursorPos] = useState({ x: -100, y: -100 });
@@ -46,7 +48,7 @@ export default function App() {
     { label: '个人空间', page: 'home' as PageView },
     { label: '音乐分享', page: 'music' as PageView },
     { label: '互动入口', page: 'game' as PageView },
-    { label: '老家分享', page: null }, // 暂未实现
+    { label: '老家分享', page: 'creator' as PageView },
   ];
 
   const handleTopNavClick = (page: PageView | null) => {
@@ -87,7 +89,8 @@ export default function App() {
 
   return (
     <div className={`min-h-screen text-white bg-slate-950 ${showCustomCursor && currentPage === 'home' ? 'cursor-hidden' : ''}`}>
-      {/* 顶部固定导航栏 — 半透明，常驻不随滚动隐藏 */}
+      {/* 顶部固定导航栏 — 半透明，常驻不随滚动隐藏（老家分享页独立导航，隐藏全局栏） */}
+      {currentPage !== 'creator' && (
       <header
         className="fixed top-0 left-0 right-0 z-[60] flex items-center justify-center gap-8 md:gap-16"
         style={{
@@ -121,6 +124,7 @@ export default function App() {
           );
         })}
       </header>
+      )}
 
       {/* 左侧导航栏 — 仅在个人空间页面显示
           - PC端：始终展开，固定宽度，主内容区留出对应左边距
@@ -181,6 +185,15 @@ export default function App() {
           </div>
         }>
           <GameLoading onComplete={() => setCurrentPage('home')} />
+        </Suspense>
+      )}
+      {currentPage === 'creator' && (
+        <Suspense fallback={
+          <div className="flex items-center justify-center min-h-[60vh]">
+            <div className="w-8 h-8 border-2 border-cyan-400 border-t-transparent rounded-full animate-spin" />
+          </div>
+        }>
+          <CreatorPortfolio onBack={() => setCurrentPage('home')} />
         </Suspense>
       )}
     </div>

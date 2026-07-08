@@ -14,7 +14,6 @@ import { nextGemType, resetGemSequence } from '../config/gemSequence';
 const RESOURCES = [oceanBg, detailBg, navbarBg];
 
 const BOARD_SIZE = 5;
-const GEM_TYPES = 4; // 红黄绿紫四色
 
 /* ===== 美术资源预留位 =====
  * 后续把美术切图放到 src/assets/gems/ 下，import 进来填入此数组即可自动替换占位渐变。
@@ -132,9 +131,6 @@ function applyGravityAndRefill(board: Board, refill: boolean): Set<number> {
   }
   return newIds;
 }
-
-const isAdjacent = (a: Pos, b: Pos) =>
-  (Math.abs(a.r - b.r) === 1 && a.c === b.c) || (Math.abs(a.c - b.c) === 1 && a.r === b.r);
 
 interface GameLoadingProps {
   onComplete: () => void;
@@ -370,7 +366,6 @@ export default function GameLoading({ onComplete }: GameLoadingProps) {
         }
         // 对面方块反向移动：被拖方块走了 d，对面方块走 -d（最多走满一格 = cellSize）
         if (ds.targetEl) {
-          const reverseD = absD - max; // 从 0 → -max（即从原位移动到被拖方块的位置）
           let targetDx = 0;
           let targetDy = 0;
           if (ds.axis === 'x') {
