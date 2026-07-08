@@ -49,13 +49,33 @@ const MEDIA: { src: string; alt: string; type: 'image' | 'video' }[] = [
     alt: '社交媒体图',
     type: 'image',
   },
-  // ===== 视频（本地占位：public/dome-placeholder.mp4，替换成你自己的视频即可）=====
-  // 注意：这里只放 1 条视频。DomeGallery 会把所有媒体循环铺满整个球面，
-  //   如果放多条相同视频，segments=32 时会产生几十甚至上百个 <video> 元素同时加载 metadata，
-  //   极易导致页面卡顿 / 球面黑屏。想展示多段不同视频就放不同 src 的条目。
+  // ===== 视频（本地：public/dome-*.mp4）=====
+  // DomeGallery 会把所有媒体循环铺满整个球面；每条视频在 segments=24 下
+  //   约出现 2 次，故 5 段视频约产生 10 个 <video> 元素同时加载首帧，属可接受范围。
+  //   若后续再加视频导致卡顿/黑屏，可调小上方的 segments 或减少视频数量。
   {
     src: `${BASE}dome-placeholder.mp4`,
-    alt: '作品视频',
+    alt: '作品视频 01',
+    type: 'video',
+  },
+  {
+    src: `${BASE}dome-video-01.mp4`,
+    alt: '作品视频 02',
+    type: 'video',
+  },
+  {
+    src: `${BASE}dome-video-03.mp4`,
+    alt: '作品视频 03',
+    type: 'video',
+  },
+  {
+    src: `${BASE}dome-video-04.mp4`,
+    alt: '作品视频 04',
+    type: 'video',
+  },
+  {
+    src: `${BASE}dome-video-05.mp4`,
+    alt: '作品视频 05',
     type: 'video',
   },
 ];
