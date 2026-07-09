@@ -31,6 +31,7 @@ const sleep = (ms: number) => new Promise<void>((r) => setTimeout(r, ms));
 type Gem = { id: number; type: number };
 type Board = (Gem | null)[][];
 type Pos = { r: number; c: number };
+type Particle = { id: number; r: number; c: number; color: string; dx: number; dy: number };
 
 let gemIdCounter = 1;
 // 不再需要 gemTypeSeq，使用配置文件中的 nextGemType()
@@ -57,6 +58,45 @@ const INITIAL_LAYOUT: number[][] = [
 
 /** 胜利阈值：36 格中清掉 >=28 颗（剩余 <=8）即视为一步挑战成功（"超过27连消除"） */
 const WIN_REMAINING = 8;
+
+/** 唯一胜利步（0-indexed）：第4列、第4/5行两颗竖直互换 → 一步清 35 颗。
+ *  提示框会高亮圈出这两个格子；若你想改成别的格子，改这里即可。 */
+const WIN_MOVE = { from: { r: 3, c: 3 }, to: { r: 4, c: 3 } };
+
+/** 棋子纯色（与 CSS .gem-{0..3} 对应），用于爆裂粒子配色 */
+const GEM_COLORS = ['#ff4d4f', '#facc15', '#3b9cff', '#2bd96a'];
+
+/** 占位音效：按连锁层级(1..7)递进播放。
+ *  当前用 Web Audio 合成（无需音频文件、无 404）；
+ *  后续替换为真实音频：把 7 个文件放 public/sounds/clear-1.mp3 … clear-7.mp3，
+ *  再让本函数改为 new Audio(BASE_URL + 'sounds/clear-' + level + '.mp3').play()。 */
+let _audioCtx: AudioContext | null = null;
+function playClearSound(level: number) {
+  const l = Math.min(Math.max(level, 1), 7);
+  try {
+    const Ctx =
+      window.AudioContext ||
+      (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
+    if (!Ctx) return;
+    if (!_audioCtx) _audioCtx = new Ctx();
+    const ctx = _audioCtx;
+    if (ctx.state === 'suspended') void ctx.resume();
+    const now = ctx.currentTime;
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    const freq = 330 * Math.pow(2, ((l - 1) / 12) * 2); // 每级升一个全音，递进明显
+    osc.type = 'triangle';
+    osc.frequency.setValueAtTime(freq, now);
+    gain.gain.setValueAtTime(0.0001, now);
+    gain.gain.exponentialRampToValueAtTime(0.16, now + 0.012);
+    gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.26);
+    osc.connect(gain).connect(ctx.destination);
+    osc.start(now);
+    osc.stop(now + 0.28);
+  } catch {
+    /* 占位：忽略音频不可用错误 */
+  }
+}
 
 /** 生成棋盘 — 使用固定开局布局（保证一步可全清） */
 function createInitialBoard(): Board {
@@ -150,14 +190,22 @@ export default function GameLoading({ onComplete }: GameLoadingProps) {
   const [dragTarget, setDragTarget] = useState<Pos | null>(null);
   const [score, setScore] = useState(0);
   const [floatScore, setFloatScore] = useState<{ id: number; value: number } | null>(null);
-  const [phase, setPhase] = useState<'playing' | 'failed' | 'won'>('playing');
+  const [phase, setPhase] = useState<'playing' | 'won'>('playing');
   const floatIdRef = useRef(0);
-  
+
+  // 错误计数（错 3 次后给提示）+ 提示框 / 爆裂粒子 / 轻提示 toast
+  const wrongCountRef = useRef(0);
+  const [wrongCount, setWrongCount] = useState(0);
+  const [showHint, setShowHint] = useState(false);
+  const [particles, setParticles] = useState<Particle[]>([]);
+  const particleIdRef = useRef(0);
+  const [toast, setToast] = useState<string | null>(null);
+
   // 每次进入游戏页，重置颜色序列
-  useEffect(() => { 
-    resetGemSequence(); 
+  useEffect(() => {
+    resetGemSequence();
   }, []);
-  
+
   // 后台预加载首页资源（静默预载，不展示进度）
   useEffect(() => {
     RESOURCES.forEach((url) => {
@@ -174,6 +222,42 @@ export default function GameLoading({ onComplete }: GameLoadingProps) {
     }
   }, [floatScore]);
 
+  // 轻提示 toast 自动消失
+  useEffect(() => {
+    if (toast) {
+      const t = setTimeout(() => setToast(null), 1600);
+      return () => clearTimeout(t);
+    }
+  }, [toast]);
+
+  /** 在即将被清的格子位置生成爆裂粒子（颜色取该格棋子色） */
+  const spawnParticles = useCallback((matches: Set<string>, board: Board) => {
+    const next: Particle[] = [];
+    matches.forEach((key) => {
+      const [r, c] = key.split(',').map(Number);
+      const g = board[r][c];
+      const color = GEM_COLORS[g ? g.type : 0];
+      const count = 7;
+      for (let i = 0; i < count; i++) {
+        const ang = (Math.PI * 2 * i) / count + Math.random() * 0.6;
+        const dist = 16 + Math.random() * 30;
+        next.push({
+          id: ++particleIdRef.current,
+          r,
+          c,
+          color,
+          dx: Math.cos(ang) * dist,
+          dy: Math.sin(ang) * dist,
+        });
+      }
+    });
+    if (next.length) setParticles((prev) => [...prev, ...next]);
+  }, []);
+
+  const removeParticle = useCallback((id: number) => {
+    setParticles((prev) => prev.filter((p) => p.id !== id));
+  }, []);
+
   /** 消除链：循环 消除→下落→再检查，直到无匹配。refill=false 时下落不补新子（用于一步清盘） */
   const processChain = useCallback(async (refill: boolean) => {
     const board = boardRef.current;
@@ -182,6 +266,10 @@ export default function GameLoading({ onComplete }: GameLoadingProps) {
       const matches = findMatches(board);
       if (matches.size === 0) break;
       chain++;
+
+      // 音效（按连锁层级 1..7 递进）+ 爆裂粒子
+      playClearSound(chain);
+      spawnParticles(matches, board);
 
       // 标记移除 → 触发淡出动画
       matches.forEach((key) => {
@@ -212,7 +300,7 @@ export default function GameLoading({ onComplete }: GameLoadingProps) {
     }
     // 连锁结束，清除新宝石标记
     newGemIdsRef.current = new Set();
-  }, [render]);
+  }, [render, spawnParticles]);
 
   /** 复原棋盘到固定开局 + 分数清零（失败后重来） */
   const resetGame = useCallback(() => {
@@ -223,6 +311,8 @@ export default function GameLoading({ onComplete }: GameLoadingProps) {
     setSelected(null);
     setDragTarget(null);
     setPhase('playing');
+    setParticles([]);
+    setToast(null);
     render();
   }, [render]);
 
@@ -257,7 +347,19 @@ export default function GameLoading({ onComplete }: GameLoadingProps) {
         if (isClearedEnough(board)) {
           setPhase('won');
         } else {
-          setPhase('failed');
+          // 走错一步：累计错误次数
+          const n = wrongCountRef.current + 1;
+          wrongCountRef.current = n;
+          setWrongCount(n);
+          if (n >= 3) {
+            // 错满 3 次：复原棋盘并弹出「神之一手」提示，圈出正确一步
+            setShowHint(true);
+            resetGame();
+          } else {
+            // 错 1~2 次：复原重来 + 轻提示
+            setToast(`走错了，再试一次（已错 ${n}/3）`);
+            resetGame();
+          }
         }
       }
       isProcessingRef.current = false;
@@ -508,6 +610,10 @@ export default function GameLoading({ onComplete }: GameLoadingProps) {
                       const isNew = newGemIdsRef.current.has(gem.id);
                       const isDragTarget =
                         !!dragTarget && dragTarget.r === r && dragTarget.c === c && !isSelected;
+                      const isHint =
+                        showHint &&
+                        ((r === WIN_MOVE.from.r && c === WIN_MOVE.from.c) ||
+                          (r === WIN_MOVE.to.r && c === WIN_MOVE.to.c));
                       const asset = GEM_ASSETS[gem.type];
                       return (
                         <button
@@ -517,7 +623,7 @@ export default function GameLoading({ onComplete }: GameLoadingProps) {
                           data-c={c}
                           draggable={false}
                           onDragStart={(e) => e.preventDefault()}
-                          className={`gem gem-${gem.type}${isSelected ? ' selected' : ''}${isRemoving ? ' removing' : ''}${isNew ? ' entering' : ''}${isDragTarget ? ' drag-target' : ''}${asset ? ' has-asset' : ''}`}
+                          className={`gem gem-${gem.type}${isSelected ? ' selected' : ''}${isRemoving ? ' removing' : ''}${isNew ? ' entering' : ''}${isDragTarget ? ' drag-target' : ''}${isHint ? ' hint-ring' : ''}${asset ? ' has-asset' : ''}`}
                           style={{
                             ['--r' as string]: r,
                             ['--c' as string]: c,
@@ -531,6 +637,20 @@ export default function GameLoading({ onComplete }: GameLoadingProps) {
                       );
                     }),
                   )}
+                  {particles.map((p) => (
+                    <span
+                      key={p.id}
+                      className="burst-particle"
+                      onAnimationEnd={() => removeParticle(p.id)}
+                      style={{
+                        left: `calc(${(p.c + 0.5) * 100 / BOARD_SIZE}%)`,
+                        top: `calc(${(p.r + 0.5) * 100 / BOARD_SIZE}%)`,
+                        background: p.color,
+                        ['--dx' as string]: `${p.dx}px`,
+                        ['--dy' as string]: `${p.dy}px`,
+                      }}
+                    />
+                  ))}
                 </div>
               </BorderGlow>
               {floatScore && (
@@ -538,26 +658,50 @@ export default function GameLoading({ onComplete }: GameLoadingProps) {
                   +{floatScore.value}
                 </div>
               )}
+              {toast && (
+                <div className="game-toast" role="status">
+                  {toast}
+                </div>
+              )}
             </div>
           </div>
         </div>
       </div>
 
-      {/* 失败弹窗：走错一步后弹出，棋盘复原 */}
-      {phase === 'failed' && (
+      {/* 提示弹窗：错满 3 次后弹出，并圈出「神之一手」所在的两个方块 */}
+      {showHint && (
         <div
-          className="fail-overlay"
+          className="hint-overlay"
           role="alertdialog"
           aria-modal="true"
-          aria-label="挑战失败"
+          aria-label="神之一手提示"
         >
-          <div className="fail-modal">
-            <div className="fail-icon">✕</div>
-            <h2>挑战失败</h2>
-            <p>这一步走错了，棋盘已复原，再来一次吧！</p>
-            <button className="fail-btn" autoFocus onClick={resetGame}>
-              重新挑战
-            </button>
+          <div className="hint-modal">
+            <div className="hint-icon">💡</div>
+            <h2>神之一手就在这里！</h2>
+            <p>
+              交换高亮圈出的两个方块
+              （第 {WIN_MOVE.from.r + 1} 行第 {WIN_MOVE.from.c + 1} 列
+              {' ↔ '}
+              第 {WIN_MOVE.to.r + 1} 行第 {WIN_MOVE.to.c + 1} 列），
+              一步即可清空棋盘。（你已尝试 {wrongCount} 次）
+            </p>
+            <div className="hint-actions">
+              <button className="hint-btn" autoFocus onClick={() => setShowHint(false)}>
+                我知道了，去试试
+              </button>
+              <button
+                className="hint-btn ghost"
+                onClick={() => {
+                  wrongCountRef.current = 0;
+                  setWrongCount(0);
+                  setShowHint(false);
+                  resetGame();
+                }}
+              >
+                重新挑战
+              </button>
+            </div>
           </div>
         </div>
       )}
