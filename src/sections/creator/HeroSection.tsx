@@ -9,9 +9,8 @@ const HERO_ILLUSTRATION = `${BASE}hero-illustration.jpg`;
 
 const NAV_LINKS = [
   { label: '关于', target: 'about' },
-  { label: '价格', target: 'services' },
+  { label: '工作经历', target: 'services' },
   { label: '项目', target: 'projects' },
-  { label: '联系', target: 'about' },
 ];
 
 export default function HeroSection() {

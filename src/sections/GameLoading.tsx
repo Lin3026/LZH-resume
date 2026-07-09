@@ -13,7 +13,7 @@ import { nextGemType, resetGemSequence } from '../config/gemSequence';
 
 const RESOURCES = [oceanBg, detailBg, navbarBg];
 
-const BOARD_SIZE = 5;
+const BOARD_SIZE = 6;
 
 /* ===== 美术资源预留位 =====
  * 后续把美术切图放到 src/assets/gems/ 下，import 进来填入此数组即可自动替换占位渐变。
@@ -41,21 +41,22 @@ const newGem = (): Gem => {
   return { id: gemIdCounter++, type };
 };
 
-/** 开局固定布局（0=红 1=黄 2=绿 3=紫）— 5×5 四色
- *  胜利目标：一步交换「第3行第2列 ↔ 第3行第3列」(坐标 (2,1)↔(2,2)，第3行中间两颗水平互换)，
- *  触发连锁消除 21/25 颗（不补新子），剩余 <=5 颗即视为挑战成功（= 清空 ≥80%）。
- *  其余 9 个会产生局部消除的交换均为诱饵步（清不达标）→ 走错即失败弹窗。
- *  模拟器全扫描验证：安全步（无匹配可重试）若干 / 失败诱饵步 9 / 一步清掉 >=20 的交换 1（唯一）。 */
+/** 开局固定布局（0=红 1=黄 2=蓝 3=绿）— 6×6 四色纯色
+ *  胜利目标：一步交换「(3,3) ↔ (4,3)」（第 4 列、第 4/5 行相邻两颗竖直互换），
+ *  触发连锁消除 35/36 颗（不补新子），剩余 <= 8 颗即视为挑战成功（= 一步清掉 >=28 颗）。
+ *  全扫描验证（与游戏内 findMatches + 重力算法完全一致，不补子）：
+ *    初始 0 个 3 连；唯一胜利步 1 个（消 35 颗）；其余交换均清 <28 或为安全重试步。 */
 const INITIAL_LAYOUT: number[][] = [
-  [3, 2, 1, 3, 1],
-  [2, 1, 2, 0, 1],
-  [0, 3, 0, 3, 3],
-  [2, 0, 2, 0, 1],
-  [1, 0, 2, 0, 1],
+  [1, 2, 1, 2, 1, 2],
+  [3, 1, 2, 0, 1, 2],
+  [1, 2, 1, 1, 0, 0],
+  [3, 2, 3, 0, 1, 2],
+  [2, 3, 0, 3, 0, 0],
+  [3, 1, 1, 2, 1, 2],
 ];
 
-/** 胜利阈值：25 格中清掉 >=20 颗（剩余 <=5）即视为挑战成功 */
-const WIN_REMAINING = 5;
+/** 胜利阈值：36 格中清掉 >=28 颗（剩余 <=8）即视为一步挑战成功（"超过27连消除"） */
+const WIN_REMAINING = 8;
 
 /** 生成棋盘 — 使用固定开局布局（保证一步可全清） */
 function createInitialBoard(): Board {
@@ -252,8 +253,7 @@ export default function GameLoading({ onComplete }: GameLoadingProps) {
       } else {
         // 有匹配：不补子跑连锁（落子不补新子）
         await processChain(false);
-        // 胜利判定基于「棋盘实际剩余棋子数」，而非写死的交换坐标——
-        // 清掉 >=20/25 颗（剩余 <=5）即算挑战成功，否则视为走错一步
+        // 胜利判定基于「棋盘实际剩余棋子数」：一步清掉 >=28 颗（剩余 <=8）即挑战成功，否则走错一步
         if (isClearedEnough(board)) {
           setPhase('won');
         } else {
@@ -276,6 +276,7 @@ export default function GameLoading({ onComplete }: GameLoadingProps) {
     cellSize: number;
     lastDx: number;
     lastDy: number;
+    targetKey: string; // 当前对方块所在方向（'x+'/'x-'/...），用于检测方向翻转
   } | null>(null);
 
   /** 根据 from + 方向找相邻方块的 DOM 元素 */
@@ -305,6 +306,7 @@ export default function GameLoading({ onComplete }: GameLoadingProps) {
       cellSize,
       lastDx: 0,
       lastDy: 0,
+      targetKey: '',
     };
     setSelected({ r, c });
   };
@@ -327,7 +329,6 @@ export default function GameLoading({ onComplete }: GameLoadingProps) {
       let dy = 0;
       const { r, c } = ds.from;
       const max = ds.cellSize;
-      const half = max * 0.5; // 半格阈值
 
       if (ds.axis === 'x') {
         dx = rawDx;
@@ -346,42 +347,48 @@ export default function GameLoading({ onComplete }: GameLoadingProps) {
       ds.lastDx = dx;
       ds.lastDy = dy;
 
-      // 被拖方块：沿单轴滑动（放大由 CSS .selected 控制，不在 transform 里重复）
+      // 被拖方块：沿单轴滑动（放大由 .selected .gem-inner 控制，不占用外层 transform）
       if (ds.gemEl) {
         ds.gemEl.style.transition = 'none';
         ds.gemEl.style.transform = `translate(${dx}px, ${dy}px)`;
         ds.gemEl.style.zIndex = '20';
       }
 
-      // 超过半格时：对面方块开始反向移动（交换动画）
-      const absD = ds.axis === 'x' ? Math.abs(dx) : Math.abs(dy);
+      // 对方块：与被拖方块「镜像」同步移动 —— 整个拖拽过程都跟随，二者几乎同时位移
       const dir = ds.axis === 'x' ? Math.sign(dx) : Math.sign(dy);
-
-      if (absD > half && dir !== 0) {
-        // 找到目标方块
-        if (!ds.targetEl) {
+      if (dir === 0) {
+        // 无有效方向（贴边 / 回中）：复位对方块
+        if (ds.targetEl) {
+          ds.targetEl.classList.remove('drag-target');
+          ds.targetEl.style.transition = '';
+          ds.targetEl.style.transform = '';
+          ds.targetEl.style.zIndex = '';
+          ds.targetEl = null;
+          ds.targetKey = '';
+        }
+      } else {
+        const key = ds.axis + (dir > 0 ? '+' : '-');
+        if (ds.targetKey !== key) {
+          // 方向变化（或首次）：重置旧目标，重新定位相邻方块
+          if (ds.targetEl) {
+            ds.targetEl.classList.remove('drag-target');
+            ds.targetEl.style.transition = '';
+            ds.targetEl.style.transform = '';
+            ds.targetEl.style.zIndex = '';
+          }
           const dr = ds.axis === 'y' ? dir : 0;
           const dc = ds.axis === 'x' ? dir : 0;
           ds.targetEl = findAdjacentEl(ds.from, dr, dc);
+          ds.targetKey = key;
         }
-        // 对面方块反向移动：被拖方块走了 d，对面方块走 -d（最多走满一格 = cellSize）
         if (ds.targetEl) {
-          let targetDx = 0;
-          let targetDy = 0;
-          if (ds.axis === 'x') {
-            targetDx = -dir * (max - absD); // 反向，距离 = max - absD
-          } else {
-            targetDy = -dir * (max - absD);
-          }
+          // 镜像：被拖方块走了 d，对方块走 -d，二者始终同步（拖到满格正好互换一格）
+          const targetDx = ds.axis === 'x' ? -dx : 0;
+          const targetDy = ds.axis === 'y' ? -dy : 0;
+          ds.targetEl.classList.add('drag-target');
           ds.targetEl.style.transition = 'none';
           ds.targetEl.style.transform = `translate(${targetDx}px, ${targetDy}px)`;
-        }
-      } else {
-        // 没超过半格：复位对面方块
-        if (ds.targetEl) {
-          ds.targetEl.style.transition = 'none';
-          ds.targetEl.style.transform = '';
-          ds.targetEl = null;
+          ds.targetEl.style.zIndex = '10';
         }
       }
     };
@@ -397,6 +404,7 @@ export default function GameLoading({ onComplete }: GameLoadingProps) {
         ds.gemEl.style.zIndex = '';
       }
       if (ds.targetEl) {
+        ds.targetEl.classList.remove('drag-target');
         ds.targetEl.style.transition = '';
         ds.targetEl.style.transform = '';
       }
@@ -465,8 +473,9 @@ export default function GameLoading({ onComplete }: GameLoadingProps) {
       <div className="game-loading">
         <div className="game-loading-inner">
           <header className="game-header">
-            <h1>用一步消除大部分棋子</h1>
-            <p>欢迎来到我的空间</p>
+            <h1>一步极限连消</h1>
+            <p>神之一手</p>
+            <p className="game-hint">一步之内 · 连消 28 颗</p>
           </header>
 
           <div className="game-body">
@@ -489,6 +498,7 @@ export default function GameLoading({ onComplete }: GameLoadingProps) {
                   className="game-board"
                   role="grid"
                   aria-label="三消游戏棋盘"
+                  style={{ ['--n' as string]: BOARD_SIZE }}
                 >
                   {board.map((row, r) =>
                     row.map((gem, c) => {

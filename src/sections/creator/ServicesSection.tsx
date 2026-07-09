@@ -45,7 +45,7 @@ export default function ServicesSection() {
         className="font-black uppercase text-center mb-16 sm:mb-20 md:mb-28"
         style={{ fontSize: 'clamp(3rem, 12vw, 160px)', color: '#0C0C0C' }}
       >
-        服务
+        工作经历
       </h2>
 
       <div className="max-w-5xl mx-auto flex flex-col">
