@@ -50,7 +50,7 @@ export default function HeroSection() {
 
           <FadeIn delay={0.28} y={24}>
             <p className="hero-subtitle">
-              游戏广告创意设计师 32岁
+              站得高看得远想得开看得透拿得起放得下
             </p>
           </FadeIn>
 
@@ -65,6 +65,13 @@ export default function HeroSection() {
                 <path d="M8 3v10M4 9l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
             </button>
+          </FadeIn>
+
+          {/* 基本信息：年龄 / 性别 / 地点 */}
+          <FadeIn delay={0.52} y={16} className="hero-info-row">
+            <span className="hero-info-tag">32岁</span>
+            <span className="hero-info-tag">男</span>
+            <span className="hero-info-tag">北京·昌平</span>
           </FadeIn>
         </div>
 

@@ -169,6 +169,21 @@
   transform: translateY(3px);
 }
 
+/* 基本信息标签行（年龄 / 性别 / 地点） */
+.hero-info-row {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  margin-top: 8px;
+}
+
+.hero-info-tag {
+  font-size: clamp(1.1rem, 2vw, 1.5rem);
+  font-weight: 800;
+  color: #111;
+  letter-spacing: 0.02em;
+}
+
 /* 右侧插画 — 参考图布局：右侧自然排列 */
 .hero-right {
   position: absolute;
@@ -220,6 +235,11 @@
 
   .hero-cta {
     margin: 0 auto;
+  }
+
+  .hero-info-row {
+    justify-content: center;
+    gap: 32px;
   }
 
   .hero-right {

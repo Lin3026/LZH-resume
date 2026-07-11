@@ -28,7 +28,7 @@ export default function AboutSection() {
         x={-80}
         y={0}
         duration={0.9}
-        className="absolute top-[4%] left-[1.5%] sm:left-[4.5%] md:left-[8.5%] w-[80px] sm:w-[107px] md:w-[140px] pointer-events-none"
+        className="absolute top-[4%] left-[1.5%] sm:left-[4.5%] md:left-[8.5%] w-[120px] sm:w-[160px] md:w-[210px] pointer-events-none"
       >
         <img src={ICON_AE} alt="After Effects" className="w-full h-auto select-none" draggable={false} loading="lazy" />
       </FadeIn>
