@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, lazy, Suspense } from 'react';
+import { useState, useEffect, useMemo, useCallback, lazy, Suspense } from 'react';
 import cursorImg from './assets/cursor.png';
 import Navbar from './sections/Navbar';
 import VideoShowcase from './sections/VideoShowcase';
@@ -21,8 +21,19 @@ type PageView = 'home' | 'music' | 'game' | 'creator';
 export default function App() {
   const [cursorPos, setCursorPos] = useState({ x: -100, y: -100 });
 
-  // 当前页面视图
-  const [currentPage, setCurrentPage] = useState<PageView>('home');
+  // 门禁：会话内是否已通过互动游戏（同浏览器会话记住，刷新不重复、新会话需重过）
+  const PASSED_KEY = 'lzh-passed-game';
+  const readPassed = (): boolean => {
+    try {
+      return sessionStorage.getItem(PASSED_KEY) === '1';
+    } catch {
+      return false;
+    }
+  };
+  const [hasPassedGame, setHasPassedGame] = useState<boolean>(readPassed);
+
+  // 当前页面视图：未通关强制落地游戏页，已通关（同会话）才直接进个人空间
+  const [currentPage, setCurrentPage] = useState<PageView>(readPassed() ? 'home' : 'game');
 
   // 用 useIsMobile (基于屏幕宽度 < 768px) 判断，避免触屏笔记本误判
   const isMobile = useIsMobile();
@@ -52,11 +63,26 @@ export default function App() {
   ];
 
   const handleTopNavClick = (page: PageView | null) => {
-    if (page) {
-      setCurrentPage(page);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (!page) return;
+    // 门禁：未通过互动游戏前，禁止进入个人空间（其余页面可自由访问）
+    if (page === 'home' && !hasPassedGame) {
+      if (currentPage !== 'game') setCurrentPage('game');
+      return;
     }
+    setCurrentPage(page);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
+
+  // 游戏通关：记录会话状态并放行进入个人空间
+  const handleGameComplete = useCallback(() => {
+    try {
+      sessionStorage.setItem(PASSED_KEY, '1');
+    } catch {
+      /* 忽略隐私模式等写入失败 */
+    }
+    setHasPassedGame(true);
+    setCurrentPage('home');
+  }, []);
 
   // 光标控制：仅 PC 端使用自定义光标，移动端用原生光标
   const showCustomCursor = useMemo(() => !isMobile, [isMobile]);
@@ -103,11 +129,19 @@ export default function App() {
       >
         {topNavLinks.map(({ label, page }) => {
           const isActive = page === currentPage;
+          // 门禁：未通关前，「个人空间」锁定不可进入
+          const locked = page === 'home' && !hasPassedGame;
           return (
             <button
               key={label}
+              disabled={locked}
+              title={locked ? '请先完成互动游戏 🎮' : undefined}
               onClick={() => handleTopNavClick(page)}
-              className="text-white/80 hover:text-white font-medium tracking-wide transition-all duration-200 text-sm md:text-base select-none"
+              className={`font-medium tracking-wide transition-all duration-200 text-sm md:text-base select-none ${
+                locked
+                  ? 'text-white/35 cursor-not-allowed'
+                  : 'text-white/80 hover:text-white'
+              }`}
               style={{
                 textShadow: '0 1px 4px rgba(0,0,0,0.4)',
                 color: isActive ? '#22d3ee' : undefined,
@@ -116,7 +150,7 @@ export default function App() {
                 WebkitAppearance: 'none',
                 appearance: 'none',
                 background: 'none',
-                cursor: 'pointer',
+                cursor: locked ? 'not-allowed' : 'pointer',
               }}
             >
               {label}
@@ -175,7 +209,7 @@ export default function App() {
             <div className="w-8 h-8 border-2 border-cyan-400 border-t-transparent rounded-full animate-spin" />
           </div>
         }>
-          <MusicShare onBack={() => setCurrentPage('home')} />
+          <MusicShare onBack={() => setCurrentPage(hasPassedGame ? 'home' : 'game')} />
         </Suspense>
       )}
       {currentPage === 'game' && (
@@ -184,7 +218,7 @@ export default function App() {
             <div className="w-8 h-8 border-2 border-cyan-400 border-t-transparent rounded-full animate-spin" />
           </div>
         }>
-          <GameLoading onComplete={() => setCurrentPage('home')} />
+          <GameLoading onComplete={handleGameComplete} />
         </Suspense>
       )}
       {currentPage === 'creator' && (
@@ -193,7 +227,7 @@ export default function App() {
             <div className="w-8 h-8 border-2 border-cyan-400 border-t-transparent rounded-full animate-spin" />
           </div>
         }>
-          <CreatorPortfolio onBack={() => setCurrentPage('home')} />
+          <CreatorPortfolio onBack={() => setCurrentPage(hasPassedGame ? 'home' : 'game')} />
         </Suspense>
       )}
     </div>

@@ -84,57 +84,105 @@ function hexToRgba(hex: string, alpha: number): string {
   return `rgba(${r}, ${g}, ${b}, ${alpha})`;
 }
 
-// 预创建 + 预加载音频节点，避免首次播放延迟；cloneNode 播放保证连锁多层可叠加
-const _audioCache = new Map<string, HTMLAudioElement>();
-function getAudio(file: string): HTMLAudioElement {
-  let a = _audioCache.get(file);
-  if (!a) {
-    a = new Audio(SOUND_BASE + file);
-    a.preload = 'auto';
-    _audioCache.set(file, a);
+// ---- 音效：Web Audio 解码一次、即时播放 ----
+// 用 AudioContext.decodeAudioData 把真实 mp3 预解码成 AudioBuffer，
+// 播放时用 AudioBufferSourceNode 即时 start(0) —— 零解码延迟，
+// 连锁多层叠加完美对齐节奏，通关那一刻弹窗渲染也不卡音效（音效跑在音频线程）。
+const SOUND_FILES = [...CLEAR_SOUND_FILES, SWITCH_SOUND_FILE];
+
+let _audioCtx: AudioContext | null = null;
+let _audioUnlocked = false;
+const _bufferCache = new Map<string, AudioBuffer>();
+
+function getCtx(): AudioContext | null {
+  if (typeof window === 'undefined') return null;
+  if (!_audioCtx) {
+    const AC = window.AudioContext || (window as any).webkitAudioContext;
+    if (!AC) return null;
+    _audioCtx = new AC();
   }
-  return a;
+  return _audioCtx;
 }
-function playSound(file: string) {
+
+async function ensureBuffer(file: string): Promise<AudioBuffer | null> {
+  const cached = _bufferCache.get(file);
+  if (cached) return cached;
+  const ctx = getCtx();
+  if (!ctx) return null;
   try {
-    const a = getAudio(file).cloneNode() as HTMLAudioElement;
-    void a.play().catch(() => {});
+    const resp = await fetch(SOUND_BASE + file);
+    const arr = await resp.arrayBuffer();
+    const buf = await ctx.decodeAudioData(arr);
+    _bufferCache.set(file, buf);
+    return buf;
   } catch {
-    /* 音频不可用时静默忽略 */
+    return null;
   }
 }
 
-// 浏览器自动播放策略：首个用户手势内解锁一次即可（覆盖 SPA 路由后首声不响的边界情况）
-let _audioUnlocked = false;
-function unlockAudioOnce() {
+/** 静默预解码全部音效（组件挂载时调用，不阻塞交互） */
+async function preloadAllBuffers() {
+  const ctx = getCtx();
+  if (!ctx) return;
+  await Promise.all(SOUND_FILES.map((f) => ensureBuffer(f)));
+}
+
+// 浏览器自动播放策略：首个用户手势内 resume 音频上下文（覆盖 SPA 路由后首声不响）
+async function unlockAudioOnce() {
   if (_audioUnlocked) return;
   _audioUnlocked = true;
-  try {
-    const a = new Audio();
-    // 1px 静音 WAV，仅用于"激活"音频上下文
-    a.src =
-      'data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAA=';
-    void a.play().catch(() => {});
-  } catch {
-    /* ignore */
+  const ctx = getCtx();
+  if (ctx && ctx.state === 'suspended') {
+    try {
+      await ctx.resume();
+    } catch {
+      /* ignore */
+    }
   }
+  // 顺手补解码（若挂载时还没好）
+  preloadAllBuffers();
 }
+
 if (typeof window !== 'undefined') {
-  const onFirst = () => unlockAudioOnce();
+  const onFirst = () => void unlockAudioOnce();
   (['pointerdown', 'mousedown', 'touchstart', 'keydown'] as const).forEach((e) =>
     window.addEventListener(e, onFirst, { once: true, passive: true }),
   );
 }
 
+/** 即时播放（零延迟）。buffer 未就绪或 context 未 running 时降级用 HTMLAudioElement，保证首声不丢 */
+function playBuffer(file: string) {
+  const ctx = getCtx();
+  const buf = _bufferCache.get(file);
+  if (ctx && buf && ctx.state === 'running') {
+    try {
+      const src = ctx.createBufferSource();
+      src.buffer = buf;
+      src.connect(ctx.destination);
+      src.start(0);
+      return;
+    } catch {
+      /* fallthrough to fallback */
+    }
+  }
+  // 兜底： buffer 未解码好 / context 未 running，用 HTMLAudioElement 播放真实文件（首声不丢）
+  try {
+    const a = new Audio(SOUND_BASE + file);
+    void a.play().catch(() => {});
+  } catch {
+    /* ignore */
+  }
+}
+
 /** 连续消除音效：按连锁层级 1..N 递进播放对应文件，支持多声叠加 */
 function playClearSound(level: number) {
   const idx = Math.min(Math.max(level, 1), CLEAR_SOUND_FILES.length) - 1;
-  playSound(CLEAR_SOUND_FILES[idx]);
+  playBuffer(CLEAR_SOUND_FILES[idx]);
 }
 
 /** 移动棋子音效：每次交换开始播放 */
 function playSwitchSound() {
-  playSound(SWITCH_SOUND_FILE);
+  playBuffer(SWITCH_SOUND_FILE);
 }
 
 /** 生成棋盘 — 使用固定开局布局（保证一步可全清） */
@@ -242,6 +290,11 @@ export default function GameLoading({ onComplete }: GameLoadingProps) {
   // 每次进入游戏页，重置颜色序列
   useEffect(() => {
     resetGemSequence();
+  }, []);
+
+  // 挂载即静默预解码全部音效（Web Audio 解码一次，后续零延迟播放，连锁对齐节奏）
+  useEffect(() => {
+    preloadAllBuffers();
   }, []);
 
   // 后台预加载首页资源（静默预载，不展示进度）
