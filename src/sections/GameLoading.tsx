@@ -66,35 +66,39 @@ const WIN_MOVE = { from: { r: 3, c: 3 }, to: { r: 4, c: 3 } };
 /** 棋子纯色（与 CSS .gem-{0..3} 对应），用于爆裂粒子配色 */
 const GEM_COLORS = ['#ff4d4f', '#facc15', '#3b9cff', '#2bd96a'];
 
-/** 占位音效：按连锁层级(1..7)递进播放。
- *  当前用 Web Audio 合成（无需音频文件、无 404）；
- *  后续替换为真实音频：把 7 个文件放 public/sounds/clear-1.mp3 … clear-7.mp3，
- *  再让本函数改为 new Audio(BASE_URL + 'sounds/clear-' + level + '.mp3').play()。 */
-let _audioCtx: AudioContext | null = null;
+/** 真实音效资源（放在 public/sounds/ 下，Vite 构建会自动拷贝到 dist）
+ *  - 连续消除：按连锁层级递进播放 sound.Eliminate1..6.mp3，层级超过文件数则复用最后一个
+ *  - 移动棋子：每次交换开始播放 sound.switch.mp3
+ *  路径用 import.meta.env.BASE_URL 拼接，兼容 GitHub Pages 子路径('./')部署 */
+const SOUND_BASE = `${import.meta.env.BASE_URL}sounds/`;
+const CLEAR_SOUND_FILES = [
+  'sound.Eliminate1.mp3',
+  'sound.Eliminate2.mp3',
+  'sound.Eliminate3.mp3',
+  'sound.Eliminate4.mp3',
+  'sound.Eliminate5.mp3',
+  'sound.Eliminate6.mp3',
+];
+const SWITCH_SOUND_FILE = 'sound.switch.mp3';
+
+/** 连续消除音效：按连锁层级 1..N 递进播放对应文件，支持多声叠加（每次 new 节点保证重叠） */
 function playClearSound(level: number) {
-  const l = Math.min(Math.max(level, 1), 7);
+  const idx = Math.min(Math.max(level, 1), CLEAR_SOUND_FILES.length) - 1;
   try {
-    const Ctx =
-      window.AudioContext ||
-      (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
-    if (!Ctx) return;
-    if (!_audioCtx) _audioCtx = new Ctx();
-    const ctx = _audioCtx;
-    if (ctx.state === 'suspended') void ctx.resume();
-    const now = ctx.currentTime;
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-    const freq = 330 * Math.pow(2, ((l - 1) / 12) * 2); // 每级升一个全音，递进明显
-    osc.type = 'triangle';
-    osc.frequency.setValueAtTime(freq, now);
-    gain.gain.setValueAtTime(0.0001, now);
-    gain.gain.exponentialRampToValueAtTime(0.16, now + 0.012);
-    gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.26);
-    osc.connect(gain).connect(ctx.destination);
-    osc.start(now);
-    osc.stop(now + 0.28);
+    const a = new Audio(SOUND_BASE + CLEAR_SOUND_FILES[idx]);
+    void a.play().catch(() => {});
   } catch {
-    /* 占位：忽略音频不可用错误 */
+    /* 音频不可用时静默忽略 */
+  }
+}
+
+/** 移动棋子音效：每次交换开始播放 */
+function playSwitchSound() {
+  try {
+    const a = new Audio(SOUND_BASE + SWITCH_SOUND_FILE);
+    void a.play().catch(() => {});
+  } catch {
+    /* 音频不可用时静默忽略 */
   }
 }
 
@@ -327,6 +331,7 @@ export default function GameLoading({ onComplete }: GameLoadingProps) {
     async (r1: number, c1: number, r2: number, c2: number) => {
       if (isProcessingRef.current) return;
       isProcessingRef.current = true;
+      playSwitchSound(); // 移动棋子音效
       const board = boardRef.current;
 
       // 交换
