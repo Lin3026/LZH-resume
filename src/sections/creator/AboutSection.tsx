@@ -15,10 +15,11 @@ const ABOUT_PARAGRAPHS = [
   { text: '2年使用 AI 工具（如 ChatGPT、Gemini、即梦、龙虾等）进行创意发散与落地，经验丰富且具备工作流经验。', highlight: '2年' },
 ];
 
-export default function AboutSection() {
+export default function AboutSection({ sectionRef }: { sectionRef?: React.Ref<HTMLElement> }) {
   return (
     <section
       id="about"
+      ref={sectionRef}
       className="relative flex flex-col items-center justify-center min-h-screen overflow-hidden px-5 sm:px-8 md:px-10 py-20"
       style={{ background: '#ffffff' }}
     >

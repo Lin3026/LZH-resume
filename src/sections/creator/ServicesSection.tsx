@@ -1,7 +1,6 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   motion,
-  useInView,
   useReducedMotion,
   useMotionValue,
   useMotionTemplate,
@@ -46,13 +45,37 @@ const WORK_EXPERIENCE: WorkExperience[] = [
   },
 ];
 
-export default function ServicesSection() {
+export default function ServicesSection({ triggerRef }: { triggerRef?: React.RefObject<HTMLElement> }) {
   const sectionRef = useRef<HTMLElement>(null);
-  // 进入视口更深 20% 才触发（元素进入视口 65% 处）
-  const isInView = useInView(sectionRef, { once: false, margin: '0px 0px -35% 0px' });
   const reduce = useReducedMotion();
-  // 减少动画偏好下恒显示；否则跟随滚动进出视口
-  const show = reduce || isInView;
+
+  // 联动触发：当「关于我」三段文案所在区块完全滚出视口顶部（bottom<=0）时，
+  // 下面的时间轴才开始播放动画；往上滚回该区块时，动画收回。
+  const [aboutGone, setAboutGone] = useState(false);
+  useEffect(() => {
+    const el = triggerRef?.current;
+    if (!el) return;
+    let raf = 0;
+    const check = () => {
+      raf = 0;
+      const rect = el.getBoundingClientRect();
+      setAboutGone(rect.bottom <= 0);
+    };
+    const onScroll = () => {
+      if (!raf) raf = requestAnimationFrame(check);
+    };
+    check();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+      if (raf) cancelAnimationFrame(raf);
+    };
+  }, [triggerRef]);
+
+  // 减少动画偏好下恒显示；否则跟随「关于我」区块滚出视口而进出
+  const show = reduce || aboutGone;
 
   // 左→右揭示进度（0..100 百分比），驱动遮罩
   const reveal = useMotionValue(reduce ? 100 : 0);
@@ -97,7 +120,7 @@ export default function ServicesSection() {
           {/* 各节点：容器只负责 left:X%，内部元素共享同一 X/Y */}
           {WORK_EXPERIENCE.map((exp, i) => {
             const isAbove = i % 2 === 1;
-            const leftPct = ((i + 1) / (total + 1)) * 100;
+            const leftPct = ((i + 1) / (WORK_EXPERIENCE.length + 1)) * 100;
 
             return (
               <div

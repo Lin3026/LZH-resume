@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import HeroSection from './HeroSection';
 import MediaDomeSection from './MediaDomeSection';
 import AboutSection from './AboutSection';
@@ -10,6 +11,9 @@ interface CreatorPortfolioProps {
 }
 
 export default function CreatorPortfolio({ onBack }: CreatorPortfolioProps) {
+  // 共享 ref：用于「关于我」区块与下方时间轴的滚动联动
+  const aboutRef = useRef<HTMLElement>(null);
+
   return (
     <div className="creator-page">
       {/* 返回个人空间 */}
@@ -37,8 +41,8 @@ export default function CreatorPortfolio({ onBack }: CreatorPortfolioProps) {
 
       <HeroSection />
       <MediaDomeSection />
-      <AboutSection />
-      <ServicesSection />
+      <AboutSection sectionRef={aboutRef} />
+      <ServicesSection triggerRef={aboutRef} />
       <ProjectsSection />
     </div>
   );
