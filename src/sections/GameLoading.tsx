@@ -764,6 +764,27 @@ export default function GameLoading({ onComplete }: GameLoadingProps) {
                       }}
                     />
                   ))}
+                  {showHint && (
+                    <div className="hint-overlay" role="alertdialog" aria-label="神之一手提示">
+                      <div className="hint-modal">
+                        <h2>神之一手在这里！</h2>
+                        <div className="hint-actions">
+                          <button
+                            className="hint-btn"
+                            autoFocus
+                            onClick={() => {
+                              wrongCountRef.current = 0;
+                              setWrongCount(0);
+                              setShowHint(false);
+                              resetGame();
+                            }}
+                          >
+                            重新挑战
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </BorderGlow>
               {floatScore && (
@@ -780,44 +801,6 @@ export default function GameLoading({ onComplete }: GameLoadingProps) {
           </div>
         </div>
       </div>
-
-      {/* 提示弹窗：错满 3 次后弹出，并圈出「神之一手」所在的两个方块 */}
-      {showHint && (
-        <div
-          className="hint-overlay"
-          role="alertdialog"
-          aria-modal="true"
-          aria-label="神之一手提示"
-        >
-          <div className="hint-modal">
-            <div className="hint-icon">💡</div>
-            <h2>神之一手就在这里！</h2>
-            <p>
-              交换高亮圈出的两个方块
-              （第 {WIN_MOVE.from.r + 1} 行第 {WIN_MOVE.from.c + 1} 列
-              {' ↔ '}
-              第 {WIN_MOVE.to.r + 1} 行第 {WIN_MOVE.to.c + 1} 列），
-              一步即可清空棋盘。（你已尝试 {wrongCount} 次）
-            </p>
-            <div className="hint-actions">
-              <button className="hint-btn" autoFocus onClick={() => setShowHint(false)}>
-                我知道了，去试试
-              </button>
-              <button
-                className="hint-btn ghost"
-                onClick={() => {
-                  wrongCountRef.current = 0;
-                  setWrongCount(0);
-                  setShowHint(false);
-                  resetGame();
-                }}
-              >
-                重新挑战
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* 成功弹窗：一步清掉 >=80% 棋子后弹出，进入按钮在此 */}
       {phase === 'won' && (
