@@ -31,7 +31,7 @@ const sleep = (ms: number) => new Promise<void>((r) => setTimeout(r, ms));
 type Gem = { id: number; type: number };
 type Board = (Gem | null)[][];
 type Pos = { r: number; c: number };
-type Particle = { id: number; r: number; c: number; color: string; dx: number; dy: number };
+type Particle = { id: number; r: number; c: number; color: string; dx: number; dy: number; scale: number };
 
 let gemIdCounter = 1;
 // 不再需要 gemTypeSeq，使用配置文件中的 nextGemType()
@@ -81,25 +81,66 @@ const CLEAR_SOUND_FILES = [
 ];
 const SWITCH_SOUND_FILE = 'sound.switch.mp3';
 
-/** 连续消除音效：按连锁层级 1..N 递进播放对应文件，支持多声叠加（每次 new 节点保证重叠） */
-function playClearSound(level: number) {
-  const idx = Math.min(Math.max(level, 1), CLEAR_SOUND_FILES.length) - 1;
+/** 把 #rrggbb 转成带透明度的 rgba，用于粒子渐变柔光晕（避免 transparent 渐变产生灰边） */
+function hexToRgba(hex: string, alpha: number): string {
+  const h = hex.replace('#', '');
+  const r = parseInt(h.slice(0, 2), 16);
+  const g = parseInt(h.slice(2, 4), 16);
+  const b = parseInt(h.slice(4, 6), 16);
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+}
+
+// 预创建 + 预加载音频节点，避免首次播放延迟；cloneNode 播放保证连锁多层可叠加
+const _audioCache = new Map<string, HTMLAudioElement>();
+function getAudio(file: string): HTMLAudioElement {
+  let a = _audioCache.get(file);
+  if (!a) {
+    a = new Audio(SOUND_BASE + file);
+    a.preload = 'auto';
+    _audioCache.set(file, a);
+  }
+  return a;
+}
+function playSound(file: string) {
   try {
-    const a = new Audio(SOUND_BASE + CLEAR_SOUND_FILES[idx]);
+    const a = getAudio(file).cloneNode() as HTMLAudioElement;
     void a.play().catch(() => {});
   } catch {
     /* 音频不可用时静默忽略 */
   }
 }
 
-/** 移动棋子音效：每次交换开始播放 */
-function playSwitchSound() {
+// 浏览器自动播放策略：首个用户手势内解锁一次即可（覆盖 SPA 路由后首声不响的边界情况）
+let _audioUnlocked = false;
+function unlockAudioOnce() {
+  if (_audioUnlocked) return;
+  _audioUnlocked = true;
   try {
-    const a = new Audio(SOUND_BASE + SWITCH_SOUND_FILE);
+    const a = new Audio();
+    // 1px 静音 WAV，仅用于"激活"音频上下文
+    a.src =
+      'data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAA=';
     void a.play().catch(() => {});
   } catch {
-    /* 音频不可用时静默忽略 */
+    /* ignore */
   }
+}
+if (typeof window !== 'undefined') {
+  const onFirst = () => unlockAudioOnce();
+  (['pointerdown', 'mousedown', 'touchstart', 'keydown'] as const).forEach((e) =>
+    window.addEventListener(e, onFirst, { once: true, passive: true }),
+  );
+}
+
+/** 连续消除音效：按连锁层级 1..N 递进播放对应文件，支持多声叠加 */
+function playClearSound(level: number) {
+  const idx = Math.min(Math.max(level, 1), CLEAR_SOUND_FILES.length) - 1;
+  playSound(CLEAR_SOUND_FILES[idx]);
+}
+
+/** 移动棋子音效：每次交换开始播放 */
+function playSwitchSound() {
+  playSound(SWITCH_SOUND_FILE);
 }
 
 /** 生成棋盘 — 使用固定开局布局（保证一步可全清） */
@@ -244,7 +285,8 @@ export default function GameLoading({ onComplete }: GameLoadingProps) {
       const count = 7;
       for (let i = 0; i < count; i++) {
         const ang = (Math.PI * 2 * i) / count + Math.random() * 0.6;
-        const dist = 16 + Math.random() * 30;
+        const dist = 22 + Math.random() * 38;
+        const sc = 0.6 + Math.random() * 1.5; // 随机大小：0.6x~2.1x，模拟大火花+小星点
         next.push({
           id: ++particleIdRef.current,
           r,
@@ -252,6 +294,7 @@ export default function GameLoading({ onComplete }: GameLoadingProps) {
           color,
           dx: Math.cos(ang) * dist,
           dy: Math.sin(ang) * dist,
+          scale: sc,
         });
       }
     });
@@ -396,17 +439,30 @@ export default function GameLoading({ onComplete }: GameLoadingProps) {
     return board.querySelector(`[data-r="${nr}"][data-c="${nc}"]`) as HTMLElement | null;
   };
 
-  const handleCellMouseDown = (e: React.MouseEvent, r: number, c: number) => {
+  /** 统一取指针坐标（兼容 Mouse / Touch 事件） */
+  const getPoint = (e: MouseEvent | TouchEvent): { x: number; y: number } => {
+    if ('touches' in e && e.touches.length > 0) {
+      return { x: e.touches[0].clientX, y: e.touches[0].clientY };
+    }
+    const me = e as MouseEvent;
+    return { x: me.clientX, y: me.clientY };
+  };
+
+  /** 开始拖拽（鼠标 / 触摸共用）。dragStateRef 守卫避免 touch→mouse 模拟事件重复触发 */
+  const beginDrag = (clientX: number, clientY: number, r: number, c: number) => {
     if (isProcessingRef.current || phase !== 'playing') return;
+    if (dragStateRef.current) return; // 防 touch 抬起后浏览器模拟的 mousedown 重复
     if (!boardRef.current[r][c]) return;
-    e.preventDefault();
-    const gemEl = e.currentTarget as HTMLElement;
+    const gemEl = document.querySelector(
+      `[data-r="${r}"][data-c="${c}"]`,
+    ) as HTMLElement | null;
+    if (!gemEl) return;
     const boardEl = gemEl.parentElement;
     const cellSize = boardEl ? boardEl.offsetWidth / BOARD_SIZE : 160;
     dragStateRef.current = {
       from: { r, c },
-      startX: e.clientX,
-      startY: e.clientY,
+      startX: clientX,
+      startY: clientY,
       axis: null,
       gemEl,
       targetEl: null,
@@ -415,16 +471,32 @@ export default function GameLoading({ onComplete }: GameLoadingProps) {
       lastDy: 0,
       targetKey: '',
     };
+    gemEl.classList.add('dragging'); // 拖拽中：关掉选中放大，纯跟手
     setSelected({ r, c });
   };
 
+  const handleCellMouseDown = (e: React.MouseEvent, r: number, c: number) => {
+    e.preventDefault();
+    beginDrag(e.clientX, e.clientY, r, c);
+  };
+
+  const handleCellTouchStart = (e: React.TouchEvent, r: number, c: number) => {
+    e.preventDefault();
+    const t = e.touches[0];
+    if (!t) return;
+    beginDrag(t.clientX, t.clientY, r, c);
+  };
+
   useEffect(() => {
-    const handleMove = (e: MouseEvent) => {
+    const handleMove = (e: MouseEvent | TouchEvent) => {
       const ds = dragStateRef.current;
       if (!ds) return;
+      // 触摸移动时阻止页面滚动/缩放，让手势归游戏控制
+      if (e.type === 'touchmove') e.preventDefault();
 
-      const rawDx = e.clientX - ds.startX;
-      const rawDy = e.clientY - ds.startY;
+      const { x: rawClientX, y: rawClientY } = getPoint(e);
+      const rawDx = rawClientX - ds.startX;
+      const rawDy = rawClientY - ds.startY;
 
       // 首次移动锁定轴（5px 死区）
       if (!ds.axis) {
@@ -506,6 +578,7 @@ export default function GameLoading({ onComplete }: GameLoadingProps) {
 
       // 清除两个方块的 inline 样式
       if (ds.gemEl) {
+        ds.gemEl.classList.remove('dragging');
         ds.gemEl.style.transition = '';
         ds.gemEl.style.transform = '';
         ds.gemEl.style.zIndex = '';
@@ -546,9 +619,14 @@ export default function GameLoading({ onComplete }: GameLoadingProps) {
 
     document.addEventListener('mousemove', handleMove);
     document.addEventListener('mouseup', handleUp);
+    // 移动端：触摸拖拽
+    document.addEventListener('touchmove', handleMove, { passive: false });
+    document.addEventListener('touchend', handleUp);
     return () => {
       document.removeEventListener('mousemove', handleMove);
       document.removeEventListener('mouseup', handleUp);
+      document.removeEventListener('touchmove', handleMove);
+      document.removeEventListener('touchend', handleUp);
     };
   }, [doSwap]);
 
@@ -635,6 +713,7 @@ export default function GameLoading({ onComplete }: GameLoadingProps) {
                             ...(asset ? { backgroundImage: `url(${asset})` } : {}),
                           }}
                           onMouseDown={(e) => handleCellMouseDown(e, r, c)}
+                          onTouchStart={(e) => handleCellTouchStart(e, r, c)}
                           aria-label={`方块 行${r + 1}列${c + 1}`}
                         >
                           {asset ? null : <span className="gem-inner" />}
@@ -650,7 +729,10 @@ export default function GameLoading({ onComplete }: GameLoadingProps) {
                       style={{
                         left: `calc(${(p.c + 0.5) * 100 / BOARD_SIZE}%)`,
                         top: `calc(${(p.r + 0.5) * 100 / BOARD_SIZE}%)`,
-                        background: p.color,
+                        width: `${28 * p.scale}px`,
+                        height: `${28 * p.scale}px`,
+                        background: `radial-gradient(circle closest-side at 50% 50%, #ffffff 0%, #ffffff 5%, #ffffff 10%, ${p.color} 20%, ${hexToRgba(p.color, 0)} 30%)`,
+                        boxShadow: 'none',
                         ['--dx' as string]: `${p.dx}px`,
                         ['--dy' as string]: `${p.dy}px`,
                       }}
