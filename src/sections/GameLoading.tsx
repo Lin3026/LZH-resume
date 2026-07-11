@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
+import { flushSync } from 'react-dom';
 import Lightfall from '../components/Lightfall';
 import BorderGlow from '../components/BorderGlow';
 import './GameLoading.css';
@@ -9,7 +10,7 @@ import detailBg from '../assets/detail-bg.jpg';
 import navbarBg from '../assets/navbar-bg.jpg';
 
 // 方块颜色配置 — 编辑 src/config/gemSequence.ts 可自定义下落顺序
-import { nextGemType, resetGemSequence } from '../config/gemSequence';
+import { resetGemSequence } from '../config/gemSequence';
 
 const RESOURCES = [oceanBg, detailBg, navbarBg];
 
@@ -34,13 +35,6 @@ type Pos = { r: number; c: number };
 type Particle = { id: number; r: number; c: number; color: string; dx: number; dy: number; scale: number };
 
 let gemIdCounter = 1;
-// 不再需要 gemTypeSeq，使用配置文件中的 nextGemType()
-
-const newGem = (): Gem => {
-  // 从配置序列中读取下一个颜色类型
-  const type = nextGemType();
-  return { id: gemIdCounter++, type };
-};
 
 /** 开局固定布局（0=红 1=黄 2=蓝 3=绿）— 6×6 四色纯色
  *  胜利目标：一步交换「(3,3) ↔ (4,3)」（第 4 列、第 4/5 行相邻两颗竖直互换），
@@ -192,31 +186,29 @@ function findMatches(board: Board): Set<string> {
   return matched;
 }
 
-/** 重力下落（原地修改 board）。refill=true 时顶部补新宝石，false 时顶部留空（不补子）。返回新创建宝石的 id 集合 */
-function applyGravityAndRefill(board: Board, refill: boolean): Set<number> {
-  const newIds = new Set<number>();
+/** 一次性重力：把每列存活棋子直接沉到最终位置（本项目为一步清盘模式，下落过程不补新子）。
+ *  原地修改 board；配合 CSS 过渡 + 逐行错峰（见 .falling 态）呈现「一行行下落」而非整片瞬移。 */
+function applyGravity(board: Board): void {
   for (let c = 0; c < BOARD_SIZE; c++) {
-    // 从底往上收集存活宝石（保持原对象引用 → 颜色不变，仅位置改变触发下落动画）
     const survivors: Gem[] = [];
     for (let r = BOARD_SIZE - 1; r >= 0; r--) {
       if (board[r][c]) survivors.push(board[r][c]!);
     }
-    // 从底往上回填：存活宝石下沉，顶部空位补新宝石或留空
     for (let r = BOARD_SIZE - 1; r >= 0; r--) {
       const idx = BOARD_SIZE - 1 - r;
-      if (idx < survivors.length) {
-        board[r][c] = survivors[idx]; // 存活宝石：原色下落
-      } else if (refill) {
-        const g = newGem(); // 固定序列循环取色（非随机）
-        newIds.add(g.id);
-        board[r][c] = g;
-      } else {
-        board[r][c] = null; // 不补子：顶部留空
-      }
+      board[r][c] = idx < survivors.length ? survivors[idx] : null;
     }
   }
-  return newIds;
 }
+
+/** 下落节奏（以 60fps 的「帧」为单位，对齐你给的视频手感）：
+ *  - FALL_STAGGER_MS：相邻行错峰间隔 = 2 帧
+ *  - FALL_DURATION_MS：每颗棋子下落到位耗时 = 8 帧
+ *  - FALL_TOTAL_MS：整段下落（含错峰）总时长，processChain 据此等待动画播完 */
+const FRAME_MS = 1000 / 60;
+const FALL_STAGGER_MS = 2 * FRAME_MS;
+const FALL_DURATION_MS = 8 * FRAME_MS;
+const FALL_TOTAL_MS = FALL_DURATION_MS + (BOARD_SIZE - 1) * FALL_STAGGER_MS;
 
 interface GameLoadingProps {
   onComplete: () => void;
@@ -236,6 +228,7 @@ export default function GameLoading({ onComplete }: GameLoadingProps) {
   const [score, setScore] = useState(0);
   const [floatScore, setFloatScore] = useState<{ id: number; value: number } | null>(null);
   const [phase, setPhase] = useState<'playing' | 'won'>('playing');
+  const [falling, setFalling] = useState(false); // 下落态：挂到 .game-board 上触发逐行错峰过渡
   const floatIdRef = useRef(0);
 
   // 错误计数（错 3 次后给提示）+ 提示框 / 爆裂粒子 / 轻提示 toast
@@ -306,7 +299,7 @@ export default function GameLoading({ onComplete }: GameLoadingProps) {
   }, []);
 
   /** 消除链：循环 消除→下落→再检查，直到无匹配。refill=false 时下落不补新子（用于一步清盘） */
-  const processChain = useCallback(async (refill: boolean) => {
+  const processChain = useCallback(async () => {
     const board = boardRef.current;
     let chain = 0;
     while (true) {
@@ -339,11 +332,13 @@ export default function GameLoading({ onComplete }: GameLoadingProps) {
       });
       removingRef.current.clear();
 
-      // 下落：存活宝石保持原色下落；refill 时顶部补新宝石，否则留空
-      const newIds = applyGravityAndRefill(board, refill);
-      newGemIdsRef.current = newIds;
+      // 下落：一次性算好最终位置，用 CSS 过渡 + 逐行错峰（2帧）实现「一行行下落」，每颗下落 8 帧
+      newGemIdsRef.current = new Set();
+      setFalling(true);
+      applyGravity(board);
       render();
-      await sleep(400); // 等下落 + 新宝石滑入动画完成
+      await sleep(FALL_TOTAL_MS); // 等整段下落（含逐行错峰）播完
+      setFalling(false);
     }
     // 连锁结束，清除新宝石标记
     newGemIdsRef.current = new Set();
@@ -371,15 +366,42 @@ export default function GameLoading({ onComplete }: GameLoadingProps) {
   };
 
   const doSwap = useCallback(
-    async (r1: number, c1: number, r2: number, c2: number) => {
+    async (
+      r1: number,
+      c1: number,
+      r2: number,
+      c2: number,
+      gemEl: HTMLElement | null,
+      targetEl: HTMLElement | null,
+    ) => {
       if (isProcessingRef.current) return;
       isProcessingRef.current = true;
       playSwitchSound(); // 移动棋子音效
       const board = boardRef.current;
 
-      // 交换
+      // 交换逻辑位置
       [board[r1][c1], board[r2][c2]] = [board[r2][c2], board[r1][c1]];
-      render();
+
+      // 关键修复：在同一同步任务内完成「逻辑归位 + 清除拖拽 transform」。
+      // 先关掉 top/left 过渡（避免位置跳变触发动画），用 flushSync 同步提交新 --r/--c，
+      // 此时棋子 top/left 已直接落到目标格；再清除拖拽位移 transform ——
+      // 棋子直接「锁定」在目标位，不再出现「先弹回原点再滑过去」的回弹。
+      if (gemEl) gemEl.style.transition = 'none';
+      if (targetEl) targetEl.style.transition = 'none';
+      flushSync(() => render());
+      if (gemEl) {
+        gemEl.style.transform = '';
+        gemEl.style.zIndex = '';
+        gemEl.classList.remove('dragging');
+      }
+      if (targetEl) {
+        targetEl.style.transform = '';
+        targetEl.style.zIndex = '';
+        targetEl.classList.remove('drag-target');
+      }
+      if (gemEl) gemEl.style.transition = '';
+      if (targetEl) targetEl.style.transition = '';
+
       await sleep(160);
 
       const matches = findMatches(board);
@@ -390,7 +412,7 @@ export default function GameLoading({ onComplete }: GameLoadingProps) {
         await sleep(160);
       } else {
         // 有匹配：不补子跑连锁（落子不补新子）
-        await processChain(false);
+        await processChain();
         // 胜利判定基于「棋盘实际剩余棋子数」：一步清掉 >=28 颗（剩余 <=8）即挑战成功，否则走错一步
         if (isClearedEnough(board)) {
           setPhase('won');
@@ -576,20 +598,7 @@ export default function GameLoading({ onComplete }: GameLoadingProps) {
       const ds = dragStateRef.current;
       if (!ds) return;
 
-      // 清除两个方块的 inline 样式
-      if (ds.gemEl) {
-        ds.gemEl.classList.remove('dragging');
-        ds.gemEl.style.transition = '';
-        ds.gemEl.style.transform = '';
-        ds.gemEl.style.zIndex = '';
-      }
-      if (ds.targetEl) {
-        ds.targetEl.classList.remove('drag-target');
-        ds.targetEl.style.transition = '';
-        ds.targetEl.style.transform = '';
-      }
-
-      const { from, axis, lastDx, lastDy, cellSize } = ds;
+      const { from, axis, lastDx, lastDy, cellSize, gemEl, targetEl } = ds;
       dragStateRef.current = null;
       setSelected(null);
       setDragTarget(null);
@@ -613,7 +622,22 @@ export default function GameLoading({ onComplete }: GameLoadingProps) {
       }
 
       if (target) {
-        doSwap(from.r, from.c, target.r, target.c);
+        // 交给 doSwap：在同一同步任务内完成「逻辑归位 + 清除拖拽 transform」，避免回弹
+        doSwap(from.r, from.c, target.r, target.c, gemEl, targetEl);
+      } else {
+        // 未达半格：恢复 CSS 过渡并清除拖拽偏移 → 平滑滑回原位
+        if (gemEl) {
+          gemEl.classList.remove('dragging');
+          gemEl.style.transition = '';
+          gemEl.style.transform = '';
+          gemEl.style.zIndex = '';
+        }
+        if (targetEl) {
+          targetEl.classList.remove('drag-target');
+          targetEl.style.transition = '';
+          targetEl.style.transform = '';
+          targetEl.style.zIndex = '';
+        }
       }
     };
 
@@ -680,7 +704,7 @@ export default function GameLoading({ onComplete }: GameLoadingProps) {
                 fillOpacity={0.4}
               >
                 <div
-                  className="game-board"
+                  className={`game-board${falling ? ' falling' : ''}`}
                   role="grid"
                   aria-label="三消游戏棋盘"
                   style={{ ['--n' as string]: BOARD_SIZE }}
@@ -710,6 +734,8 @@ export default function GameLoading({ onComplete }: GameLoadingProps) {
                           style={{
                             ['--r' as string]: r,
                             ['--c' as string]: c,
+                            // 逐行错峰：底行先落(0)、顶行最后落，2帧递进 → 呈现「一行行下落」
+                            ['--fd' as string]: `${(BOARD_SIZE - 1 - r) * FALL_STAGGER_MS}ms`,
                             ...(asset ? { backgroundImage: `url(${asset})` } : {}),
                           }}
                           onMouseDown={(e) => handleCellMouseDown(e, r, c)}

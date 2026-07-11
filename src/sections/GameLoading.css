@@ -113,11 +113,21 @@
   user-select: none;
   -webkit-user-drag: none;
   /* 拖拽时 transform 由 JS 实时控制（inline transition:none），这里只对位置/透明度做过渡；
-     曲线去掉 overshoot（原 1.15 会冲过头回弹，显得“弹”），改用标准缓出，更跟手 */
+     默认态用于「交换」：快速平滑，不拖泥带水；曲线去掉 overshoot，改用标准缓出，更跟手 */
   transition:
-    top 200ms cubic-bezier(0.22, 0.61, 0.36, 1),
-    left 200ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    top 160ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    left 160ms cubic-bezier(0.22, 0.61, 0.36, 1),
     opacity 220ms ease;
+}
+/* 下落态（processChain 一次性算好最终位置后挂上）：
+   每颗棋子 8 帧(≈133ms) 到位，行与行之间错峰 2 帧(var(--fd))，重力加速曲线，
+   呈现「一行行下落」而非整片瞬移。transition-delay 仅在 falling 态生效，不影响交换动画 */
+.game-board.falling .gem {
+  transition:
+    top 133ms cubic-bezier(0.4, 0, 1, 1),
+    left 133ms cubic-bezier(0.4, 0, 1, 1),
+    opacity 220ms ease;
+  transition-delay: var(--fd, 0ms);
 }
 .gem:active {
   cursor: grabbing;
