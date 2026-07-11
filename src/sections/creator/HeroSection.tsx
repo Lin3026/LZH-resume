@@ -5,7 +5,8 @@ import { FadeIn } from './components';
  * 布局：左侧大标题 + 按钮 | 右侧人物线稿插画
  */
 const BASE = import.meta.env.BASE_URL;
-const HERO_ILLUSTRATION = `${BASE}hero-illustration.jpg`;
+const HERO_VIDEO = `${BASE}hero-video.mp4`;
+const HERO_POSTER = `${BASE}hero-illustration.jpg`;
 
 const NAV_LINKS = [
   { label: '关于', target: 'about' },
@@ -75,15 +76,19 @@ export default function HeroSection() {
           </FadeIn>
         </div>
 
-        {/* 右侧插画 */}
+        {/* 右侧视频（替换原线稿插画） */}
         <div className="hero-right">
           <FadeIn delay={0.35} y={30}>
-            <img
-              src={HERO_ILLUSTRATION}
-              alt="人物线稿插画"
+            <video
+              ref={(el) => { if (el) el.muted = true; }}
+              src={HERO_VIDEO}
+              poster={HERO_POSTER}
               className="hero-illustration"
+              autoPlay
+              muted
+              loop
+              playsInline
               draggable={false}
-              loading="eager"
             />
           </FadeIn>
         </div>
