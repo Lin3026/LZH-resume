@@ -279,10 +279,9 @@ export default function GameLoading({ onComplete }: GameLoadingProps) {
   const [falling, setFalling] = useState(false); // 下落态：挂到 .game-board 上触发逐行错峰过渡
   const floatIdRef = useRef(0);
 
-  // 错误计数（错 3 次后给提示）+ 提示框 / 爆裂粒子 / 轻提示 toast
-  const wrongCountRef = useRef(0);
-  const [wrongCount, setWrongCount] = useState(0);
+  // 提示框 / 爆裂粒子 / 轻提示 toast
   const [showHint, setShowHint] = useState(false);
+  const [showFail, setShowFail] = useState(false);
   const [particles, setParticles] = useState<Particle[]>([]);
   const particleIdRef = useRef(0);
   const [toast, setToast] = useState<string | null>(null);
@@ -463,28 +462,19 @@ export default function GameLoading({ onComplete }: GameLoadingProps) {
         [board[r1][c1], board[r2][c2]] = [board[r2][c2], board[r1][c1]];
         render();
         await sleep(160);
-      } else {
-        // 有匹配：不补子跑连锁（落子不补新子）
-        await processChain();
-        // 胜利判定基于「棋盘实际剩余棋子数」：一步清掉 >=28 颗（剩余 <=8）即挑战成功，否则走错一步
-        if (isClearedEnough(board)) {
-          setPhase('won');
         } else {
-          // 走错一步：累计错误次数
-          const n = wrongCountRef.current + 1;
-          wrongCountRef.current = n;
-          setWrongCount(n);
-          if (n >= 3) {
-            // 错满 3 次：复原棋盘并弹出「神之一手」提示，圈出正确一步
-            setShowHint(true);
-            resetGame();
+          // 有匹配：不补子跑连锁（落子不补新子）
+          await processChain();
+          // 胜利判定基于「棋盘实际剩余棋子数」：一步清掉 >=28 颗（剩余 <=8）即挑战成功，否则本局失败
+          if (isClearedEnough(board)) {
+            setPhase('won');
           } else {
-            // 错 1~2 次：复原重来 + 轻提示
-            setToast(`走错了，再试一次（已错 ${n}/3）`);
-            resetGame();
+            // 一步清掉不足 80%：先等最后一轮消除的动画与飞溅粒子彻底收尾（避免一消除完就弹窗），
+            // 再弹出「挑战失败」，点「重新挑战」才复原棋盘
+            await sleep(650);
+            setShowFail(true);
           }
         }
-      }
       isProcessingRef.current = false;
     },
     [processChain, render],
@@ -737,7 +727,17 @@ export default function GameLoading({ onComplete }: GameLoadingProps) {
           <header className="game-header">
             <h1>一步极限连消</h1>
             <p>神之一手</p>
-            <p className="game-hint">一步之内 · 连消 28 颗</p>
+            <div className="game-hint-row">
+              <p className="game-hint">一步之内 · 连消 28 颗</p>
+              <button
+                className="hint-trigger"
+                onClick={() => setShowHint(true)}
+                title="显示神之一手提示"
+                disabled={showHint}
+              >
+                💡 提示
+              </button>
+            </div>
           </header>
 
           <div className="game-body">
@@ -826,8 +826,6 @@ export default function GameLoading({ onComplete }: GameLoadingProps) {
                             className="hint-btn"
                             autoFocus
                             onClick={() => {
-                              wrongCountRef.current = 0;
-                              setWrongCount(0);
                               setShowHint(false);
                               resetGame();
                             }}
@@ -873,6 +871,32 @@ export default function GameLoading({ onComplete }: GameLoadingProps) {
             <p className="win-score">最终得分 {score}</p>
             <button className="win-btn" autoFocus onClick={onComplete}>
               进入个人空间 →
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* 失败弹窗：一步消除后剩余仍 >=20%（清掉不足 80%）则弹出，点「重新挑战」复原棋盘 */}
+      {showFail && (
+        <div
+          className="fail-overlay"
+          role="alertdialog"
+          aria-modal="true"
+          aria-label="挑战失败"
+        >
+          <div className="fail-modal">
+            <div className="fail-icon">✕</div>
+            <h2>挑战失败</h2>
+            <p>这一步没能清空棋盘，再试一次吧</p>
+            <button
+              className="fail-btn"
+              autoFocus
+              onClick={() => {
+                setShowFail(false);
+                resetGame();
+              }}
+            >
+              重新挑战
             </button>
           </div>
         </div>

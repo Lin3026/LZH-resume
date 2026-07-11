@@ -64,13 +64,48 @@
   color: rgba(230, 246, 251, 0.85);
   margin: 6px 0 0;
 }
-/* 玩法提示小字：一步之内 · 消除 7 连 */
+/* 玩法提示小字 + 提示按钮同行 */
+.game-header .game-hint-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 14px;
+}
+/* 玩法提示小字 */
 .game-header .game-hint {
   font-size: 1.05rem;
   font-weight: 500;
   letter-spacing: 4px;
   color: rgba(34, 211, 238, 0.7);
-  margin: 14px 0 0;
+  margin: 0;
+}
+/* 手动提示按钮（标题区右上角）*/
+.hint-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 22px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 90, 95, 0.5);
+  background: rgba(255, 90, 95, 0.12);
+  color: #ff5a5f;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  letter-spacing: 1px;
+}
+.hint-trigger:hover:not(:disabled) {
+  background: rgba(255, 90, 95, 0.24);
+  border-color: rgba(255, 90, 95, 0.8);
+  color: #ff7a7f;
+}
+.hint-trigger:active:not(:disabled) {
+  transform: scale(0.96);
+}
+.hint-trigger:disabled {
+  opacity: 0.35;
+  cursor: default;
 }
 
 /* 主体：棋盘（居中） */
@@ -573,7 +608,13 @@
   .game-header .game-hint {
     font-size: 0.82rem;
     letter-spacing: 2px;
-    margin-top: 10px;
+  }
+  .game-header .game-hint-row {
+    gap: 10px;
+  }
+  .hint-trigger {
+    padding: 8px 16px;
+    font-size: 0.95rem;
   }
   /* 棋盘放得更满（92vw），单格更大更好点/拖 */
   .game-board {
