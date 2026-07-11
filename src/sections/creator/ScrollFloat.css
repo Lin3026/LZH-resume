@@ -13,3 +13,10 @@
 .char {
   display: inline-block;
 }
+
+/* 段落中高亮的年份数字（9年/7年/2年）：相对父级字号放大并加粗 */
+.char-highlight {
+  font-size: 1.4em;
+  font-weight: 900;
+  color: #ff5a5f;
+}

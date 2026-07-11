@@ -15,6 +15,8 @@ interface ScrollFloatProps {
   scrollStart?: string;
   scrollEnd?: string;
   stagger?: number;
+  /** 需要放大的子串（如 "9年"），会为其字符追加 .char-highlight */
+  highlight?: string;
 }
 
 /**
@@ -31,17 +33,20 @@ const ScrollFloat = ({
   scrollStart = 'center bottom+=50%',
   scrollEnd = 'bottom bottom-=40%',
   stagger = 0.03,
+  highlight,
 }: ScrollFloatProps) => {
   const containerRef = useRef<HTMLHeadingElement>(null);
 
   const splitText = useMemo(() => {
     const text = typeof children === 'string' ? children : '';
+    const hlStart = highlight && text.includes(highlight) ? text.indexOf(highlight) : -1;
+    const hlEnd = hlStart >= 0 ? hlStart + highlight.length : -1;
     return text.split('').map((char, index) => (
       <span className="char" key={index}>
         {char === ' ' ? ' ' : char}
       </span>
     ));
-  }, [children]);
+  }, [children, highlight]);
 
   useEffect(() => {
     const el = containerRef.current;

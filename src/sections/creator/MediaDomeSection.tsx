@@ -4,78 +4,97 @@ import DomeGallery from './DomeGallery';
 const BASE = import.meta.env.BASE_URL;
 
 /**
- * 媒体数据：混合「图片」与「视频」。
- * - type: 'image'  → 渲染 <img>
- * - type: 'video'  → 渲染 <video>（球面显示首帧，点击放大后自动播放）
+ * 媒体数据：全部为「视频」。
+ * 用户决策（2026-07-11）：老家分享「环球展示」方向 = 把所有图片换成视频；
+ * 用户会陆续提供真实视频，项目原有的占位视频（dome-placeholder / dome-video-0X）保留不删。
  *
- * ⚠️ 视频目前为「本地占位」public/dome-placeholder.mp4（用户提供的 video-02.mp4）。
- *    想换成自己的视频，把文件放进 public/ 并改这里的 src 即可；
- *    增删媒体直接改这个数组，想换默认展示顺序也在这里调。
+ * 📌 后续新增视频的标准流程（请沿用，方便持续补充）：
+ *   1) 把文件拷进 public/，命名为 dome-N.mp4（N 对应用户原目录编号，便于追溯）；
+ *   2) 在下方数组追加一项：{ src: `${BASE}dome-N.mp4`, alt: '环球视频 N', type: 'video' }；
+ *   3) 视频统一保留在 git，不上外部 CDN。
+ * DomeGallery 会把所有视频循环铺满整个球面（segments=24 下每段约出现 6~7 次）。
  */
 const MEDIA: { src: string; alt: string; type: 'image' | 'video' }[] = [
-  // ===== 图片（unsplash 占位，可替换为你的作品图）=====
+  // ===== 真实视频（用户提供：public/dome-1.mp4 ~ dome-12.mp4，跳过 2.mp4）=====
   {
-    src: 'https://images.unsplash.com/photo-1755331039789-7e5680e26e8f?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    alt: '抽象艺术',
-    type: 'image',
+    src: `${BASE}dome-1.mp4`,
+    alt: '环球视频 1',
+    type: 'video',
   },
   {
-    src: 'https://images.unsplash.com/photo-1755569309049-98410b94f66d?q=80&w=772&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    alt: '现代雕塑',
-    type: 'image',
+    src: `${BASE}dome-3.mp4`,
+    alt: '环球视频 3',
+    type: 'video',
   },
   {
-    src: 'https://images.unsplash.com/photo-1755497595318-7e5e3523854f?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    alt: '数字艺术',
-    type: 'image',
+    src: `${BASE}dome-4.mp4`,
+    alt: '环球视频 4',
+    type: 'video',
   },
   {
-    src: 'https://images.unsplash.com/photo-1755353985163-c2a0fe5ac3d8?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    alt: '当代艺术',
-    type: 'image',
+    src: `${BASE}dome-5.mp4`,
+    alt: '环球视频 5',
+    type: 'video',
   },
   {
-    src: 'https://images.unsplash.com/photo-1745965976680-d00be7dc0377?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fHx8fA%3D%3D',
-    alt: '几何纹理',
-    type: 'image',
+    src: `${BASE}dome-6.mp4`,
+    alt: '环球视频 6',
+    type: 'video',
   },
   {
-    src: 'https://images.unsplash.com/photo-1752588975228-21f44630bb3c?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fHx8fA%3D%3D',
-    alt: '质感表面',
-    type: 'image',
+    src: `${BASE}dome-7.mp4`,
+    alt: '环球视频 7',
+    type: 'video',
   },
   {
-    src: 'https://pbs.twimg.com/media/Gyla7NnXMAAXSo_?format=jpg&name=large',
-    alt: '社交媒体图',
-    type: 'image',
+    src: `${BASE}dome-8.mp4`,
+    alt: '环球视频 8',
+    type: 'video',
   },
-  // ===== 视频（本地：public/dome-*.mp4）=====
-  // DomeGallery 会把所有媒体循环铺满整个球面；每条视频在 segments=24 下
-  //   约出现 2 次，故 5 段视频约产生 10 个 <video> 元素同时加载首帧，属可接受范围。
-  //   若后续再加视频导致卡顿/黑屏，可调小上方的 segments 或减少视频数量。
+  {
+    src: `${BASE}dome-9.mp4`,
+    alt: '环球视频 9',
+    type: 'video',
+  },
+  {
+    src: `${BASE}dome-10.mp4`,
+    alt: '环球视频 10',
+    type: 'video',
+  },
+  {
+    src: `${BASE}dome-11.mp4`,
+    alt: '环球视频 11',
+    type: 'video',
+  },
+  {
+    src: `${BASE}dome-12.mp4`,
+    alt: '环球视频 12',
+    type: 'video',
+  },
+  // ===== 占位视频（项目原有，保留不删）=====
   {
     src: `${BASE}dome-placeholder.mp4`,
-    alt: '作品视频 01',
+    alt: '占位视频',
     type: 'video',
   },
   {
     src: `${BASE}dome-video-01.mp4`,
-    alt: '作品视频 02',
+    alt: '占位视频 01',
     type: 'video',
   },
   {
     src: `${BASE}dome-video-03.mp4`,
-    alt: '作品视频 03',
+    alt: '占位视频 03',
     type: 'video',
   },
   {
     src: `${BASE}dome-video-04.mp4`,
-    alt: '作品视频 04',
+    alt: '占位视频 04',
     type: 'video',
   },
   {
     src: `${BASE}dome-video-05.mp4`,
-    alt: '作品视频 05',
+    alt: '占位视频 05',
     type: 'video',
   },
 ];
