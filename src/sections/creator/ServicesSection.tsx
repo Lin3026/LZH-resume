@@ -1,95 +1,135 @@
-import { FadeIn } from './components';
+import { useEffect, useRef } from 'react';
+import {
+  motion,
+  useInView,
+  useReducedMotion,
+  useMotionValue,
+  useMotionTemplate,
+  animate,
+} from 'framer-motion';
 
-interface Service {
-  no: string;
-  name: string;
-  desc: string;
+/* ============================================================
+ * 工作经历 — 横向时间轴
+ * 单一坐标系：X = left:X%（JS 注入），Y = 50%
+ *   · 轴线 与 圆点 共 Y（top:50%）
+ *   · 圆点 与 竖线 共 X（left:0 + translateX(-50%)）
+ * 动画：左→右遮罩揭示（流水扫过，扫过常驻）+ 圆点点亮；
+ *       跟随滚动进出视口 —— 滚到位置出现，往上滚收起。
+ * ========================================================== */
+
+interface WorkExperience {
+  dateRange: string;
+  company: string;
+  title: string;
 }
 
-const SERVICES: Service[] = [
+const WORK_EXPERIENCE: WorkExperience[] = [
   {
-    no: '01',
-    name: '3D 建模',
-    desc: '根据客户具体需求，创作精细的物件、角色或场景模型，适用于游戏、产品与可视化展示。',
+    dateRange: '2017.08—2019.04',
+    company: '月蚀文化发展',
+    title: '后期制作',
   },
   {
-    no: '02',
-    name: '渲染',
-    desc: '以照片级的高品质渲染呈现设计，通过定制光照、纹理与材质，将概念真实还原。',
+    dateRange: '2019.05—2020.01',
+    company: '乐城堡科技有限公司',
+    title: '海外游戏视频设计师',
   },
   {
-    no: '03',
-    name: '动效设计',
-    desc: '富有张力与故事感的动态动画与动效图形，为品牌、产品与数字体验注入活力。',
+    dateRange: '2020.03—2022.04',
+    company: '小米海外游戏',
+    title: '海外广告视频设计师',
   },
   {
-    no: '04',
-    name: '品牌设计',
-    desc: '打造协调统一的视觉识别系统——从标志到完整品牌体系，传递清晰而令人难忘的形象。',
-  },
-  {
-    no: '05',
-    name: '网页设计',
-    desc: '设计简洁、现代且以转化为导向的网站，注重版式、字体排印与用户体验。',
+    dateRange: '2022.05—至今',
+    company: '乐元素科技股份有限公司',
+    title: '高级广告创意设计师',
   },
 ];
 
 export default function ServicesSection() {
+  const sectionRef = useRef<HTMLElement>(null);
+  // 进入视口更深 20% 才触发（元素进入视口 65% 处）
+  const isInView = useInView(sectionRef, { once: false, margin: '0px 0px -35% 0px' });
+  const reduce = useReducedMotion();
+  // 减少动画偏好下恒显示；否则跟随滚动进出视口
+  const show = reduce || isInView;
+
+  // 左→右揭示进度（0..100 百分比），驱动遮罩
+  const reveal = useMotionValue(reduce ? 100 : 0);
+  // 已扫过区域可见，未扫过透明 —— 扫光从左往右推进，扫过常驻
+  const mask = useMotionTemplate`linear-gradient(to right, #000 0%, #000 ${reveal}%, rgba(0,0,0,0) calc(${reveal}% + 3%))`;
+
+  useEffect(() => {
+    const controls = animate(reveal, show ? 100 : 0, {
+      duration: reduce ? 0 : 1.3,
+      ease: [0.25, 0.1, 0.25, 1],
+    });
+    return () => controls.stop();
+  }, [show, reduce, reveal]);
+
   return (
     <section
+      ref={sectionRef}
       id="services"
-      className="bg-white px-5 sm:px-8 md:px-10 py-20 sm:py-24 md:py-32 rounded-t-[40px] sm:rounded-t-[50px] md:rounded-t-[60px]"
+      className="bg-white px-5 sm:px-8 md:px-10 py-20 sm:py-24 md:py-32 rounded-t-[40px] sm:rounded-t-[50px] md:rounded-t-[60px] overflow-hidden"
       style={{ color: '#0C0C0C' }}
     >
       <h2
-        className="font-black uppercase text-center mb-16 sm:mb-20 md:mb-28"
+        className="font-black text-center mb-16 sm:mb-20 md:mb-24"
         style={{ fontSize: 'clamp(3rem, 12vw, 160px)', color: '#0C0C0C' }}
       >
         工作经历
       </h2>
 
-      <div className="max-w-5xl mx-auto flex flex-col">
-        {SERVICES.map((s, i) => (
-          <FadeIn
-            key={s.no}
-            delay={i * 0.1}
-            y={30}
-            className={`flex items-start gap-6 sm:gap-10 py-8 sm:py-10 md:py-12${
-              i < SERVICES.length - 1 ? ' border-b' : ''
-            }`}
-            style={
-              i < SERVICES.length - 1
-                ? { borderColor: 'rgba(12, 12, 12, 0.15)' }
-                : undefined
-            }
-          >
-            <div
-              className="font-black leading-none shrink-0"
-              style={{ fontSize: 'clamp(3rem, 10vw, 140px)', color: '#0C0C0C' }}
-            >
-              {s.no}
-            </div>
-            <div className="flex flex-col pt-2 sm:pt-4">
-              <h3
-                className="font-medium uppercase mb-3"
-                style={{ fontSize: 'clamp(1rem, 2.2vw, 2.1rem)', color: '#0C0C0C' }}
+      <motion.div
+        className="timeline-wrapper"
+        style={{ maskImage: mask as any, WebkitMaskImage: mask as any }}
+      >
+        {/* 轨道：相对定位，作为唯一坐标系 */}
+        <div className="timeline-track">
+
+          {/* 渐变横线（轴线）：top:50% 与所有圆点共 Y */}
+          <div className="timeline-line" />
+
+          {/* 起点空心圆：left:20px top:50%，与轴线共 Y */}
+          <div className="timeline-start" />
+
+          {/* 各节点：容器只负责 left:X%，内部元素共享同一 X/Y */}
+          {WORK_EXPERIENCE.map((exp, i) => {
+            const isAbove = i % 2 === 1;
+            const leftPct = ((i + 1) / (total + 1)) * 100;
+
+            return (
+              <div
+                key={i}
+                className="timeline-entry"
+                style={{ left: `${leftPct}%` }}
               >
-                {s.name}
-              </h3>
-              <p
-                className="font-light leading-relaxed max-w-2xl"
-                style={{
-                  fontSize: 'clamp(0.85rem, 1.6vw, 1.25rem)',
-                  opacity: 0.6,
-                  color: '#0C0C0C',
-                }}
-              >
-                {s.desc}
-              </p>
-            </div>
-          </FadeIn>
-        ))}
-      </div>
+                {/* 竖线：与圆点同 X（left:0 + translateX(-50%)） */}
+                <div className={`timeline-stem ${isAbove ? 'stem-up' : 'stem-down'}`} />
+
+                {/* 圆点：X=left:0(x:-50%)，Y=top:50%(y:-50%)，与轴线共 Y */}
+                <motion.div
+                  className="timeline-dot"
+                  style={{ x: '-50%', y: '-50%' }}
+                  initial={{ scale: reduce ? 1 : 0 }}
+                  animate={show ? { scale: 1 } : { scale: 0 }}
+                  transition={{ duration: reduce ? 0 : 0.4, ease: [0.34, 1.56, 0.64, 1] }}
+                />
+
+                {/* 卡片：定位层（CSS transform 定位，不碰 framer transform） */}
+                <div className={`timeline-card-wrap ${isAbove ? 'card-above' : 'card-below'}`}>
+                  <div className="timeline-card">
+                    <p className="timeline-date">{exp.dateRange}</p>
+                    <p className="timeline-company">{exp.company}</p>
+                    <p className="timeline-title">{exp.title}</p>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </motion.div>
     </section>
   );
 }

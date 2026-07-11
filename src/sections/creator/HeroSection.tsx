@@ -50,7 +50,7 @@ export default function HeroSection() {
 
           <FadeIn delay={0.28} y={24}>
             <p className="hero-subtitle">
-              站得高看得远想得开看得透拿得起放得下
+              {'站得高  看得远  想得开  看得透  拿得起  放得下'}
             </p>
           </FadeIn>
 

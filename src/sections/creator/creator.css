@@ -130,6 +130,7 @@
   color: #666;
   line-height: 1.6;
   margin: 0;
+  white-space: pre-wrap;
   letter-spacing: 0.02em;
 }
 
@@ -276,4 +277,158 @@
     padding: 12px 26px;
     font-size: 0.92rem;
   }
+}
+
+/* ============================================================
+ * 工作经历 — 横向时间轴
+ * 单一坐标系：X 轴 = left:X%（由 JS 注入），Y 轴 = 50%
+ *   · 轴线 与 圆点 共 Y（top:50%）
+ *   · 圆点 与 竖线 共 X（left:0 + translateX(-50%)）
+ * ========================================================== */
+
+.timeline-wrapper { width: 100%; }
+
+.timeline-track {
+  position: relative;
+  max-width: 1100px;
+  margin: 0 auto;
+  height: 320px;
+  /* 几何参数，移动端覆写 */
+  --stem: 52px;       /* 竖线长度 */
+  --card-gap: 10px;   /* 卡片与竖线端点间距 */
+}
+
+/* 轴线（渐变，左→右生长）：中心落在 50% */
+.timeline-line {
+  position: absolute;
+  top: calc(50% - 1px);
+  left: 28px;
+  right: 28px;
+  height: 2px;
+  background: linear-gradient(90deg, #444 0%, #999 100%);
+  z-index: 1;
+}
+
+/* 起点空心圆：与轴线共 Y（top:50%） */
+.timeline-start {
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  width: 16px;
+  height: 16px;
+  transform: translate(-50%, -50%);
+  border: 2px solid #555;
+  border-radius: 50%;
+  background: #fff;
+  z-index: 3;
+}
+
+/* 节点容器：仅提供 X 基准（left:X%），宽 0 不影响子元素定位 */
+.timeline-entry {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 0;
+  z-index: 2;
+}
+
+/* 圆点：X = left:0 + x:-50%（=X%），Y = top:50% + y:-50%（=轴线） */
+.timeline-dot {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #555;
+  z-index: 4;
+}
+
+/* 竖线：与圆点同 X（left:0 + translateX(-50%)）；Y 从圆点向卡片延伸 */
+.timeline-stem {
+  position: absolute;
+  left: 0;
+  width: 1.5px;
+  background: #bbb;
+  transform: translateX(-50%);
+}
+.stem-up {
+  top: calc(50% - var(--stem));          /* 向上生长到圆点 */
+  height: var(--stem);
+}
+.stem-down {
+  top: 50%;                              /* 从圆点向下生长 */
+  height: var(--stem);
+}
+
+/* 卡片定位层：与圆点同 X（left:0 + translateX(-50%)） */
+.timeline-card-wrap {
+  position: absolute;
+  left: 0;
+  width: max-content;
+  max-width: 260px;
+}
+.card-above {
+  top: calc(50% - var(--stem) - var(--card-gap));
+  transform: translate(-50%, -100%);   /* 底边贴竖线顶端 */
+}
+.card-below {
+  top: calc(50% + var(--stem) + var(--card-gap));
+  transform: translate(-50%, 0);       /* 顶边贴竖线底端 */
+}
+
+.timeline-card {
+  text-align: center;
+  white-space: nowrap;
+  padding: 5px 8px;
+}
+
+/* ---- 文字样式 ---- */
+.timeline-date {
+  font-size: clamp(0.72rem, 1.4vw, 0.92rem);
+  font-weight: 500;
+  color: #333;
+  line-height: 1.45;
+  margin: 0;
+}
+.timeline-company {
+  font-size: clamp(0.8rem, 1.6vw, 1.05rem);
+  font-weight: 600;
+  color: #111;
+  line-height: 1.6;
+  margin: 0;
+  text-decoration: underline;
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 3px;
+}
+.timeline-title {
+  font-size: clamp(0.66rem, 1.3vw, 0.88rem);
+  font-weight: 400;
+  color: #555;
+  line-height: 1.45;
+  margin: 0;
+}
+
+/* ---- 移动端适配 ---- */
+@media (max-width: 900px) {
+  .timeline-track { height: 260px; --stem: 34px; --card-gap: 8px; }
+  .timeline-line { left: 20px; right: 20px; }
+  .timeline-start { left: 12px; width: 13px; height: 13px; }
+  .timeline-dot { width: 11px; height: 11px; }
+
+  .timeline-date { font-size: 0.62rem; }
+  .timeline-company { font-size: 0.72rem; text-decoration-thickness: 1px; text-underline-offset: 2px; }
+  .timeline-title { font-size: 0.58rem; }
+}
+
+@media (max-width: 600px) {
+  .timeline-track { height: 220px; --stem: 26px; --card-gap: 6px; }
+  .timeline-line { left: 14px; right: 14px; }
+  .timeline-start { left: 9px; width: 11px; height: 11px; }
+  .timeline-dot { width: 9px; height: 9px; }
+  .timeline-card { padding: 3px 5px; white-space: normal; max-width: 32vw; }
+
+  .timeline-date { font-size: 0.56rem; }
+  .timeline-company { font-size: 0.64rem; }
+  .timeline-title { font-size: 0.52rem; }
 }
