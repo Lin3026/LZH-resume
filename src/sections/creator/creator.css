@@ -1,17 +1,26 @@
 /* ===== 3D Creator 作品集（老家分享页）全局样式 ===== */
 
-/* 页面容器 — 纯白底（与首屏一致） */
+/* 页面容器 — 纯黑底 + 白字（暗色主题） */
 .creator-page {
-  background: #ffffff;
+  background: #000000;
   font-family: 'Kanit', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   overflow-x: clip;
   min-height: 100vh;
-  color: #1a1a1a;
+  color: #ededed;
 }
 
-/* section 标题渐变（白底使用：深灰 → 中灰，保证可读） */
+/* 通用彩色渐变文字（标题 / 副标题） */
+.text-gradient {
+  background: linear-gradient(135deg, #22d3ee 0%, #a855f7 55%, #f472b6 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+/* section 标题渐变（暗色主题：青 → 紫 → 粉，彩色渐变） */
 .hero-heading {
-  background: linear-gradient(180deg, #1a1a1a 0%, #6b7780 100%);
+  background: linear-gradient(135deg, #22d3ee 0%, #a855f7 55%, #f472b6 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -28,8 +37,20 @@
   font-size: clamp(3rem, 12vw, 160px);
   font-weight: 900;
   line-height: 1.05;
-  color: #111111;
+  background: linear-gradient(135deg, #22d3ee 0%, #a855f7 55%, #f472b6 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
   letter-spacing: -0.02em;
+}
+/* ScrollFloat 拆出的单个字符也需要继承渐变（background-clip:text 不穿透子元素） */
+.about-title .scroll-float-text .char {
+  background: linear-gradient(135deg, #22d3ee 0%, #a855f7 55%, #f472b6 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
 }
 
 /* 段落：正文大小、深色、居中、限宽 */
@@ -42,7 +63,7 @@
   font-size: clamp(1rem, 2vw, 1.35rem);
   font-weight: 500;
   line-height: 1.9;
-  color: #333333;
+  color: #d4d4d4;
   text-align: center;
 }
 
@@ -55,7 +76,7 @@
   min-height: 100vh;
   max-height: 100vh;
   overflow: hidden;
-  background: #ffffff;
+  background: #000000;
   padding-left: 150px;
 }
 
@@ -119,7 +140,11 @@
   font-weight: 800;
   line-height: 1.12;
   letter-spacing: -0.02em;
-  color: #000;
+  background: linear-gradient(135deg, #22d3ee 0%, #a855f7 55%, #f472b6 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
   margin: 0;
 }
 
@@ -127,11 +152,15 @@
 .hero-subtitle {
   font-size: clamp(0.9rem, 1.4vw, 1.15rem);
   font-weight: 400;
-  color: #666;
   line-height: 1.6;
   margin: 0;
   white-space: pre-wrap;
   letter-spacing: 0.02em;
+  background: linear-gradient(135deg, #22d3ee 0%, #a855f7 55%, #f472b6 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
 }
 
 /* CTA 按钮 */
@@ -140,10 +169,10 @@
   align-items: center;
   gap: 8px;
   padding: 14px 32px;
-  border: 2px solid #222;
+  border: 2px solid rgba(255, 255, 255, 0.6);
   border-radius: 12px;
   background: transparent;
-  color: #222;
+  color: #ffffff;
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
@@ -154,10 +183,10 @@
 }
 
 .hero-cta:hover {
-  background: #222;
-  color: #fff;
+  background: #ffffff;
+  color: #000000;
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 8px 24px rgba(255, 255, 255, 0.2);
 }
 
 .hero-cta-arrow {
@@ -181,7 +210,7 @@
 .hero-info-tag {
   font-size: clamp(1.1rem, 2vw, 1.5rem);
   font-weight: 800;
-  color: #111;
+  color: #ffffff;
   letter-spacing: 0.02em;
 }
 
@@ -308,7 +337,7 @@
   left: 28px;
   right: 28px;
   height: 2px;
-  background: linear-gradient(90deg, #444 0%, #999 100%);
+  background: linear-gradient(90deg, rgba(34,211,238,0.35) 0%, rgba(168,85,247,0.65) 100%);
   z-index: 1;
 }
 
@@ -320,9 +349,9 @@
   width: 16px;
   height: 16px;
   transform: translate(-50%, -50%);
-  border: 2px solid #555;
+  border: 2px solid #888;
   border-radius: 50%;
-  background: #fff;
+  background: #000;
   z-index: 3;
 }
 
@@ -343,7 +372,7 @@
   width: 14px;
   height: 14px;
   border-radius: 50%;
-  background: #555;
+  background: #22d3ee;
   z-index: 4;
 }
 
@@ -352,7 +381,7 @@
   position: absolute;
   left: 0;
   width: 1.5px;
-  background: #bbb;
+  background: rgba(255,255,255,0.45);
   transform: translateX(-50%);
 }
 .stem-up {
@@ -391,14 +420,14 @@
 .timeline-date {
   font-size: clamp(0.96rem, 1.87vw, 1.23rem);
   font-weight: 500;
-  color: #333;
+  color: #cfcfcf;
   line-height: 1.45;
   margin: 0;
 }
 .timeline-company {
   font-size: clamp(1.07rem, 2.13vw, 1.4rem);
   font-weight: 600;
-  color: #111;
+  color: #ffffff;
   line-height: 1.6;
   margin: 0;
   text-decoration: underline;
@@ -408,7 +437,7 @@
 .timeline-title {
   font-size: clamp(0.88rem, 1.73vw, 1.17rem);
   font-weight: 400;
-  color: #555;
+  color: #a3a3a3;
   line-height: 1.45;
   margin: 0;
 }

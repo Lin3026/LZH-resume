@@ -104,7 +104,7 @@ export default function MediaDomeSection() {
     <section
       id="dome"
       style={{
-        background: '#ffffff',
+        background: '#000000',
         minHeight: '100vh',
         display: 'flex',
         flexDirection: 'column',
@@ -120,8 +120,6 @@ export default function MediaDomeSection() {
             paddingTop: '2.5rem',
             paddingBottom: '0.5rem',
             fontWeight: 800,
-            color: '#000',
-            WebkitTextFillColor: '#000',
             lineHeight: 1.1,
             letterSpacing: '-0.02em',
             margin: 0,
@@ -134,7 +132,7 @@ export default function MediaDomeSection() {
             margin: 0,
             fontSize: 'clamp(0.9rem, 1.6vw, 1.1rem)',
             fontWeight: 400,
-            color: '#888',
+            color: 'rgba(255,255,255,0.7)',
             letterSpacing: '0.08em',
           }}
         >

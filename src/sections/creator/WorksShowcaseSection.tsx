@@ -154,7 +154,7 @@ export default function WorksShowcaseSection() {
   return (
     <section
       id="showcase"
-      className="relative z-10 bg-white px-4 sm:px-8 md:px-10 pt-20 sm:pt-24 md:pt-28 pb-24"
+      className="relative z-10 bg-[#0a0a0a] px-4 sm:px-8 md:px-10 pt-20 sm:pt-24 md:pt-28 pb-24"
     >
       <FadeIn delay={0} y={40} className="mb-8 sm:mb-10">
         <h2
@@ -166,7 +166,7 @@ export default function WorksShowcaseSection() {
       </FadeIn>
 
       <FadeIn delay={0.1} y={20} className="mb-12 sm:mb-16 group">
-        <p className="text-center font-medium tracking-wide text-[#1a1a1a]/55" style={{ fontSize: 'clamp(0.95rem, 2vw, 1.15rem)' }}>
+        <p className="text-center font-medium tracking-wide text-gradient" style={{ fontSize: 'clamp(0.95rem, 2vw, 1.15rem)' }}>
           点击轨道上的作品，查看视频详情
           <span className="ml-2 inline-block align-middle text-[#22d3ee] transition-transform duration-300 group-hover:translate-x-1">→</span>
         </p>
@@ -184,7 +184,7 @@ export default function WorksShowcaseSection() {
           rotation={-6}
           duration={32}
           showPath
-          pathColor="rgba(26,26,26,0.28)"
+          pathColor="rgba(255,255,255,0.25)"
           pathWidth={3}
           onItemClick={handleItemClick}
         />

@@ -5,38 +5,11 @@ import { FadeIn } from './components';
  * 布局：左侧大标题 + 按钮 | 右侧人物线稿插画
  */
 const BASE = import.meta.env.BASE_URL;
-const HERO_VIDEO = `${BASE}hero-video.mp4`;
-const HERO_POSTER = `${BASE}hero-illustration.jpg`;
-
-const NAV_LINKS = [
-  { label: '关于', target: 'about' },
-  { label: '工作经历', target: 'services' },
-  { label: '项目', target: 'projects' },
-];
+const HERO_VIDEO = `${BASE}hero-video-v2.mp4`;
 
 export default function HeroSection() {
-  const scrollTo = (id: string) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
-  };
-
   return (
     <section id="hero" className="hero-section">
-      {/* 顶部导航 */}
-      <FadeIn delay={0} y={-16} className="hero-nav-wrap">
-        <nav className="hero-nav">
-          {NAV_LINKS.map((link) => (
-            <button
-              key={link.label}
-              type="button"
-              onClick={() => scrollTo(link.target)}
-              className="hero-nav-link"
-            >
-              {link.label}
-            </button>
-          ))}
-        </nav>
-      </FadeIn>
-
       {/* 主内容区：左文字 + 右插画 */}
       <div className="hero-body">
         {/* 左侧文字 */}
@@ -82,7 +55,6 @@ export default function HeroSection() {
             <video
               ref={(el) => { if (el) el.muted = true; }}
               src={HERO_VIDEO}
-              poster={HERO_POSTER}
               className="hero-illustration"
               autoPlay
               muted

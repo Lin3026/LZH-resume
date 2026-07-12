@@ -12,8 +12,8 @@ import './App.css';
 const MusicShare = lazy(() => import('./sections/MusicShare'));
 // 互动加载页（三消小游戏 + 资源预加载）懒加载
 const GameLoading = lazy(() => import('./sections/GameLoading'));
-// 老家分享页（3D Creator 作品集）懒加载
-const CreatorPortfolio = lazy(() => import('./sections/creator/CreatorPortfolio'));
+  // 个人简历页（3D Creator 作品集，原「老家分享」）懒加载
+  const CreatorPortfolio = lazy(() => import('./sections/creator/CreatorPortfolio'));
 
 /** 页面视图 */
 type PageView = 'home' | 'music' | 'game' | 'creator';
@@ -32,8 +32,8 @@ export default function App() {
   };
   const [hasPassedGame, setHasPassedGame] = useState<boolean>(readPassed);
 
-  // 当前页面视图：未通关强制落地游戏页，已通关（同会话）才直接进个人空间
-  const [currentPage, setCurrentPage] = useState<PageView>(readPassed() ? 'home' : 'game');
+  // 当前页面视图：未通关强制落地游戏页，已通关（同会话）直接进个人简历
+  const [currentPage, setCurrentPage] = useState<PageView>(readPassed() ? 'creator' : 'game');
 
   // 用 useIsMobile (基于屏幕宽度 < 768px) 判断，避免触屏笔记本误判
   const isMobile = useIsMobile();
@@ -58,8 +58,8 @@ export default function App() {
   const topNavLinks = [
     { label: '个人空间', page: 'home' as PageView },
     { label: '音乐分享', page: 'music' as PageView },
-    { label: '互动入口', page: 'game' as PageView },
-    { label: '老家分享', page: 'creator' as PageView },
+    { label: '互动游戏', page: 'game' as PageView },
+    { label: '个人简历', page: 'creator' as PageView },
   ];
 
   const handleTopNavClick = (page: PageView | null) => {
@@ -73,7 +73,7 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  // 游戏通关：记录会话状态并放行进入个人空间
+  // 游戏通关：记录会话状态并放行进入个人简历
   const handleGameComplete = useCallback(() => {
     try {
       sessionStorage.setItem(PASSED_KEY, '1');
@@ -81,7 +81,7 @@ export default function App() {
       /* 忽略隐私模式等写入失败 */
     }
     setHasPassedGame(true);
-    setCurrentPage('home');
+    setCurrentPage('creator');
   }, []);
 
   // 光标控制：仅 PC 端使用自定义光标，移动端用原生光标
@@ -115,8 +115,8 @@ export default function App() {
 
   return (
     <div className={`min-h-screen text-white bg-slate-950 ${showCustomCursor && currentPage === 'home' ? 'cursor-hidden' : ''}`}>
-      {/* 顶部固定导航栏 — 半透明，常驻不随滚动隐藏（老家分享页独立导航，隐藏全局栏） */}
-      {currentPage !== 'creator' && (
+      {/* 顶部固定导航栏 — 半透明，常驻不随滚动隐藏，全站统一显示 */}
+      {
       <header
         className="fixed top-0 left-0 right-0 z-[60] flex items-center justify-center gap-8 md:gap-16"
         style={{
@@ -158,7 +158,7 @@ export default function App() {
           );
         })}
       </header>
-      )}
+      }
 
       {/* 左侧导航栏 — 仅在个人空间页面显示
           - PC端：始终展开，固定宽度，主内容区留出对应左边距
@@ -227,7 +227,7 @@ export default function App() {
             <div className="w-8 h-8 border-2 border-cyan-400 border-t-transparent rounded-full animate-spin" />
           </div>
         }>
-          <CreatorPortfolio onBack={() => setCurrentPage(hasPassedGame ? 'home' : 'game')} />
+          <CreatorPortfolio />
         </Suspense>
       )}
     </div>
