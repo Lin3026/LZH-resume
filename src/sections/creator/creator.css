@@ -286,13 +286,16 @@
  *   · 圆点 与 竖线 共 X（left:0 + translateX(-50%)）
  * ========================================================== */
 
-.timeline-wrapper { width: 100%; }
+.timeline-wrapper {
+  width: 100%;
+  overflow: visible;
+}
 
 .timeline-track {
   position: relative;
   max-width: 1100px;
   margin: 0 auto;
-  height: 320px;
+  height: 420px;
   /* 几何参数，移动端覆写 */
   --stem: 52px;       /* 竖线长度 */
   --card-gap: 10px;   /* 卡片与竖线端点间距 */
@@ -379,30 +382,31 @@
 
 .timeline-card {
   text-align: center;
-  white-space: nowrap;
+  white-space: normal;
+  max-width: 240px;
   padding: 5px 8px;
 }
 
 /* ---- 文字样式 ---- */
 .timeline-date {
-  font-size: clamp(0.72rem, 1.4vw, 0.92rem);
+  font-size: clamp(0.96rem, 1.87vw, 1.23rem);
   font-weight: 500;
   color: #333;
   line-height: 1.45;
   margin: 0;
 }
 .timeline-company {
-  font-size: clamp(0.8rem, 1.6vw, 1.05rem);
+  font-size: clamp(1.07rem, 2.13vw, 1.4rem);
   font-weight: 600;
   color: #111;
   line-height: 1.6;
   margin: 0;
   text-decoration: underline;
-  text-decoration-thickness: 1.5px;
-  text-underline-offset: 3px;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
 }
 .timeline-title {
-  font-size: clamp(0.66rem, 1.3vw, 0.88rem);
+  font-size: clamp(0.88rem, 1.73vw, 1.17rem);
   font-weight: 400;
   color: #555;
   line-height: 1.45;
@@ -411,24 +415,24 @@
 
 /* ---- 移动端适配 ---- */
 @media (max-width: 900px) {
-  .timeline-track { height: 260px; --stem: 34px; --card-gap: 8px; }
+  .timeline-track { height: 350px; --stem: 34px; --card-gap: 8px; }
   .timeline-line { left: 20px; right: 20px; }
   .timeline-start { left: 12px; width: 13px; height: 13px; }
   .timeline-dot { width: 11px; height: 11px; }
 
-  .timeline-date { font-size: 0.62rem; }
-  .timeline-company { font-size: 0.72rem; text-decoration-thickness: 1px; text-underline-offset: 2px; }
-  .timeline-title { font-size: 0.58rem; }
+  .timeline-date { font-size: 0.83rem; }
+  .timeline-company { font-size: 0.96rem; text-decoration-thickness: 1.5px; text-underline-offset: 3px; }
+  .timeline-title { font-size: 0.77rem; }
 }
 
 @media (max-width: 600px) {
-  .timeline-track { height: 220px; --stem: 26px; --card-gap: 6px; }
+  .timeline-track { height: 300px; --stem: 26px; --card-gap: 6px; }
   .timeline-line { left: 14px; right: 14px; }
   .timeline-start { left: 9px; width: 11px; height: 11px; }
   .timeline-dot { width: 9px; height: 9px; }
-  .timeline-card { padding: 3px 5px; white-space: normal; max-width: 32vw; }
+  .timeline-card { padding: 3px 5px; white-space: normal; max-width: 40vw; }
 
-  .timeline-date { font-size: 0.56rem; }
-  .timeline-company { font-size: 0.64rem; }
-  .timeline-title { font-size: 0.52rem; }
+  .timeline-date { font-size: 0.75rem; }
+  .timeline-company { font-size: 0.85rem; }
+  .timeline-title { font-size: 0.69rem; }
 }

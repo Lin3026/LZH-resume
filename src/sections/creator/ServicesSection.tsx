@@ -40,7 +40,7 @@ const WORK_EXPERIENCE: WorkExperience[] = [
   },
   {
     dateRange: '2022.05—至今',
-    company: '乐元素科技股份有限公司',
+    company: '乐元素科技有限公司',
     title: '高级广告创意设计师',
   },
 ];
