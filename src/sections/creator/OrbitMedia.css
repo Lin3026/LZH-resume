@@ -33,7 +33,6 @@
 
 .orbit-path-svg path {
   stroke-linecap: round;
-  stroke-dasharray: 2 10;
 }
 
 .orbit-item {
@@ -72,6 +71,40 @@
   height: 100%;
   object-fit: cover;
   display: block;
+}
+
+/* 轨道中心的发光星球（太阳） */
+.orbit-sun {
+  width: clamp(90px, 18vw, 140px);
+  height: clamp(90px, 18vw, 140px);
+  border-radius: 50%;
+  background: radial-gradient(circle at 34% 32%, #fff7e0 0%, #ffd86b 32%, #ff9d3c 64%, #ff6a3d 100%);
+  box-shadow:
+    0 0 30px 8px rgba(255, 180, 80, 0.70),
+    0 0 60px 20px rgba(255, 120, 40, 0.45),
+    0 0 100px 42px rgba(255, 90, 30, 0.25);
+  animation: sun-pulse 4.5s ease-in-out infinite;
+}
+
+@keyframes sun-pulse {
+  0%, 100% {
+    box-shadow:
+      0 0 30px 8px rgba(255, 180, 80, 0.70),
+      0 0 60px 20px rgba(255, 120, 40, 0.45),
+      0 0 100px 42px rgba(255, 90, 30, 0.25);
+  }
+  50% {
+    box-shadow:
+      0 0 42px 12px rgba(255, 200, 100, 0.85),
+      0 0 82px 30px rgba(255, 140, 50, 0.55),
+      0 0 135px 58px rgba(255, 100, 40, 0.30);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orbit-sun {
+    animation: none;
+  }
 }
 
 .orbit-item-index {

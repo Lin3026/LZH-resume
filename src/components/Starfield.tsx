@@ -15,6 +15,7 @@ export default function Starfield() {
       <div className="starfield-layer s3" />
       <div className="shooting-star ss1" />
       <div className="shooting-star ss2" />
+      <div className="shooting-star ss3" />
     </div>
   );
 }

@@ -51,8 +51,8 @@ function EducationRow({ item, index }: { item: EducationItem; index: number }) {
       </span>
       {/* 详情 */}
       <BorderGlow
-        className="block"
-        backgroundColor="rgba(255,255,255,0.05)"
+        className="block glass-card"
+        backgroundColor="rgba(18,18,24,0.82)"
         borderRadius={24}
         glowColor="250 85 70"
         colors={['#3b82f6', '#8b5cf6', '#a855f7']}
@@ -74,7 +74,7 @@ export default function EducationSection() {
   return (
     <section
       id="education"
-      className="relative z-10 bg-[#0a0a0a]/70 rounded-t-[40px] sm:rounded-t-[50px] md:rounded-t-[60px] -mt-10 sm:-mt-12 md:-mt-14 px-4 sm:px-8 md:px-10 pt-20 sm:pt-24 md:pt-28 pb-24"
+      className="relative z-10 rounded-t-[40px] sm:rounded-t-[50px] md:rounded-t-[60px] -mt-10 sm:-mt-12 md:-mt-14 px-4 sm:px-8 md:px-10 pt-20 sm:pt-24 md:pt-28 pb-24"
     >
       <FadeIn delay={0} y={40} className="mb-14 sm:mb-20">
         <h2

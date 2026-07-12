@@ -154,14 +154,14 @@ export default function WorksShowcaseSection() {
   return (
     <section
       id="showcase"
-      className="relative z-10 bg-[#0a0a0a]/70 px-4 sm:px-8 md:px-10 pt-20 sm:pt-24 md:pt-28 pb-24"
+      className="relative z-10 px-4 sm:px-8 md:px-10 pt-20 sm:pt-24 md:pt-28 pb-24"
     >
       <FadeIn delay={0} y={40} className="mb-8 sm:mb-10">
         <h2
           className="hero-heading font-black uppercase leading-none tracking-tight text-center"
           style={{ fontSize: 'clamp(3rem, 12vw, 160px)' }}
         >
-          作品解析
+          视频解析
         </h2>
       </FadeIn>
 
@@ -184,8 +184,9 @@ export default function WorksShowcaseSection() {
           rotation={-6}
           duration={32}
           showPath
-          pathColor="rgba(255,255,255,0.25)"
-          pathWidth={3}
+          pathWidth={4}
+          pathGradient={['#22d3ee', '#a855f7', '#f472b6', '#facc15', '#22d3ee']}
+          centerContent={<div className="orbit-sun" aria-hidden="true" />}
           onItemClick={handleItemClick}
         />
       </div>

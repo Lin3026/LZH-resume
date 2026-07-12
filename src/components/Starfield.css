@@ -54,7 +54,7 @@
   50%      { opacity: 1; }
 }
 
-/* 流星：细长高光拖尾，缓慢划过，极低频 */
+/* 流星：彩色拖尾，沿对角划过。长周期 + 均匀错峰，触发间隔更舒缓 */
 .shooting-star {
   position: absolute;
   top: 12%;
@@ -62,23 +62,33 @@
   width: 140px;
   height: 2px;
   border-radius: 2px;
-  background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.9) 70%, #ffffff 100%);
-  filter: drop-shadow(0 0 6px rgba(180, 220, 255, 0.8));
+  /* 拖尾用色相变量，尾部透明→彩色→亮白，配合同色辉光 */
+  background: linear-gradient(90deg, transparent 0%, var(--ss-color) 55%, #ffffff 100%);
+  filter: drop-shadow(0 0 7px var(--ss-color));
   opacity: 0;
   transform: rotate(18deg);
-  animation: shooting 9s ease-in infinite;
+  --ss-color: #5fd0ff; /* 青蓝 */
+  animation: shooting 15s ease-in infinite;
 }
 .shooting-star.ss2 {
   top: 38%;
   width: 100px;
-  animation-delay: 4.5s;
-  animation-duration: 11s;
+  --ss-color: #ff6ad5; /* 品红 */
+  animation-delay: 5s;
+  animation-duration: 15s;
+}
+.shooting-star.ss3 {
+  top: 64%;
+  width: 120px;
+  --ss-color: #ffce5f; /* 琥珀 */
+  animation-delay: 10s;
+  animation-duration: 15s;
 }
 
 @keyframes shooting {
   0%   { transform: translate(0, 0) rotate(18deg); opacity: 0; }
-  3%   { opacity: 1; }
-  12%  { transform: translate(120vw, 38vh) rotate(18deg); opacity: 0; }
+  4%   { opacity: 1; }
+  19%  { transform: translate(120vw, 38vh) rotate(18deg); opacity: 0; }
   100% { transform: translate(120vw, 38vh) rotate(18deg); opacity: 0; }
 }
 

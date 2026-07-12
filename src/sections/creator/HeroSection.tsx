@@ -5,10 +5,9 @@ import { FadeIn } from './components';
  * 布局：左侧大标题 + 按钮 | 右侧人物线稿插画
  */
 const BASE = import.meta.env.BASE_URL;
-// 透明背景版（VP9 + alpha）：Chrome/Edge/Firefox 显示透明，星空可透出
-const HERO_VIDEO_WEBM = `${BASE}hero-video-v3.webm`;
-// 兜底：Safari 对 WebM 透明支持不稳定，退回黑底 H.264 MP4
-const HERO_VIDEO_MP4 = `${BASE}hero-video-v2.mp4`;
+// v5: premultiply 去蓝边（直通alpha源 → 预乘后VP9+alpha，Safari退H.264黑底）
+const HERO_VIDEO_WEBM = `${BASE}hero-video-v5.webm`;
+const HERO_VIDEO_MP4 = `${BASE}hero-video-v5.mp4`;
 
 export default function HeroSection() {
   return (

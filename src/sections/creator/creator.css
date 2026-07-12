@@ -1,5 +1,17 @@
 /* ===== 3D Creator 作品集（老家分享页）全局样式 ===== */
 
+/* 毛玻璃卡片通用：半透明深底 + 强模糊/高饱和（模拟厚玻璃折射感） */
+.glass-card {
+  -webkit-backdrop-filter: blur(32px) saturate(1.8) brightness(1.04);
+  backdrop-filter: blur(32px) saturate(1.8) brightness(1.04);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    inset 0 -1px 2px rgba(0, 0, 0, 0.3),
+    0 12px 40px rgba(0, 0, 0, 0.35),
+    0 4px 16px rgba(0, 0, 0, 0.25);
+}
+
 /* 页面容器 — 透明底，透出全局星空背景（暗色主题） */
 .creator-page {
   background: transparent;
@@ -416,11 +428,7 @@
   white-space: normal;
   max-width: 240px;
   padding: 8px 12px;
-  border-radius: 14px;
-  background: rgba(10, 10, 10, 0.55);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  /* 视觉（毛玻璃 + 边缘走光）由 BorderGlow(.glass-card) 提供，此处仅保留排版 */
 }
 
 /* ---- 文字样式 ---- */

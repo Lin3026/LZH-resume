@@ -1,7 +1,7 @@
 // 改编自 React Bits — OrbitImages (Dominik Koch, https://x.com/dominikkoch)
 // 轨道项改为 <img> 缩略图，支持点击回调
 
-import { useMemo, useEffect, useLayoutEffect, useRef, useState, type ReactNode } from 'react';
+import { useMemo, useEffect, useLayoutEffect, useRef, useState, useId, type ReactNode } from 'react';
 import { motion, useMotionValue, useTransform, animate } from 'framer-motion';
 import './OrbitMedia.css';
 
@@ -128,6 +128,8 @@ export interface OrbitMediaProps {
   showPath?: boolean;
   pathColor?: string;
   pathWidth?: number;
+  /** 彩色渐变描边：传入 2+ 个颜色时，用线性渐变替换单色 pathColor（轨道变成彩色实线） */
+  pathGradient?: string[];
   easing?: 'linear' | 'easeIn' | 'easeOut' | 'easeInOut';
   paused?: boolean;
   centerContent?: ReactNode;
@@ -155,6 +157,7 @@ export default function OrbitMedia({
   showPath = false,
   pathColor = 'rgba(0,0,0,0.1)',
   pathWidth = 2,
+  pathGradient,
   easing = 'linear',
   paused = false,
   centerContent,
@@ -222,6 +225,10 @@ export default function OrbitMedia({
   const containerWidth = responsive ? '100%' : '100%';
   const containerHeight = responsive ? 'auto' : 'auto';
 
+  const rawGradientId = useId();
+  const gradientId = `orbit-grad-${rawGradientId.replace(/:/g, '')}`;
+  const useGradient = !!pathGradient && pathGradient.length > 1;
+
   const items = (images ?? []).map((src, index) => (
     <img
       key={src + index}
@@ -263,7 +270,25 @@ export default function OrbitMedia({
               viewBox={`0 0 ${baseWidth} ${baseWidth}`}
               className="orbit-path-svg"
             >
-              <path d={path} fill="none" stroke={pathColor} strokeWidth={pathWidth / (scale ?? 1)} />
+              {useGradient && (
+                <defs>
+                  <linearGradient id={gradientId} x1="0%" y1="0%" x2="100%" y2="0%">
+                    {pathGradient!.map((c, i) => (
+                      <stop
+                        key={i}
+                        offset={`${(i / (pathGradient!.length - 1)) * 100}%`}
+                        stopColor={c}
+                      />
+                    ))}
+                  </linearGradient>
+                </defs>
+              )}
+              <path
+                d={path}
+                fill="none"
+                stroke={useGradient ? `url(#${gradientId})` : pathColor}
+                strokeWidth={pathWidth / (scale ?? 1)}
+              />
             </svg>
           )}
 

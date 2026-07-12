@@ -6,6 +6,7 @@ import {
   useMotionTemplate,
   animate,
 } from 'framer-motion';
+import BorderGlow from '../../components/BorderGlow';
 
 /* ============================================================
  * 工作经历 — 横向时间轴
@@ -143,11 +144,19 @@ export default function ServicesSection({ triggerRef }: { triggerRef?: React.Ref
 
                 {/* 卡片：定位层（CSS transform 定位，不碰 framer transform） */}
                 <div className={`timeline-card-wrap ${isAbove ? 'card-above' : 'card-below'}`}>
-                  <div className="timeline-card">
+                  <BorderGlow
+                    className="timeline-card glass-card"
+                    backgroundColor="rgba(18,18,24,0.84)"
+                    borderRadius={16}
+                    glowColor="250 85 70"
+                    colors={['#3b82f6', '#8b5cf6', '#a855f7']}
+                    edgeSensitivity={35}
+                    glowRadius={22}
+                  >
                     <p className="timeline-date">{exp.dateRange}</p>
                     <p className="timeline-company">{exp.company}</p>
                     <p className="timeline-title">{exp.title}</p>
-                  </div>
+                  </BorderGlow>
                 </div>
               </div>
             );

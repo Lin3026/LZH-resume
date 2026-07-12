@@ -69,8 +69,8 @@ function ContactCard({ item, index }: { item: ContactItem; index: number }) {
   return (
     <FadeIn delay={index * 0.1} y={30} className="h-full">
       <BorderGlow
-        className="h-full"
-        backgroundColor="rgba(255,255,255,0.03)"
+        className="h-full glass-card"
+        backgroundColor="rgba(18,18,24,0.84)"
         borderRadius={28}
         glowColor="250 85 70"
         colors={['#3b82f6', '#8b5cf6', '#a855f7']}
@@ -98,7 +98,7 @@ export default function ContactSection() {
   return (
     <section
       id="contact"
-      className="relative z-10 bg-[#0a0a0a]/70 rounded-t-[40px] sm:rounded-t-[50px] md:rounded-t-[60px] -mt-10 sm:-mt-12 md:-mt-14 px-4 sm:px-8 md:px-10 pt-20 sm:pt-24 md:pt-28 pb-24"
+      className="relative z-10 rounded-t-[40px] sm:rounded-t-[50px] md:rounded-t-[60px] -mt-10 sm:-mt-12 md:-mt-14 px-4 sm:px-8 md:px-10 pt-20 sm:pt-24 md:pt-28 pb-24"
     >
       <FadeIn delay={0} y={40} className="mb-14 sm:mb-20">
         <h2

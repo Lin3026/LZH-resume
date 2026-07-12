@@ -13,7 +13,7 @@ const NAV_ITEMS: NavItem[] = [
   { label: '关于我', id: 'about' },
   { label: '工作经历', id: 'services' },
   { label: '工作内容', id: 'projects' },
-  { label: '作品解析', id: 'showcase' },
+  { label: '视频解析', id: 'showcase' },
   { label: '教育经历', id: 'education' },
   { label: '联系方式', id: 'contact' },
 ];

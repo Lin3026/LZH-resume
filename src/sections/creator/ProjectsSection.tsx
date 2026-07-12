@@ -23,7 +23,7 @@ const WORK_ITEMS: WorkItem[] = [
     dateRange: '2022-05 - 至今',
     desc: `负责开心消消乐、开心水族箱、假日乐消消、宝贝乐消消、BabyTopia 等多款游戏创意方向。对接外包视频制作，创意整理及投放数据分析并做出计划调整。其中「假日乐消消」去年国内上线成功，今年开始盈利。
 
-每周将所有素材数据进行统计(消耗、新增、CTR、CVR、CP1、次留、首日付费率.首日RO1、3日RO1、7日ROI)并做出分析跑量素材的共性及低效素材的原因。并做出调整素材的制作和测试方向。每两周做出复盘 报告分享给组内同事让大家能以此得到灵感并应用到各自的项目中去。`,
+每周将所有素材数据进行统计(消耗、新增、CTR、CVR、CPI、次留、首日付费率、首日ROI、3日ROI、7日ROI)并做出分析跑量素材的共性及低效素材的原因。并做出调整素材的制作和测试方向。每两周做出复盘 报告分享给组内同事让大家能以此得到灵感并应用到各自的项目中去。`,
   },
   {
     company: '小米海外游戏',
@@ -52,8 +52,8 @@ Tile Fun 曾进入日本排行榜第九、欧洲排行第五。`,
 function WorkCard({ item }: { item: WorkItem }) {
   return (
     <BorderGlow
-      className="w-full max-h-[78vh]"
-      backgroundColor="#161616"
+      className="w-full max-h-[78vh] glass-card"
+      backgroundColor="rgba(18,18,24,0.84)"
       borderRadius={40}
       glowColor="250 85 70"
       colors={['#3b82f6', '#8b5cf6', '#a855f7']}
@@ -84,7 +84,7 @@ function WorkCard({ item }: { item: WorkItem }) {
 
         {/* 文字框 */}
         <p
-          className="whitespace-pre-line flex-1 min-h-0 overflow-y-auto rounded-[24px] sm:rounded-[32px] border border-white/10 bg-[#222222] p-5 sm:p-8 leading-relaxed text-white/90"
+          className="whitespace-pre-line flex-1 min-h-0 overflow-y-auto rounded-[24px] sm:rounded-[32px] border border-white/10 bg-white/[0.04] backdrop-blur-md p-5 sm:p-8 leading-relaxed text-white/90"
           style={{ fontSize: 'clamp(0.85rem, 1.4vw, 1.1rem)' }}
         >
           {item.desc}
