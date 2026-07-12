@@ -25,7 +25,7 @@ interface WorkExperience {
 const WORK_EXPERIENCE: WorkExperience[] = [
   {
     dateRange: '2017.08—2019.04',
-    company: '月蚀文化发展',
+    company: '北京月蚀有限公司',
     title: '后期制作',
   },
   {
