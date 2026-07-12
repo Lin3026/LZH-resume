@@ -12,7 +12,7 @@ export default function AboutSection({ sectionRef }: { sectionRef?: React.Ref<HT
       id="about"
       ref={sectionRef}
       className="relative flex flex-col items-center justify-center min-h-screen overflow-hidden px-5 sm:px-8 md:px-10 py-20"
-      style={{ background: '#000000' }}
+      style={{ background: 'transparent' }}
     >
       {/* 标题 — ScrollFloat 逐字浮现 */}
       <div className="relative z-10 w-full flex justify-center -mt-[calc(3rem_+_2vh)] sm:-mt-[calc(4rem_+_2vh)] md:-mt-[calc(5rem_+_2vh)]">

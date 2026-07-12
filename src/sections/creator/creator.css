@@ -1,8 +1,8 @@
 /* ===== 3D Creator 作品集（老家分享页）全局样式 ===== */
 
-/* 页面容器 — 纯黑底 + 白字（暗色主题） */
+/* 页面容器 — 透明底，透出全局星空背景（暗色主题） */
 .creator-page {
-  background: #000000;
+  background: transparent;
   font-family: 'Kanit', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   overflow-x: clip;
   min-height: 100vh;
@@ -76,7 +76,7 @@
   min-height: 100vh;
   max-height: 100vh;
   overflow: hidden;
-  background: #000000;
+  background: transparent;
   padding-left: 150px;
 }
 
@@ -230,6 +230,7 @@
 }
 
 .hero-illustration {
+  background: transparent;
   width: 100%;
   max-width: 1400px;
   height: auto;
@@ -414,7 +415,12 @@
   text-align: center;
   white-space: normal;
   max-width: 240px;
-  padding: 5px 8px;
+  padding: 8px 12px;
+  border-radius: 14px;
+  background: rgba(10, 10, 10, 0.55);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 /* ---- 文字样式 ---- */
@@ -460,7 +466,7 @@
   .timeline-line { left: 14px; right: 14px; }
   .timeline-start { left: 9px; width: 11px; height: 11px; }
   .timeline-dot { width: 9px; height: 9px; }
-  .timeline-card { padding: 3px 5px; white-space: normal; max-width: 40vw; }
+  .timeline-card { padding: 6px 9px; white-space: normal; max-width: 40vw; }
 
   .timeline-date { font-size: 0.75rem; }
   .timeline-company { font-size: 0.85rem; }

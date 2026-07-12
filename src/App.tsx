@@ -5,6 +5,7 @@ import VideoShowcase from './sections/VideoShowcase';
 import MouseTrailParticles from './hooks/MouseTrailParticles';
 import MouseClickRipple from './hooks/MouseClickRipple';
 import ScrollParticles from './hooks/ScrollParticles';
+import Starfield from './components/Starfield';
 import { useIsMobile } from './hooks/use-mobile';
 import './App.css';
 
@@ -114,7 +115,10 @@ export default function App() {
   }, []);
 
   return (
-    <div className={`min-h-screen text-white bg-slate-950 ${showCustomCursor && currentPage === 'home' ? 'cursor-hidden' : ''}`}>
+    <div className={`min-h-screen text-white bg-transparent ${showCustomCursor && currentPage === 'home' ? 'cursor-hidden' : ''}`}>
+      {/* 全局宇宙星空背景：固定铺满视口、置于最底层，全站共享 */}
+      <Starfield />
+
       {/* 顶部固定导航栏 — 半透明，常驻不随滚动隐藏，全站统一显示 */}
       {
       <header

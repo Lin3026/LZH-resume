@@ -154,7 +154,7 @@ export default function WorksShowcaseSection() {
   return (
     <section
       id="showcase"
-      className="relative z-10 bg-[#0a0a0a] px-4 sm:px-8 md:px-10 pt-20 sm:pt-24 md:pt-28 pb-24"
+      className="relative z-10 bg-[#0a0a0a]/70 px-4 sm:px-8 md:px-10 pt-20 sm:pt-24 md:pt-28 pb-24"
     >
       <FadeIn delay={0} y={40} className="mb-8 sm:mb-10">
         <h2

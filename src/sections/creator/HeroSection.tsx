@@ -5,7 +5,10 @@ import { FadeIn } from './components';
  * 布局：左侧大标题 + 按钮 | 右侧人物线稿插画
  */
 const BASE = import.meta.env.BASE_URL;
-const HERO_VIDEO = `${BASE}hero-video-v2.mp4`;
+// 透明背景版（VP9 + alpha）：Chrome/Edge/Firefox 显示透明，星空可透出
+const HERO_VIDEO_WEBM = `${BASE}hero-video-v3.webm`;
+// 兜底：Safari 对 WebM 透明支持不稳定，退回黑底 H.264 MP4
+const HERO_VIDEO_MP4 = `${BASE}hero-video-v2.mp4`;
 
 export default function HeroSection() {
   return (
@@ -54,14 +57,16 @@ export default function HeroSection() {
           <FadeIn delay={0.35} y={30}>
             <video
               ref={(el) => { if (el) el.muted = true; }}
-              src={HERO_VIDEO}
               className="hero-illustration"
               autoPlay
               muted
               loop
               playsInline
               draggable={false}
-            />
+            >
+              <source src={HERO_VIDEO_WEBM} type="video/webm" />
+              <source src={HERO_VIDEO_MP4} type="video/mp4" />
+            </video>
           </FadeIn>
         </div>
       </div>

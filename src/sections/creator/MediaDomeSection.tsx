@@ -104,7 +104,7 @@ export default function MediaDomeSection() {
     <section
       id="dome"
       style={{
-        background: '#000000',
+        background: 'transparent',
         minHeight: '100vh',
         display: 'flex',
         flexDirection: 'column',

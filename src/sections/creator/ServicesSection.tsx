@@ -95,7 +95,7 @@ export default function ServicesSection({ triggerRef }: { triggerRef?: React.Ref
     <section
       ref={sectionRef}
       id="services"
-      className="bg-[#0a0a0a] px-5 sm:px-8 md:px-10 py-20 sm:py-24 md:py-32 rounded-t-[40px] sm:rounded-t-[50px] md:rounded-t-[60px] overflow-hidden"
+      className="relative z-10 px-5 sm:px-8 md:px-10 py-20 sm:py-24 md:py-32 rounded-t-[40px] sm:rounded-t-[50px] md:rounded-t-[60px] overflow-hidden"
       style={{ color: '#e5e5e5' }}
     >
       <h2

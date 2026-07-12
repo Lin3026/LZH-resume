@@ -7,6 +7,7 @@ import {
   useReducedMotion,
 } from 'framer-motion';
 import { FadeIn } from './components';
+import BorderGlow from '../../components/BorderGlow';
 
 interface WorkItem {
   company: string;
@@ -50,36 +51,46 @@ Tile Fun 曾进入日本排行榜第九、欧洲排行第五。`,
 
 function WorkCard({ item }: { item: WorkItem }) {
   return (
-    <div className="w-full flex flex-col max-h-[78vh] rounded-[40px] sm:rounded-[50px] md:rounded-[60px] border border-white/10 bg-[#161616] shadow-[0_10px_40px_rgba(0,0,0,0.6)] p-6 sm:p-10 md:p-14 overflow-hidden">
-      {/* 顶部：公司名 + 日期 + 职位 */}
-      <div className="mb-6 sm:mb-8 shrink-0">
-        <span
-          className="block font-black leading-none text-white"
-          style={{ fontSize: 'clamp(1.8rem, 6vw, 4rem)' }}
-        >
-          {item.company}
-        </span>
-        <div className="mt-3 flex flex-wrap items-baseline gap-x-4 gap-y-1">
-          <span className="text-xs sm:text-sm uppercase tracking-widest text-white/60">
-            {item.dateRange}
-          </span>
+    <BorderGlow
+      className="w-full max-h-[78vh]"
+      backgroundColor="#161616"
+      borderRadius={40}
+      glowColor="250 85 70"
+      colors={['#3b82f6', '#8b5cf6', '#a855f7']}
+      edgeSensitivity={35}
+      glowRadius={36}
+    >
+      <div className="flex flex-col h-full p-6 sm:p-10 md:p-14 overflow-hidden rounded-[40px]">
+        {/* 顶部：公司名 + 日期 + 职位 */}
+        <div className="mb-6 sm:mb-8 shrink-0">
           <span
-            className="font-medium text-white"
-            style={{ fontSize: 'clamp(1rem, 2.2vw, 1.6rem)' }}
+            className="block font-black leading-none text-white"
+            style={{ fontSize: 'clamp(1.8rem, 6vw, 4rem)' }}
           >
-            {item.title}
+            {item.company}
           </span>
+          <div className="mt-3 flex flex-wrap items-baseline gap-x-4 gap-y-1">
+            <span className="text-xs sm:text-sm uppercase tracking-widest text-white/60">
+              {item.dateRange}
+            </span>
+            <span
+              className="font-medium text-white"
+              style={{ fontSize: 'clamp(1rem, 2.2vw, 1.6rem)' }}
+            >
+              {item.title}
+            </span>
+          </div>
         </div>
-      </div>
 
-      {/* 文字框 */}
-      <p
-        className="whitespace-pre-line flex-1 min-h-0 overflow-y-auto rounded-[24px] sm:rounded-[32px] border border-white/10 bg-[#222222] p-5 sm:p-8 leading-relaxed text-white/90"
-        style={{ fontSize: 'clamp(0.85rem, 1.4vw, 1.1rem)' }}
-      >
-        {item.desc}
-      </p>
-    </div>
+        {/* 文字框 */}
+        <p
+          className="whitespace-pre-line flex-1 min-h-0 overflow-y-auto rounded-[24px] sm:rounded-[32px] border border-white/10 bg-[#222222] p-5 sm:p-8 leading-relaxed text-white/90"
+          style={{ fontSize: 'clamp(0.85rem, 1.4vw, 1.1rem)' }}
+        >
+          {item.desc}
+        </p>
+      </div>
+    </BorderGlow>
   );
 }
 
@@ -123,7 +134,7 @@ export default function ProjectsSection() {
     <section
       id="projects"
       ref={containerRef}
-      className="relative z-10 bg-[#0a0a0a] rounded-t-[40px] sm:rounded-t-[50px] md:rounded-t-[60px] -mt-10 sm:-mt-12 md:-mt-14 px-4 sm:px-8 md:px-10 pt-20 sm:pt-24 md:pt-28 pb-24"
+      className="relative z-10 bg-transparent rounded-t-[40px] sm:rounded-t-[50px] md:rounded-t-[60px] -mt-10 sm:-mt-12 md:-mt-14 px-4 sm:px-8 md:px-10 pt-20 sm:pt-24 md:pt-28 pb-24"
     >
       <FadeIn delay={0} y={40} className="mb-12 sm:mb-16">
         <h2

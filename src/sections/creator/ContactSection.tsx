@@ -1,4 +1,5 @@
 import { FadeIn } from './components';
+import BorderGlow from '../../components/BorderGlow';
 
 interface ContactItem {
   label: string;
@@ -67,18 +68,28 @@ function ContactCard({ item, index }: { item: ContactItem; index: number }) {
 
   return (
     <FadeIn delay={index * 0.1} y={30} className="h-full">
-      {item.href ? (
-        <a
-          href={item.href}
-          className="group flex flex-col h-full rounded-[28px] sm:rounded-[36px] border border-white/10 bg-white/[0.03] p-6 sm:p-8 shadow-[0_10px_40px_rgba(0,0,0,0.4)] transition-transform duration-300 hover:-translate-y-1 hover:shadow-[0_18px_50px_rgba(0,0,0,0.6)]"
-        >
-          {inner}
-        </a>
-      ) : (
-        <div className="flex flex-col h-full rounded-[28px] sm:rounded-[36px] border border-white/10 bg-white/[0.03] p-6 sm:p-8 shadow-[0_10px_40px_rgba(0,0,0,0.4)]">
-          {inner}
-        </div>
-      )}
+      <BorderGlow
+        className="h-full"
+        backgroundColor="rgba(255,255,255,0.03)"
+        borderRadius={28}
+        glowColor="250 85 70"
+        colors={['#3b82f6', '#8b5cf6', '#a855f7']}
+        edgeSensitivity={35}
+        glowRadius={30}
+      >
+        {item.href ? (
+          <a
+            href={item.href}
+            className="group flex flex-col h-full rounded-[28px] p-6 sm:p-8 transition-transform duration-300 hover:-translate-y-1"
+          >
+            {inner}
+          </a>
+        ) : (
+          <div className="flex flex-col h-full rounded-[28px] p-6 sm:p-8">
+            {inner}
+          </div>
+        )}
+      </BorderGlow>
     </FadeIn>
   );
 }
@@ -87,7 +98,7 @@ export default function ContactSection() {
   return (
     <section
       id="contact"
-      className="relative z-10 bg-[#0a0a0a] rounded-t-[40px] sm:rounded-t-[50px] md:rounded-t-[60px] -mt-10 sm:-mt-12 md:-mt-14 px-4 sm:px-8 md:px-10 pt-20 sm:pt-24 md:pt-28 pb-24"
+      className="relative z-10 bg-[#0a0a0a]/70 rounded-t-[40px] sm:rounded-t-[50px] md:rounded-t-[60px] -mt-10 sm:-mt-12 md:-mt-14 px-4 sm:px-8 md:px-10 pt-20 sm:pt-24 md:pt-28 pb-24"
     >
       <FadeIn delay={0} y={40} className="mb-14 sm:mb-20">
         <h2

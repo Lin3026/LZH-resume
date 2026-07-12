@@ -1,4 +1,5 @@
 import { FadeIn } from './components';
+import BorderGlow from '../../components/BorderGlow';
 
 interface EducationItem {
   period: string;
@@ -49,12 +50,22 @@ function EducationRow({ item, index }: { item: EducationItem; index: number }) {
         {item.meta}
       </span>
       {/* 详情 */}
-      <p
-        className="whitespace-pre-line rounded-[24px] sm:rounded-[28px] border border-white/10 bg-white/5 p-5 sm:p-6 leading-relaxed text-white/75"
-        style={{ fontSize: 'clamp(0.85rem, 1.3vw, 1.05rem)' }}
+      <BorderGlow
+        className="block"
+        backgroundColor="rgba(255,255,255,0.05)"
+        borderRadius={24}
+        glowColor="250 85 70"
+        colors={['#3b82f6', '#8b5cf6', '#a855f7']}
+        edgeSensitivity={30}
+        glowRadius={26}
       >
-        {item.detail}
-      </p>
+        <p
+          className="whitespace-pre-line rounded-[24px] p-5 sm:p-6 leading-relaxed text-white/75"
+          style={{ fontSize: 'clamp(0.85rem, 1.3vw, 1.05rem)' }}
+        >
+          {item.detail}
+        </p>
+      </BorderGlow>
     </FadeIn>
   );
 }
@@ -63,7 +74,7 @@ export default function EducationSection() {
   return (
     <section
       id="education"
-      className="relative z-10 bg-[#0a0a0a] rounded-t-[40px] sm:rounded-t-[50px] md:rounded-t-[60px] -mt-10 sm:-mt-12 md:-mt-14 px-4 sm:px-8 md:px-10 pt-20 sm:pt-24 md:pt-28 pb-24"
+      className="relative z-10 bg-[#0a0a0a]/70 rounded-t-[40px] sm:rounded-t-[50px] md:rounded-t-[60px] -mt-10 sm:-mt-12 md:-mt-14 px-4 sm:px-8 md:px-10 pt-20 sm:pt-24 md:pt-28 pb-24"
     >
       <FadeIn delay={0} y={40} className="mb-14 sm:mb-20">
         <h2
