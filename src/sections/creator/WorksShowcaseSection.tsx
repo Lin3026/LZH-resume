@@ -1,0 +1,196 @@
+import { useState, useCallback } from 'react';
+import { FadeIn } from './components';
+import OrbitMedia from './OrbitMedia';
+import WorkDetailModal, { type WorkDetailData } from './WorkDetailModal';
+
+const BASE = import.meta.env.BASE_URL;
+
+// 8 个作品数据：缩略图（轨道展示）+ 视频/文案（弹窗展示）
+const WORKS: {
+  thumbnail: string;
+  detail: WorkDetailData;
+}[] = [
+  {
+    thumbnail: `${BASE}video-01-cover.jpg`,
+    detail: {
+      title: '开心消消乐广告创意',
+      videoUrl: `${BASE}video-01.mp4`,
+      posterUrl: `${BASE}video-01-cover.jpg`,
+      projectIntro:
+        '游戏：假日乐消消乐，用户人群女性占比较多，核心年龄层 25-35 岁。通过轻松治愈的视觉风格传递游戏乐趣，提升用户点击与转化。',
+      creativeConcept:
+        '主要突出的是连续消除的爽感，这种是录屏没有办法体现的节奏。用动态特效强化消除反馈，配合欢快音效，让用户在短短几秒内感受到「想玩一把」的冲动。',
+      metrics: [
+        { label: 'CTR', value: '5%' },
+        { label: 'CVR', value: '60%' },
+        { label: '新增', value: '2500' },
+        { label: '首日付费率', value: '2%' },
+        { label: '首日ROI', value: '3%' },
+      ],
+      analysisText:
+        'ctr和转化率都高于平均水平，而且持续每天都有付费，证明抓到了核心用户群体。后续可针对高转化素材风格进行系列化产出。',
+    },
+  },
+  {
+    thumbnail: `${BASE}video-02-cover.jpg`,
+    detail: {
+      title: 'Tile Fun 海外投放素材',
+      videoUrl: `${BASE}video-02.mp4`,
+      posterUrl: `${BASE}video-02-cover.jpg`,
+      projectIntro:
+        '海外休闲益智类手游 Tile Fun，目标市场北美与欧洲。主打碎片化时间体验，用户偏女性、年龄 30+。',
+      creativeConcept:
+        '以「解压+成就感」为主线，通过流畅的拼图动效和清新的配色方案吸引注意力。强调「只需一划」的低门槛操作感。',
+      metrics: [
+        { label: 'CTR', value: '4.2%' },
+        { label: 'CVR', value: '55%' },
+        { label: '新增', value: '1800' },
+        { label: '首日付费率', value: '1.8%' },
+        { label: '首日ROI', value: '2.5%' },
+      ],
+    },
+  },
+  {
+    thumbnail: `${BASE}video-03-cover.jpg`,
+    detail: {
+      title: 'Coloring Fun 创意视频',
+      videoUrl: `${BASE}video-03.mp4`,
+      posterUrl: `${BASE}video-03-cover.jpg`,
+      projectIntro:
+        ' Coloring Fun 涂色类休闲游戏，主打放松解压。用户群体以成年女性为主，偏好唯美治愈系画风。',
+      creativeConcept:
+        '从黑白线稿到彩色成品的「填色过程」作为核心视觉钩子，配合舒缓的背景音乐，传达「涂色即疗愈」的情感价值。',
+      metrics: [
+        { label: 'CTR', value: '3.8%' },
+        { label: 'CVR', value: '48%' },
+        { label: '新增', value: '1200' },
+        { label: '首日付费率', value: '1.5%' },
+        { label: '首日ROI', value: '2.0%' },
+      ],
+    },
+  },
+  {
+    thumbnail: `${BASE}video-04-cover.jpg`,
+    detail: {
+      title: '赛事包装 · 英雄联盟',
+      videoUrl: `${BASE}video-04.mp4`,
+      posterUrl: `${BASE}video-04-cover.jpg`,
+      projectIntro:
+        '英雄联盟职业联赛赛事包装，面向核心电竞观众群体。需要体现竞技紧张感和品牌专业度。',
+      creativeConcept:
+        '以快节奏剪辑 + 粒子特效 + 震撼音效构建赛事氛围。关键击杀/团战瞬间使用慢放回放强化视觉冲击力。',
+      metrics: [
+        { label: '播放量', value: '50w+' },
+        { label: '互动率', value: '8.2%' },
+        { label: '完播率', value: '65%' },
+        { label: '分享数', value: '3200' },
+        { label: '涨粉', value: '8000' },
+      ],
+      analysisText:
+        '赛事包装素材的完播率和分享数据显著高于平均水平，说明快节奏+慢放的组合在电竞赛事场景下具有强传播性。',
+    },
+  },
+  {
+    thumbnail: `${BASE}video-05-cover.jpg`,
+    detail: {
+      title: '火影忍者手游宣传',
+      videoUrl: `${BASE}video-05.mp4`,
+      posterUrl: `${BASE}video-05-cover.jpg`,
+      projectIntro:
+        '火影忍者IP授权手游宣传片，面向火影粉丝及动作手游玩家群体。需兼顾情怀唤起与新玩家吸引。',
+      creativeConcept:
+        '将经典忍术招式与现代动效结合，通过「查克拉爆发」视觉符号串联全片。开场用经典台词唤醒粉丝记忆，中段展示战斗画面，结尾引出下载引导。',
+      metrics: [
+        { label: 'CTR', value: '6.1%' },
+        { label: 'CVR', value: '52%' },
+        { label: '新增', value: '3500' },
+        { label: '首日付费率', value: '2.8%' },
+        { label: '首日ROI', value: '3.5%' },
+      ],
+    },
+  },
+  // 后续 3 个位置预留，提供真实作品后替换
+  {
+    thumbnail: `${BASE}dome-video-01.mp4`, // 暂用视频帧作缩略图
+    detail: {
+      title: '环球展示 · 作品 06',
+      videoUrl: `${BASE}dome-video-01.mp4`,
+      projectIntro: '待补充项目介绍…',
+      creativeConcept: '待补充创意思路…',
+    },
+  },
+  {
+    thumbnail: `${BASE}dome-video-03.mp4`,
+    detail: {
+      title: '环球展示 · 作品 07',
+      videoUrl: `${BASE}dome-video-03.mp4`,
+      projectIntro: '待补充项目介绍…',
+      creativeConcept: '待补充创意思路…',
+    },
+  },
+  {
+    thumbnail: `${BASE}dome-video-04.mp4`,
+    detail: {
+      title: '环球展示 · 作品 08',
+      videoUrl: `${BASE}dome-video-04.mp4`,
+      projectIntro: '待补充项目介绍…',
+      creativeConcept: '待补充创意思路…',
+    },
+  },
+];
+
+export default function WorksShowcaseSection() {
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  const isModalOpen = selectedIndex !== null;
+
+  const handleItemClick = useCallback((index: number) => {
+    setSelectedIndex(index);
+  }, []);
+
+  const handleModalClose = useCallback(() => {
+    setSelectedIndex(null);
+  }, []);
+
+  return (
+    <section
+      id="showcase"
+      className="relative z-10 bg-white px-4 sm:px-8 md:px-10 pt-20 sm:pt-24 md:pt-28 pb-24"
+    >
+      <FadeIn delay={0} y={40} className="mb-12 sm:mb-16">
+        <h2
+          className="hero-heading font-black uppercase leading-none tracking-tight text-center"
+          style={{ fontSize: 'clamp(3rem, 12vw, 160px)' }}
+        >
+          作品解析
+        </h2>
+      </FadeIn>
+
+      <div className="relative mx-auto" style={{ maxWidth: 1000 }}>
+        <OrbitMedia
+          images={WORKS.map((w) => w.thumbnail)}
+          shape="ellipse"
+          responsive
+          baseWidth={1400}
+          radiusX={640}
+          radiusY={240}
+          itemSize={190}
+          rotation={-6}
+          duration={32}
+          showPath
+          pathColor="rgba(26,26,26,0.28)"
+          pathWidth={3}
+          onItemClick={handleItemClick}
+        />
+      </div>
+
+      {/* 弹窗 */}
+      <WorkDetailModal
+        open={isModalOpen}
+        onOpenChange={(open) => {
+          if (!open) handleModalClose();
+        }}
+        data={isModalOpen ? WORKS[selectedIndex!].detail : null}
+      />
+    </section>
+  );
+}

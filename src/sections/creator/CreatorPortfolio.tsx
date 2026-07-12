@@ -4,6 +4,9 @@ import MediaDomeSection from './MediaDomeSection';
 import AboutSection from './AboutSection';
 import ServicesSection from './ServicesSection';
 import ProjectsSection from './ProjectsSection';
+import WorksShowcaseSection from './WorksShowcaseSection';
+import EducationSection from './EducationSection';
+import ContactSection from './ContactSection';
 import './creator.css';
 
 interface CreatorPortfolioProps {
@@ -44,6 +47,9 @@ export default function CreatorPortfolio({ onBack }: CreatorPortfolioProps) {
       <AboutSection sectionRef={aboutRef} />
       <ServicesSection triggerRef={aboutRef} />
       <ProjectsSection />
+      <WorksShowcaseSection />
+      <EducationSection />
+      <ContactSection />
     </div>
   );
 }
