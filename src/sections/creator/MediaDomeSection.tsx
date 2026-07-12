@@ -102,6 +102,7 @@ const MEDIA: { src: string; alt: string; type: 'image' | 'video' }[] = [
 export default function MediaDomeSection() {
   return (
     <section
+      id="dome"
       style={{
         background: '#ffffff',
         minHeight: '100vh',

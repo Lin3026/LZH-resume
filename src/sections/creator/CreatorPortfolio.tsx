@@ -7,6 +7,7 @@ import ProjectsSection from './ProjectsSection';
 import WorksShowcaseSection from './WorksShowcaseSection';
 import EducationSection from './EducationSection';
 import ContactSection from './ContactSection';
+import CreatorSidebar from './CreatorSidebar';
 import './creator.css';
 
 interface CreatorPortfolioProps {
@@ -50,6 +51,7 @@ export default function CreatorPortfolio({ onBack }: CreatorPortfolioProps) {
       <WorksShowcaseSection />
       <EducationSection />
       <ContactSection />
+      <CreatorSidebar />
     </div>
   );
 }

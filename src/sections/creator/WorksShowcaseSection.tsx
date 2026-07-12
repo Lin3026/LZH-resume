@@ -156,13 +156,20 @@ export default function WorksShowcaseSection() {
       id="showcase"
       className="relative z-10 bg-white px-4 sm:px-8 md:px-10 pt-20 sm:pt-24 md:pt-28 pb-24"
     >
-      <FadeIn delay={0} y={40} className="mb-12 sm:mb-16">
+      <FadeIn delay={0} y={40} className="mb-8 sm:mb-10">
         <h2
           className="hero-heading font-black uppercase leading-none tracking-tight text-center"
           style={{ fontSize: 'clamp(3rem, 12vw, 160px)' }}
         >
           作品解析
         </h2>
+      </FadeIn>
+
+      <FadeIn delay={0.1} y={20} className="mb-12 sm:mb-16 group">
+        <p className="text-center font-medium tracking-wide text-[#1a1a1a]/55" style={{ fontSize: 'clamp(0.95rem, 2vw, 1.15rem)' }}>
+          点击轨道上的作品，查看视频详情
+          <span className="ml-2 inline-block align-middle text-[#22d3ee] transition-transform duration-300 group-hover:translate-x-1">→</span>
+        </p>
       </FadeIn>
 
       <div className="relative mx-auto" style={{ maxWidth: 1000 }}>

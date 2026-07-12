@@ -20,7 +20,7 @@ export default function HeroSection() {
   };
 
   return (
-    <section className="hero-section">
+    <section id="hero" className="hero-section">
       {/* 顶部导航 */}
       <FadeIn delay={0} y={-16} className="hero-nav-wrap">
         <nav className="hero-nav">
