@@ -49,8 +49,8 @@ export default function ServicesSection({ triggerRef }: { triggerRef?: React.Ref
   const sectionRef = useRef<HTMLElement>(null);
   const reduce = useReducedMotion();
 
-  // 联动触发：当「关于我」三段文案所在区块完全滚出视口顶部（bottom<=0）时，
-  // 下面的时间轴才开始播放动画；往上滚回该区块时，动画收回。
+  // 联动触发：当「关于我」区块大部分滚出视口（bottom <= 视口40%高度）时，
+  // 下面的时间轴就开始播放动画；往上滚回该区块时，动画收回。
   const [aboutGone, setAboutGone] = useState(false);
   useEffect(() => {
     const el = triggerRef?.current;
@@ -59,7 +59,8 @@ export default function ServicesSection({ triggerRef }: { triggerRef?: React.Ref
     const check = () => {
       raf = 0;
       const rect = el.getBoundingClientRect();
-      setAboutGone(rect.bottom <= 0);
+      // 提前触发：关于我区块滚出约 60% 时就开始显示时间轴
+      setAboutGone(rect.bottom <= window.innerHeight * 0.4);
     };
     const onScroll = () => {
       if (!raf) raf = requestAnimationFrame(check);
