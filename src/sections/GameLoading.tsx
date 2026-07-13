@@ -185,6 +185,31 @@ function playSwitchSound() {
   playBuffer(SWITCH_SOUND_FILE);
 }
 
+/** 失败音效：实时合成两声下行方波（经典 Game Over 提示音）。
+ *  复用已解锁的 AudioContext，零外部文件依赖、部署可靠；
+ *  将来若想换成真实音效，把这里改成 playBuffer('sound.fail.mp3') 并放入 public/sounds/ 即可。 */
+function playFailSound() {
+  const ctx = getCtx();
+  if (!ctx) return;
+  // 失败弹窗出现前用户必然已拖拽过棋子（ctx 已 running），但保险起见仍 resume 一次
+  if (ctx.state === 'suspended') void ctx.resume();
+  const now = ctx.currentTime;
+  const notes = [330, 220]; // E4 → A3 下行（小三度），典型「失败」提示
+  notes.forEach((f, i) => {
+    const t0 = now + i * 0.18;
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = 'square';
+    osc.frequency.setValueAtTime(f, t0);
+    gain.gain.setValueAtTime(0.0001, t0);
+    gain.gain.exponentialRampToValueAtTime(0.22, t0 + 0.02);
+    gain.gain.exponentialRampToValueAtTime(0.0001, t0 + 0.15);
+    osc.connect(gain).connect(ctx.destination);
+    osc.start(t0);
+    osc.stop(t0 + 0.16);
+  });
+}
+
 /** 生成棋盘 — 使用固定开局布局（保证一步可全清） */
 function createInitialBoard(): Board {
   // 重置序列索引，保证消除后补充新子从序列开头开始
@@ -472,6 +497,7 @@ export default function GameLoading({ onComplete }: GameLoadingProps) {
             // 一步清掉不足 80%：先等最后一轮消除的动画与飞溅粒子彻底收尾（避免一消除完就弹窗），
             // 再弹出「挑战失败」，点「重新挑战」才复原棋盘
             await sleep(650);
+            playFailSound(); // 失败音效：经典下行提示音
             setShowFail(true);
           }
         }
