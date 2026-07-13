@@ -1,7 +1,8 @@
 /* ===== 全局宇宙星空背景 ===== */
 
 .starfield {
-  position: fixed;
+  /* 随页面滚动铺满整篇文档（absolute 相对 App 根容器，根容器已是 relative 且高度随内容撑开） */
+  position: absolute;
   inset: 0;
   z-index: 0;
   overflow: hidden;
@@ -16,13 +17,18 @@
 
 .starfield-layer {
   position: absolute;
-  inset: -100%;
+  /* 适度外扩覆盖 ±24px 视差位移，避免边缘露黑边；无需 -100% 那种巨幅缓冲 */
+  inset: -48px;
   background-repeat: repeat;
   will-change: opacity, transform;
+  /* 指针视差：由 Starfield 组件写入 --mx/--my（[-1,1]），反向位移制造纵深；静止时为 0 */
+  transform: translate3d(calc(var(--mx, 0) * -10px), calc(var(--my, 0) * -10px), 0);
 }
 
 /* 三层星点：不同密度 / 大小 / 色调，错峰闪烁 */
 .starfield-layer.s1 {
+  /* 最远层：位移最小 */
+  transform: translate3d(calc(var(--mx, 0) * -6px), calc(var(--my, 0) * -6px), 0);
   background-image:
     radial-gradient(1.4px 1.4px at 20px 30px, #ffffff, transparent),
     radial-gradient(1.2px 1.2px at 130px 80px, #d6ecff, transparent),
@@ -33,6 +39,8 @@
   animation: star-twinkle 5.5s ease-in-out infinite;
 }
 .starfield-layer.s2 {
+  /* 中间层：中等位移 */
+  transform: translate3d(calc(var(--mx, 0) * -14px), calc(var(--my, 0) * -14px), 0);
   background-image:
     radial-gradient(2px 2px at 60px 120px, #ffffff, transparent),
     radial-gradient(1.8px 1.8px at 180px 30px, #ffe6c2, transparent),
@@ -42,6 +50,8 @@
   animation: star-twinkle 8s ease-in-out infinite 1.4s;
 }
 .starfield-layer.s3 {
+  /* 最近层（最大星点）：位移最大 */
+  transform: translate3d(calc(var(--mx, 0) * -24px), calc(var(--my, 0) * -24px), 0);
   background-image:
     radial-gradient(2.6px 2.6px at 120px 90px, #ffffff, transparent),
     radial-gradient(2.4px 2.4px at 300px 240px, #cfe0ff, transparent);
@@ -54,9 +64,9 @@
   50%      { opacity: 1; }
 }
 
-/* 流星：彩色拖尾，沿对角划过。长周期 + 均匀错峰，触发间隔更舒缓 */
+/* 流星：彩色拖尾，沿对角划过。固定视口内划过（不随文档滚动），长周期 + 均匀错峰 */
 .shooting-star {
-  position: absolute;
+  position: fixed;
   top: 12%;
   left: -10%;
   width: 140px;

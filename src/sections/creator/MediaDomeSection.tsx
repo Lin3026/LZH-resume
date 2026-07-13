@@ -1,4 +1,5 @@
 import DomeGallery from './DomeGallery';
+import { useIsMobile } from '../../hooks/use-mobile';
 
 // GitHub Pages 子路径部署：用 BASE_URL 拼接 public 资源路径
 const BASE = import.meta.env.BASE_URL;
@@ -100,6 +101,10 @@ const MEDIA: { src: string; alt: string; type: 'image' | 'video' }[] = [
 ];
 
 export default function MediaDomeSection() {
+  const isMobile = useIsMobile();
+  // 手机上放宽半径下限 + 缩小 fit，避免球体被 minRadius=380 顶得过大而裁切两侧
+  const domeFit = isMobile ? 0.62 : 0.78;
+  const domeMinRadius = isMobile ? 120 : 380;
   return (
     <section
       id="dome"
@@ -143,8 +148,8 @@ export default function MediaDomeSection() {
       <div style={{ flex: 1, minHeight: '70vh', height: '70vh', position: 'relative' }}>
         <DomeGallery
           images={MEDIA}
-          fit={0.78}
-          minRadius={380}
+          fit={domeFit}
+          minRadius={domeMinRadius}
           segments={24}
           dragDampening={2.4}
           grayscale={false}

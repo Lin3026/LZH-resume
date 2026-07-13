@@ -115,7 +115,7 @@ export default function App() {
   }, []);
 
   return (
-    <div className={`min-h-screen text-white bg-transparent ${showCustomCursor && currentPage === 'home' ? 'cursor-hidden' : ''}`}>
+    <div className={`relative min-h-screen text-white bg-transparent ${showCustomCursor && currentPage === 'home' ? 'cursor-hidden' : ''}`}>
       {/* 全局宇宙星空背景：固定铺满视口、置于最底层，全站共享 */}
       <Starfield />
 
