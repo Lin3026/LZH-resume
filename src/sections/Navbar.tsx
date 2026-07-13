@@ -156,7 +156,7 @@ export default function Navbar({ isOpen, onToggle }: NavbarProps) {
                 key={item.id}
                 type="button"
                 onClick={() => handleClick(item.id)}
-                className="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left transition-all duration-200 group border"
+                className="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left transition-all duration-200 group border hover:translate-x-2 hover:scale-[1.05] hover:brightness-110 hover:bg-white/10 hover:border-white/30"
                 style={{
                   // 内联样式确保移动端不被默认 appearance 覆盖
                   backgroundColor: isActive ? 'rgba(255,255,255,0.22)' : 'transparent',
