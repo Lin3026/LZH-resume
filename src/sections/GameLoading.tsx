@@ -870,7 +870,7 @@ export default function GameLoading({ onComplete }: GameLoadingProps) {
             </p>
             <p className="win-score">最终得分 {score}</p>
             <button className="win-btn" autoFocus onClick={onComplete}>
-              进入个人空间 →
+              进入个人简历 →
             </button>
           </div>
         </div>

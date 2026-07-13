@@ -11,7 +11,7 @@ const WORKS: {
   detail: WorkDetailData;
 }[] = [
   {
-    thumbnail: `${BASE}video-01-cover.jpg`,
+    thumbnail: `${BASE}video-01.mp4`,
     detail: {
       title: '开心消消乐广告创意',
       videoUrl: `${BASE}video-01.mp4`,
@@ -32,7 +32,7 @@ const WORKS: {
     },
   },
   {
-    thumbnail: `${BASE}video-02-cover.jpg`,
+    thumbnail: `${BASE}video-02.mp4`,
     detail: {
       title: 'Tile Fun 海外投放素材',
       videoUrl: `${BASE}video-02.mp4`,
@@ -51,7 +51,7 @@ const WORKS: {
     },
   },
   {
-    thumbnail: `${BASE}video-03-cover.jpg`,
+    thumbnail: `${BASE}video-03.mp4`,
     detail: {
       title: 'Coloring Fun 创意视频',
       videoUrl: `${BASE}video-03.mp4`,
@@ -70,7 +70,7 @@ const WORKS: {
     },
   },
   {
-    thumbnail: `${BASE}video-04-cover.jpg`,
+    thumbnail: `${BASE}video-04.mp4`,
     detail: {
       title: '赛事包装 · 英雄联盟',
       videoUrl: `${BASE}video-04.mp4`,
@@ -91,7 +91,7 @@ const WORKS: {
     },
   },
   {
-    thumbnail: `${BASE}video-05-cover.jpg`,
+    thumbnail: `${BASE}video-05.mp4`,
     detail: {
       title: '火影忍者手游宣传',
       videoUrl: `${BASE}video-05.mp4`,
@@ -167,7 +167,7 @@ export default function WorksShowcaseSection() {
 
       <FadeIn delay={0.1} y={20} className="mb-12 sm:mb-16 group">
         <p className="text-center font-medium tracking-wide text-gradient" style={{ fontSize: 'clamp(0.95rem, 2vw, 1.15rem)' }}>
-          点击轨道上的作品，查看视频详情
+          点击轨道上的视频，查看视频详情
           <span className="ml-2 inline-block align-middle text-[#22d3ee] transition-transform duration-300 group-hover:translate-x-1">→</span>
         </p>
       </FadeIn>

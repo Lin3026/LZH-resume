@@ -64,6 +64,8 @@
   align-items: center;
   justify-content: center;
   z-index: 10;
+  /* 中心内容（太阳）仅为装饰，必须让点击穿透到下方轨道图片，否则会拦截所有点击 */
+  pointer-events: none;
 }
 
 .orbit-image {
@@ -71,6 +73,13 @@
   height: 100%;
   object-fit: cover;
   display: block;
+}
+
+/* 轨道上的视频缩略图：填满方块、圆角、黑底防加载闪烁 */
+.orbit-video {
+  object-fit: cover;
+  border-radius: 16px;
+  background: #0a0a0a;
 }
 
 /* 轨道中心的发光星球（太阳） */
@@ -109,23 +118,28 @@
 
 .orbit-item-index {
   position: absolute;
-  top: 8px;
-  left: 8px;
-  z-index: 2;
-  min-width: 24px;
-  height: 24px;
-  padding: 0 7px;
+  top: 10px;
+  left: 10px;
+  z-index: 3;
+  min-width: 40px;
+  height: 40px;
+  padding: 0 10px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 12px;
-  background: rgba(37, 99, 235, 0.92);
+  border-radius: 20px;
+  background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
   color: #fff;
-  font-size: 13px;
-  font-weight: 800;
+  font-size: 22px;
+  font-weight: 900;
   line-height: 1;
   letter-spacing: 0.5px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  /* 白色描边 + 强发光，确保压在视频上依然醒目 */
+  border: 2px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.55),
+              0 4px 14px rgba(0, 0, 0, 0.5),
+              0 0 16px rgba(124, 58, 237, 0.7);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
   pointer-events: none;
   user-select: none;
 }

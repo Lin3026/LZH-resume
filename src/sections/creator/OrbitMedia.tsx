@@ -103,7 +103,7 @@ function OrbitItem({ item, index, totalItems, path, itemSize, rotation, progress
       <div style={{ transform: `rotate(${-rotation}deg)`, width: '100%', height: '100%' }}>
         {item}
       </div>
-      <span className="orbit-item-index">{index + 1}</span>
+      <span className="orbit-item-index" style={{ transform: `rotate(${-rotation}deg)` }}>{index + 1}</span>
     </motion.div>
   );
 }
@@ -229,15 +229,37 @@ export default function OrbitMedia({
   const gradientId = `orbit-grad-${rawGradientId.replace(/:/g, '')}`;
   const useGradient = !!pathGradient && pathGradient.length > 1;
 
-  const items = (images ?? []).map((src, index) => (
-    <img
-      key={src + index}
-      src={src}
-      alt={`${altPrefix} ${index + 1}`}
-      draggable={false}
-      className="orbit-image"
-    />
-  ));
+  const isVideoSrc = (s: string) => /\.(mp4|webm|ogg|mov|m4v)$/i.test(s);
+
+  const items = (images ?? []).map((src, index) => {
+    const label = `${altPrefix} ${index + 1}`;
+    if (isVideoSrc(src)) {
+      return (
+        <video
+          key={src + index}
+          src={src}
+          className="orbit-image orbit-video"
+          muted
+          loop
+          autoPlay
+          playsInline
+          preload="metadata"
+          draggable={false}
+          aria-label={label}
+          ref={(el) => { if (el) el.muted = true; }}
+        />
+      );
+    }
+    return (
+      <img
+        key={src + index}
+        src={src}
+        alt={label}
+        draggable={false}
+        className="orbit-image"
+      />
+    );
+  });
 
   return (
     <div
