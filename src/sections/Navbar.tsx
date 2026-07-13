@@ -212,7 +212,7 @@ export default function Navbar({ isOpen, onToggle }: NavbarProps) {
       <nav
         className={`fixed left-0 top-0 bottom-0 w-52 md:w-44 lg:w-56 z-50
                     border-r border-white/20 shadow-2xl shadow-black/40
-                    flex flex-col
+                    flex flex-col overflow-visible
                     transition-transform duration-300 ease-out
                     ${isOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}`}
         style={{
@@ -228,7 +228,7 @@ export default function Navbar({ isOpen, onToggle }: NavbarProps) {
           ref={listRef}
           onPointerMove={handlePointerMove}
           onPointerLeave={handlePointerLeave}
-          className="relative flex-1 overflow-y-auto pt-10 pb-3 px-2 space-y-0.5"
+          className="relative flex-1 pt-10 pb-3 px-2 space-y-0.5"
         >
           {NAV_ITEMS.map((item, index) => {
             const isActive = activeSection === item.id;
