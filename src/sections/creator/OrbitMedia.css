@@ -116,6 +116,16 @@
   }
 }
 
+/* 移动端：太阳装饰遮挡轨道视频，隐藏太阳及中心层（PC 端保留） */
+@media (max-width: 768px) {
+  .orbit-sun {
+    display: none;
+  }
+  .orbit-center-content {
+    display: none;
+  }
+}
+
 .orbit-item-index {
   position: absolute;
   top: 10px;

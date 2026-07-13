@@ -105,6 +105,8 @@ export default function MediaDomeSection() {
   // 手机上放宽半径下限 + 缩小 fit，避免球体被 minRadius=380 顶得过大而裁切两侧
   const domeFit = isMobile ? 0.62 : 0.78;
   const domeMinRadius = isMobile ? 120 : 380;
+  // 移动端拖拽更灵敏：默认 20px/度 → 手机降为 11px/度（手指滑动距离短，需更高灵敏度）
+  const domeDragSensitivity = isMobile ? 11 : 20;
   return (
     <section
       id="dome"
@@ -152,6 +154,7 @@ export default function MediaDomeSection() {
           minRadius={domeMinRadius}
           segments={24}
           dragDampening={2.4}
+          dragSensitivity={domeDragSensitivity}
           grayscale={false}
         />
       </div>
