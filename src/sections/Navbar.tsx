@@ -244,7 +244,7 @@ export default function Navbar({ isOpen, onToggle }: NavbarProps) {
                   // 内联样式确保移动端不被默认 appearance 覆盖
                   backgroundColor: isActive ? 'rgba(255,255,255,0.22)' : 'transparent',
                   borderColor: isActive ? 'rgba(255,255,255,0.45)' : 'transparent',
-                  boxShadow: isActive ? '0 4px 16px rgba(0,200,255,0.25)' : 'none',
+                  boxShadow: isActive ? '0 4px 16px rgba(168,85,247,0.3)' : 'none',
                   // 磁吸：光标靠近时整项向右位移(拉伸) + 放大 + 提亮；transform-origin 左对齐呈拉伸感
                   transform:
                     'translateX(calc(var(--effect, 0) * 14px)) scale(calc(1 + var(--effect, 0) * 0.12))',
@@ -262,7 +262,7 @@ export default function Navbar({ isOpen, onToggle }: NavbarProps) {
                   style={{
                     // 选中时图标加亮发光，未选中时正常
                     filter: isActive
-                      ? 'brightness(1.4) drop-shadow(0 0 6px rgba(0,220,255,0.7))'
+                      ? 'brightness(1.4) drop-shadow(0 0 6px rgba(168,85,247,0.9))'
                       : 'drop-shadow(0 1px 3px rgba(0,0,0,0.4))',
                     transform: isActive ? 'scale(1.1)' : undefined,
                   }}
@@ -279,7 +279,7 @@ export default function Navbar({ isOpen, onToggle }: NavbarProps) {
                   {item.label}
                 </span>
                 {isActive && (
-                  <span className="ml-auto w-1.5 h-1.5 bg-cyan-400 rounded-full animate-pulse shadow-sm shadow-cyan-300/60" />
+                  <span className="ml-auto w-1.5 h-1.5 bg-purple-400 rounded-full animate-pulse shadow-sm shadow-purple-300/60" />
                 )}
               </button>
             );
