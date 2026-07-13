@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import navbarBg from '../assets/navbar-bg.jpg';
 import iconHome from '../assets/icons/个人空间.png';
 import iconAbout from '../assets/icons/关于我.png';
@@ -92,6 +92,82 @@ export default function Navbar({ isOpen, onToggle }: NavbarProps) {
     }
   };
 
+  // —— 磁吸效果（proximity）：光标靠近时整项向右位移 + 放大，离开还原 ——
+  // 参考 LineSidebar 的 rAF 指数缓动，使 effect 平滑过渡而非生硬跳变
+  const listRef = useRef<HTMLDivElement | null>(null);
+  const itemRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  const targetsRef = useRef<number[]>([]);
+  const currentRef = useRef<number[]>([]);
+  const rafRef = useRef<number | null>(null);
+  const lastRef = useRef(0);
+  const PROXIMITY_RADIUS = 90; // 光标到 item 中心的感应半径(px)
+  const PROXIMITY_SMOOTHING = 90; // 缓动时间常数(ms)，越小越跟手
+
+  const runFrame = useCallback((now: number) => {
+    const dt = Math.min((now - lastRef.current) / 1000, 0.05);
+    lastRef.current = now;
+    const tau = Math.max(PROXIMITY_SMOOTHING, 1) / 1000;
+    const k = 1 - Math.exp(-dt / tau);
+    let moving = false;
+    const els = itemRefs.current;
+    for (let i = 0; i < els.length; i++) {
+      const el = els[i];
+      if (!el) continue;
+      const target = targetsRef.current[i] || 0;
+      const cur = currentRef.current[i] || 0;
+      const next = cur + (target - cur) * k;
+      const settled = Math.abs(target - next) < 0.0015;
+      const value = settled ? target : next;
+      currentRef.current[i] = value;
+      el.style.setProperty('--effect', value.toFixed(4));
+      if (!settled) moving = true;
+    }
+    rafRef.current = moving ? requestAnimationFrame(runFrame) : null;
+  }, []);
+
+  const startLoop = useCallback(() => {
+    if (rafRef.current != null) return;
+    lastRef.current = performance.now();
+    rafRef.current = requestAnimationFrame(runFrame);
+  }, [runFrame]);
+
+  const handlePointerMove = useCallback(
+    (e: React.PointerEvent) => {
+      const list = listRef.current;
+      if (!list) return;
+      const listRect = list.getBoundingClientRect();
+      const pointerY = e.clientY - listRect.top;
+      const els = itemRefs.current;
+      for (let i = 0; i < els.length; i++) {
+        const el = els[i];
+        if (!el) {
+          targetsRef.current[i] = 0;
+          continue;
+        }
+        const r = el.getBoundingClientRect();
+        const center = r.top - listRect.top + r.height / 2;
+        const distance = Math.abs(pointerY - center);
+        // smoothstep 衰减：越近 effect 越接近 1
+        const p = Math.max(0, 1 - distance / PROXIMITY_RADIUS);
+        targetsRef.current[i] = p * p * (3 - 2 * p);
+      }
+      startLoop();
+    },
+    [startLoop],
+  );
+
+  const handlePointerLeave = useCallback(() => {
+    targetsRef.current = targetsRef.current.map(() => 0);
+    startLoop();
+  }, [startLoop]);
+
+  useEffect(
+    () => () => {
+      if (rafRef.current != null) cancelAnimationFrame(rafRef.current);
+    },
+    [],
+  );
+
   return (
     <>
       {/* 移动端遮罩层 — 展开时显示，点击关闭 */}
@@ -147,21 +223,35 @@ export default function Navbar({ isOpen, onToggle }: NavbarProps) {
         }}
         aria-label="主导航"
       >
-        {/* 导航项列表 — 顶部留出 40px 给固定导航栏 */}
-        <div className="relative flex-1 overflow-y-auto pt-10 pb-3 px-2 space-y-0.5">
-          {NAV_ITEMS.map((item) => {
+        {/* 导航项列表 — 顶部留出 40px 给固定导航栏；挂载磁吸 proximity 监听 */}
+        <div
+          ref={listRef}
+          onPointerMove={handlePointerMove}
+          onPointerLeave={handlePointerLeave}
+          className="relative flex-1 overflow-y-auto pt-10 pb-3 px-2 space-y-0.5"
+        >
+          {NAV_ITEMS.map((item, index) => {
             const isActive = activeSection === item.id;
             return (
               <button
                 key={item.id}
+                ref={(el) => {
+                  itemRefs.current[index] = el;
+                }}
                 type="button"
                 onClick={() => handleClick(item.id)}
-                className="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left transition-all duration-200 group border hover:translate-x-2 hover:scale-[1.05] hover:brightness-110 hover:bg-white/10 hover:border-white/30"
+                className="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left group border hover:bg-white/10 hover:border-white/30 transition-[background-color,border-color,box-shadow] duration-200"
                 style={{
                   // 内联样式确保移动端不被默认 appearance 覆盖
                   backgroundColor: isActive ? 'rgba(255,255,255,0.22)' : 'transparent',
                   borderColor: isActive ? 'rgba(255,255,255,0.45)' : 'transparent',
                   boxShadow: isActive ? '0 4px 16px rgba(0,200,255,0.25)' : 'none',
+                  // 磁吸：光标靠近时整项向右位移(拉伸) + 放大 + 提亮；transform-origin 左对齐呈拉伸感
+                  transform:
+                    'translateX(calc(var(--effect, 0) * 8px)) scale(calc(1 + var(--effect, 0) * 0.07))',
+                  transformOrigin: 'left center',
+                  filter: 'brightness(calc(1 + var(--effect, 0) * 0.18))',
+                  willChange: 'transform',
                   WebkitAppearance: 'none',
                   appearance: 'none',
                 }}
