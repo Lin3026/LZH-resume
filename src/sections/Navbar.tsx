@@ -211,7 +211,6 @@ export default function Navbar({ isOpen, onToggle }: NavbarProps) {
           - 移动端: 根据 isOpen 控制位移 */}
       <nav
         className={`fixed left-0 top-0 bottom-0 w-52 md:w-44 lg:w-56 z-50
-                    border-r border-white/20 shadow-2xl shadow-black/40
                     flex flex-col overflow-visible
                     transition-transform duration-300 ease-out
                     ${isOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}`}
@@ -288,7 +287,7 @@ export default function Navbar({ isOpen, onToggle }: NavbarProps) {
         </div>
 
         {/* 底部信息 */}
-        <div className="relative px-5 py-4 border-t border-white/15 text-white/50 text-xs">
+        <div className="relative px-5 py-4 text-white/50 text-xs">
           <div className="flex items-center gap-1.5">
             <span className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse shadow-sm shadow-green-300/60" />
             <span>在线 · 欢迎交流</span>
