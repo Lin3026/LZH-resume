@@ -212,7 +212,7 @@ export default function Navbar({ isOpen, onToggle }: NavbarProps) {
       <nav
         className={`fixed left-0 top-0 bottom-0 w-52 md:w-44 lg:w-56 z-50
                     border-r border-white/20 shadow-2xl shadow-black/40
-                    flex flex-col overflow-hidden
+                    flex flex-col
                     transition-transform duration-300 ease-out
                     ${isOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}`}
         style={{
@@ -248,9 +248,9 @@ export default function Navbar({ isOpen, onToggle }: NavbarProps) {
                   boxShadow: isActive ? '0 4px 16px rgba(0,200,255,0.25)' : 'none',
                   // 磁吸：光标靠近时整项向右位移(拉伸) + 放大 + 提亮；transform-origin 左对齐呈拉伸感
                   transform:
-                    'translateX(calc(var(--effect, 0) * 8px)) scale(calc(1 + var(--effect, 0) * 0.07))',
+                    'translateX(calc(var(--effect, 0) * 14px)) scale(calc(1 + var(--effect, 0) * 0.12))',
                   transformOrigin: 'left center',
-                  filter: 'brightness(calc(1 + var(--effect, 0) * 0.18))',
+                  filter: 'brightness(calc(1 + var(--effect, 0) * 0.25))',
                   willChange: 'transform',
                   WebkitAppearance: 'none',
                   appearance: 'none',
