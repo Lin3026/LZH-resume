@@ -3,6 +3,7 @@ import { flushSync } from 'react-dom';
 import Lightfall from '../components/Lightfall';
 import BorderGlow from '../components/BorderGlow';
 import './GameLoading.css';
+import { DOME_VIDEO_SOURCES } from '../data/domeVideos';
 
 // 首页关键图片资源 — import 拿到构建后 URL，用于后台预加载
 import oceanBg from '../assets/终稿2.jpg';
@@ -125,6 +126,21 @@ async function preloadAllBuffers() {
   const ctx = getCtx();
   if (!ctx) return;
   await Promise.all(SOUND_FILES.map((f) => ensureBuffer(f)));
+}
+
+/** 后台预取环球展示球面视频：用户玩互动游戏的这段时间，浏览器在空闲时低优先级下载
+ *  简历页的 dome-*.mp4，通关进入「个人空间」时这些视频已在 HTTP 缓存中，直接命中秒开。
+ *  用 <link rel="prefetch" as="video"> 注入 head，不阻塞游戏、不占解码线程。 */
+function prefetchResumeVideos() {
+  DOME_VIDEO_SOURCES.forEach((href) => {
+    const sel = `link[rel="prefetch"][href="${href}"]`;
+    if (document.head.querySelector(sel)) return;
+    const link = document.createElement('link');
+    link.rel = 'prefetch';
+    link.as = 'video';
+    link.href = href;
+    document.head.appendChild(link);
+  });
 }
 
 // 浏览器自动播放策略：首个用户手势内 resume 音频上下文（覆盖 SPA 路由后首声不响）
@@ -327,6 +343,8 @@ export default function GameLoading({ onComplete }: GameLoadingProps) {
       const img = new Image();
       img.src = url;
     });
+    // 玩游戏的这段时间提前下载环球展示视频，进个人空间即秒开
+    prefetchResumeVideos();
   }, []);
 
   // 浮动得分自动消失
