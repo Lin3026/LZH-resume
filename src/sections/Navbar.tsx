@@ -183,7 +183,7 @@ export default function Navbar({ isOpen, onToggle }: NavbarProps) {
       <button
         type="button"
         onClick={onToggle}
-        className="nav-btn md:hidden fixed top-4 left-4 z-50 w-11 h-11 rounded-xl border border-cyan-400/40 flex items-center justify-center text-cyan-300 shadow-lg shadow-black/40 transition-all hover:scale-105 active:scale-95"
+        className="nav-btn md:hidden fixed top-4 left-4 z-50 w-11 h-11 rounded-xl border border-purple-400/40 flex items-center justify-center text-purple-300 shadow-lg shadow-black/40 transition-all hover:scale-105 active:scale-95"
         style={{
           backgroundColor: 'rgba(15,23,42,0.85)',
           backdropFilter: 'blur(12px)',
@@ -271,7 +271,7 @@ export default function Navbar({ isOpen, onToggle }: NavbarProps) {
                 <span
                   className="font-medium whitespace-nowrap transition-colors"
                   style={{
-                    color: isActive ? '#ffffff' : 'rgb(0, 150, 245)',
+                    color: isActive ? '#ffffff' : 'rgb(192, 132, 252)',
                     fontWeight: isActive ? 700 : 500,
                     fontSize: '14px',
                   }}
