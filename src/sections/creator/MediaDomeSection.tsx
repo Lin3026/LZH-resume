@@ -11,13 +11,13 @@ const BASE = import.meta.env.BASE_URL;
  *
  * 📌 后续新增视频的标准流程（请沿用，方便持续补充）：
  *   1) 把文件拷进 public/，命名为 dome-N.mp4（N 对应用户原目录编号，便于追溯）；
- *      当前真实视频：dome-1/3~14.mp4（dome-2 缺，dome-13 三消 / dome-14 经营）；
+ *      当前真实视频：dome-1/3~16.mp4（dome-2 缺，dome-13 三消 / dome-14 经营 / dome-15~16 横版）；
  *   2) 在下方数组追加一项：{ src: `${BASE}dome-N.mp4`, alt: '环球视频 N', type: 'video' }；
  *   3) 视频统一保留在 git，不上外部 CDN。
  * DomeGallery 会把所有视频循环铺满整个球面（segments=24 下每段约出现 6~7 次）。
  */
 const MEDIA: { src: string; alt: string; type: 'image' | 'video' }[] = [
-  // ===== 真实视频（用户提供：public/dome-1.mp4 ~ dome-14.mp4，跳过 2.mp4）=====
+  // ===== 真实视频（用户提供：public/dome-1.mp4 ~ dome-16.mp4，跳过 2.mp4）=====
   {
     src: `${BASE}dome-1.mp4`,
     alt: '环球视频 1',
@@ -81,6 +81,16 @@ const MEDIA: { src: string; alt: string; type: 'image' | 'video' }[] = [
   {
     src: `${BASE}dome-14.mp4`,
     alt: '环球视频 14（经营）',
+    type: 'video',
+  },
+  {
+    src: `${BASE}dome-15.mp4`,
+    alt: '环球视频 15（横版）',
+    type: 'video',
+  },
+  {
+    src: `${BASE}dome-16.mp4`,
+    alt: '环球视频 16（横版）',
     type: 'video',
   },
   // ===== 占位视频（项目原有，保留不删）=====
