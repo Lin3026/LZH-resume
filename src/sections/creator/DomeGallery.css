@@ -179,6 +179,7 @@ main.sphere-main {
   z-index: 30;
   border-radius: var(--enlarge-radius, 32px);
   overflow: hidden;
+  background: #000; /* 视频加载前/信箱黑边底色 */
   transition:
     transform 500ms ease,
     opacity 500ms ease;
@@ -190,7 +191,8 @@ main.sphere-main {
 .viewer .enlarge video {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain; /* 竖框(9:16)内完整显示，非竖版自动留黑边 */
+  background: #000; /* 黑边底色 */
   filter: var(--image-filter, none);
 }
 

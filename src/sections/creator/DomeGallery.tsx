@@ -464,7 +464,7 @@ export default function DomeGallery({
       const originalMedia = overlay.querySelector('img, video');
       if (originalMedia) {
         const clone = originalMedia.cloneNode() as HTMLElement;
-        clone.style.cssText = 'width:100%;height:100%;object-fit:cover;';
+        clone.style.cssText = 'width:100%;height:100%;object-fit:contain;';
         animatingOverlay.appendChild(clone);
       }
       overlay.remove();
@@ -589,7 +589,7 @@ export default function DomeGallery({
         v.muted = true;
         v.playsInline = true;
         v.controls = false; // 关闭原生控件（会自动隐藏），改用下方常驻自定义控制条
-        v.style.cssText = 'width:100%;height:100%;object-fit:cover;';
+        v.style.cssText = 'width:100%;height:100%;object-fit:contain;background:#000;';
         overlay.appendChild(v);
 
         // 自定义常驻控制条：播放/暂停 + 静音/取消静音（一直显示，不会自动消失）
