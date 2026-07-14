@@ -10,7 +10,7 @@ import './DomeGallery.css';
  *   - MediaInput 支持 { src, alt, type: 'video' }
  *   - 球面 tile 与点击放大 overlay 都会按 type 渲染 <video> 或 <img>
  *   - 视频在球面上仅显示首帧（preload=metadata，不自动播放，避免几百个视频卡死），
- *     点击放大后才自动播放（muted+loop+controls）
+ *     球面 tile 静音；点击放大后 overlay 出声自动播放（loop，带静音切换按钮）
  * ========================================================== */
 
 /** 媒体输入：图片字符串 / 图片对象 / 视频对象 */
@@ -586,7 +586,7 @@ export default function DomeGallery({
         v.src = rawSrc;
         v.autoplay = true;
         v.loop = true;
-        v.muted = true;
+        v.muted = false; // 点击预览是用户主动手势，允许出声；下方有静音切换按钮可关闭
         v.playsInline = true;
         v.controls = false; // 关闭原生控件（会自动隐藏），改用下方常驻自定义控制条
         v.style.cssText = 'width:100%;height:100%;object-fit:contain;background:#000;';
