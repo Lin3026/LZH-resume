@@ -139,16 +139,20 @@ const MEDIA: { src: string; alt: string; type: 'image' | 'video' }[] = [
 export default function MediaDomeSection() {
   const isMobile = useIsMobile();
   // 手机上放宽半径下限 + 缩小 fit，避免球体被 minRadius=380 顶得过大而裁切两侧
-  const domeFit = isMobile ? 0.62 : 0.78;
+  const domeFit = isMobile ? 0.55 : 0.78;
   const domeMinRadius = isMobile ? 120 : 380;
   // 移动端拖拽更灵敏：默认 20px/度 → 手机降为 11px/度（手指滑动距离短，需更高灵敏度）
   const domeDragSensitivity = isMobile ? 11 : 20;
+  // 移动端收窄环球区域纵向占比，方便滑动到下一屏（桌面保持整段一屏观感）
+  const domeHeight = isMobile ? '54vh' : '70vh';
+  const sectionMinHeight = isMobile ? 'auto' : '100vh';
+  const headingPadTop = isMobile ? '1.25rem' : '2.5rem';
   return (
     <section
       id="dome"
       style={{
         background: 'transparent',
-        minHeight: '100vh',
+        minHeight: sectionMinHeight,
         display: 'flex',
         flexDirection: 'column',
         overflow: 'hidden',
@@ -160,7 +164,7 @@ export default function MediaDomeSection() {
           className="hero-heading text-center"
           style={{
             fontSize: 'clamp(2.5rem, 10vw, 120px)',
-            paddingTop: '2.5rem',
+            paddingTop: headingPadTop,
             paddingBottom: '0.5rem',
             fontWeight: 800,
             lineHeight: 1.1,
@@ -183,7 +187,7 @@ export default function MediaDomeSection() {
         </p>
       </div>
       {/* DomeGallery 需要一个有明确高度的容器（它内部 100% 撑满） */}
-      <div style={{ flex: 1, minHeight: '70vh', height: '70vh', position: 'relative' }}>
+      <div style={{ flex: 1, minHeight: domeHeight, height: domeHeight, position: 'relative' }}>
         <DomeGallery
           images={MEDIA}
           fit={domeFit}
