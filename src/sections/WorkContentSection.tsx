@@ -36,7 +36,7 @@ export default function WorkContentSection() {
             prose-headings:text-blue-900 prose-headings:font-bold
             prose-h2:text-2xl prose-h2:mt-8 prose-h2:mb-4 prose-h2:border-b prose-h2:border-blue-200 prose-h2:pb-3
             prose-p:text-blue-800 prose-p:text-base prose-p:leading-loose prose-p:my-3
-            prose-blockquote:border-l-4 prose-blockquote:border-l-cyan-500 prose-blockquote:text-blue-700 prose-blockquote:text-lg prose-blockquote:not-italic prose-blockquote:font-medium prose-blockquote:pl-4 prose-blockquote:my-4
+            prose-blockquote:text-blue-700 prose-blockquote:text-lg prose-blockquote:not-italic prose-blockquote:font-medium prose-blockquote:my-4
             prose-strong:text-blue-900 prose-strong:text-base prose-strong:font-bold
             prose-hr:border-blue-200 prose-hr:my-6
             prose-code:text-cyan-700 prose-code:bg-blue-50 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-sm

@@ -27,7 +27,9 @@ main.sphere-main {
   display: grid;
   place-items: center;
   overflow: hidden;
-  touch-action: none;
+  /* pan-y：浏览器接管垂直滑动（页面正常滚动），仅把水平拖拽交给球面旋转；
+     原 none 会让球面“吃掉”垂直滑动手势，导致移动端难以滑过本区域 */
+  touch-action: pan-y;
   -moz-user-select: none;
        user-select: none;
   -webkit-user-select: none;

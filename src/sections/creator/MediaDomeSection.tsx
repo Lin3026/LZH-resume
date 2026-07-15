@@ -144,7 +144,7 @@ export default function MediaDomeSection() {
   // 移动端拖拽更灵敏：默认 20px/度 → 手机降为 11px/度（手指滑动距离短，需更高灵敏度）
   const domeDragSensitivity = isMobile ? 11 : 20;
   // 移动端收窄环球区域纵向占比，方便滑动到下一屏（桌面保持整段一屏观感）
-  const domeHeight = isMobile ? '54vh' : '70vh';
+  const domeHeight = isMobile ? '50vh' : '70vh';
   const sectionMinHeight = isMobile ? 'auto' : '100vh';
   const headingPadTop = isMobile ? '1.25rem' : '2.5rem';
   return (
