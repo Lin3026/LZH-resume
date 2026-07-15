@@ -81,7 +81,7 @@ export default function WorkTimeline() {
                     </h4>
 
                     {/* 卡片 — 在年份下方 */}
-                    <div className="bg-white/80 border-2 border-blue-200/60 rounded-2xl p-5 md:p-6 shadow-xl hover:shadow-2xl transition-all duration-300 hover:border-cyan-400/70 ocean-card group-hover:-translate-y-0.5">
+                    <div className="bg-white/80 rounded-2xl p-5 md:p-6 shadow-xl hover:shadow-2xl transition-all duration-300 group-hover:-translate-y-0.5">
                       <CardContent className="p-0 flex gap-4 items-center">
                         {/* 左侧贝壳图标 */}
                         {shellIcon}
