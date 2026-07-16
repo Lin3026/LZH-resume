@@ -108,6 +108,11 @@ const MEDIA: { src: string; alt: string; type: 'image' | 'video' }[] = [
     alt: '环球视频 19（竖版）',
     type: 'video',
   },
+  {
+    src: `${BASE}dome-20.mp4`,
+    alt: '环球视频 20（竖版）',
+    type: 'video',
+  },
   // ===== 占位视频（项目原有，保留不删）=====
   {
     src: `${BASE}dome-placeholder.mp4`,

@@ -22,6 +22,7 @@ export const DOME_VIDEO_SOURCES: string[] = [
   `${BASE}dome-17.mp4`,
   `${BASE}dome-18.mp4`,
   `${BASE}dome-19.mp4`,
+  `${BASE}dome-20.mp4`,
   `${BASE}dome-placeholder.mp4`,
   `${BASE}dome-video-01.mp4`,
   `${BASE}dome-video-03.mp4`,
