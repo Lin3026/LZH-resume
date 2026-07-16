@@ -6,7 +6,7 @@ const BASE = import.meta.env.BASE_URL;
 
 export const personalInfo: PersonalInfo = {
   name: '林志辉',
-  title: '高级广告创意设计师 / 游戏视频设计师',
+  title: '心要正 意要诚 想得开 看得透 拿得起 放得下',
   avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=linzhihui&backgroundColor=b6e3f4',
   email: '302641078@qq.com',
   phone: '18279132481',

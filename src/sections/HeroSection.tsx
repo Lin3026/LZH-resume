@@ -48,16 +48,13 @@ export default function HeroSection() {
           {personalInfo.name}
         </h1>
 
-        {/* 职位 + 个人信息标签 */}
+        {/* 副标题（人生格言）— 独立成行，避免长句被塞进药丸徽章 */}
+        <p className="text-base md:text-xl text-cyan-100/90 font-medium tracking-wide mb-5 drop-shadow-sm">
+          {personalInfo.title}
+        </p>
+
+        {/* 个人信息标签 */}
         <div className="flex flex-wrap justify-center gap-2 mb-6">
-          {personalInfo.title.split(' / ').map((t) => (
-            <Badge
-              key={t}
-              className="text-sm md:text-base px-4 py-1.5 bg-cyan-500/20 text-cyan-100 border border-cyan-400/50 font-medium backdrop-blur-sm"
-            >
-              {t}
-            </Badge>
-          ))}
           <Badge className="text-sm md:text-base px-4 py-1.5 bg-sky-500/15 text-sky-100 border border-sky-300/40 font-medium backdrop-blur-sm">
             32岁
           </Badge>
