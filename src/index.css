@@ -30,6 +30,12 @@
 @layer base {
   * {
     @apply border-border;
+    /* 微信内置浏览器（X5/WKWebView）文字发虚的缓解：开启抗锯齿 + 优化字形渲染 +
+       禁止伪粗体（font-black/bold 缺字重时 WebView 会描虚，导致模糊） */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    font-synthesis: none;
   }
   body {
     @apply bg-background text-foreground;
