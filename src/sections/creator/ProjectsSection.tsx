@@ -4,7 +4,6 @@ import {
   useScroll,
   useTransform,
   type MotionValue,
-  useReducedMotion,
 } from 'framer-motion';
 import { FadeIn } from './components';
 import BorderGlow from '../../components/BorderGlow';
@@ -99,23 +98,28 @@ function StickyWorkCard({
   index,
   total,
   progress,
-  reduce,
 }: {
   item: WorkItem;
   index: number;
   total: number;
   progress: MotionValue<number>;
-  reduce: boolean;
 }) {
-  const targetScale = 1 - (total - 1 - index) * 0.05;
-  const scale = useTransform(progress, [index / total, 1], [1, reduce ? 1 : targetScale]);
+  // 所有卡片使用统一的缩放值，避免之前的阶梯式 scale 造成的 Z 轴深度不均。
+  // 缩放只在「被下一张卡片覆盖」的区间进行，最后一张到 section 末尾时也缩到同一数值。
+  const UNIFORM_SCALE = 0.95;
+  const start = index / total;
+  const end = (index + 1) / total;
+  const scale = useTransform(progress, [start, end], [1, UNIFORM_SCALE]);
 
   return (
     <div
       className="sticky h-[80vh] flex items-center"
       style={{ top: `calc(6rem + ${index * 28}px)`, zIndex: index + 1 }}
     >
-      <motion.div style={{ scale }} className="w-full">
+      <motion.div
+        style={{ scale, transformOrigin: 'top center' }}
+        className="w-full"
+      >
         <WorkCard item={item} />
       </motion.div>
     </div>
@@ -124,7 +128,6 @@ function StickyWorkCard({
 
 export default function ProjectsSection() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const reduce = useReducedMotion() ?? false;
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ['start start', 'end end'],
@@ -153,7 +156,6 @@ export default function ProjectsSection() {
             index={i}
             total={WORK_ITEMS.length}
             progress={scrollYProgress}
-            reduce={reduce}
           />
         ))}
       </div>
