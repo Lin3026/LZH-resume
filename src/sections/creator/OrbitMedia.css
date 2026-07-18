@@ -2,12 +2,15 @@
   position: relative;
   margin-left: auto;
   margin-right: auto;
+  /* 建立独立堆叠上下文，使中心银河可置于轨道图片之后而不影响外部层级 */
+  isolation: isolate;
 }
 
 .orbit-scaling-container {
   width: 100%;
   height: 100%;
   position: relative;
+  z-index: 1; /* 轨道图片/视频置于中心银河之上 */
 }
 
 .orbit-scaling-container--responsive {
@@ -63,8 +66,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 10;
-  /* 中心内容（太阳）仅为装饰，必须让点击穿透到下方轨道图片，否则会拦截所有点击 */
+  /* 银河作为装饰置于轨道图片之后：z-index 低于 .orbit-scaling-container(1)，点击仍穿透 */
+  z-index: 0;
   pointer-events: none;
 }
 
@@ -82,45 +85,11 @@
   background: #0a0a0a;
 }
 
-/* 轨道中心的发光星球（太阳） */
-.orbit-sun {
-  width: clamp(90px, 18vw, 140px);
-  height: clamp(90px, 18vw, 140px);
-  border-radius: 50%;
-  background: radial-gradient(circle at 34% 32%, #fff7e0 0%, #ffd86b 32%, #ff9d3c 64%, #ff6a3d 100%);
-  box-shadow:
-    0 0 30px 8px rgba(255, 180, 80, 0.70),
-    0 0 60px 20px rgba(255, 120, 40, 0.45),
-    0 0 100px 42px rgba(255, 90, 30, 0.25);
-  animation: sun-pulse 4.5s ease-in-out infinite;
-}
+/* 轨道中心装饰：原发光太阳已替换为 <GalaxyCore />（螺旋星系画布），
+   样式见 src/components/GalaxyCore.css。此处仅保留中心层定位与移动端隐藏。 */
 
-@keyframes sun-pulse {
-  0%, 100% {
-    box-shadow:
-      0 0 30px 8px rgba(255, 180, 80, 0.70),
-      0 0 60px 20px rgba(255, 120, 40, 0.45),
-      0 0 100px 42px rgba(255, 90, 30, 0.25);
-  }
-  50% {
-    box-shadow:
-      0 0 42px 12px rgba(255, 200, 100, 0.85),
-      0 0 82px 30px rgba(255, 140, 50, 0.55),
-      0 0 135px 58px rgba(255, 100, 40, 0.30);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .orbit-sun {
-    animation: none;
-  }
-}
-
-/* 移动端：太阳装饰遮挡轨道视频，隐藏太阳及中心层（PC 端保留） */
+/* 移动端：中心装饰遮挡轨道视频，隐藏中心层（PC 端保留） */
 @media (max-width: 768px) {
-  .orbit-sun {
-    display: none;
-  }
   .orbit-center-content {
     display: none;
   }

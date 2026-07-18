@@ -1,0 +1,37 @@
+/* 轨道中心的银河（螺旋星系）效果，替换原发光太阳 */
+.orbit-galaxy {
+  display: block;
+  pointer-events: none;
+  /* 多层辉光：蓝图 + 紫粉，营造星云弥散感 */
+  filter:
+    drop-shadow(0 0 16px rgba(120, 150, 255, 0.45))
+    drop-shadow(0 0 38px rgba(168, 85, 247, 0.30));
+  animation: galaxy-breathe 6s ease-in-out infinite;
+}
+
+@keyframes galaxy-breathe {
+  0%,
+  100% {
+    filter:
+      drop-shadow(0 0 14px rgba(120, 150, 255, 0.40))
+      drop-shadow(0 0 34px rgba(168, 85, 247, 0.26));
+  }
+  50% {
+    filter:
+      drop-shadow(0 0 22px rgba(150, 180, 255, 0.55))
+      drop-shadow(0 0 50px rgba(244, 114, 182, 0.34));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orbit-galaxy {
+    animation: none;
+  }
+}
+
+/* 移动端：与太阳一致，隐藏中心装饰，避免遮挡轨道视频 */
+@media (max-width: 768px) {
+  .orbit-galaxy {
+    display: none;
+  }
+}

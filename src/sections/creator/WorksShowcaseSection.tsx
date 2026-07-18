@@ -2,6 +2,7 @@ import { useState, useCallback } from 'react';
 import { FadeIn } from './components';
 import OrbitMedia from './OrbitMedia';
 import WorkDetailModal, { type WorkDetailData } from './WorkDetailModal';
+import GalaxyCore from '../../components/GalaxyCore';
 
 const BASE = import.meta.env.BASE_URL;
 
@@ -186,7 +187,7 @@ export default function WorksShowcaseSection() {
           showPath
           pathWidth={4}
           pathGradient={['#22d3ee', '#a855f7', '#f472b6', '#facc15', '#22d3ee']}
-          centerContent={<div className="orbit-sun" aria-hidden="true" />}
+          centerContent={<GalaxyCore size={704} tilt={-6} squash={240 / 640} />}
           onItemClick={handleItemClick}
         />
       </div>
