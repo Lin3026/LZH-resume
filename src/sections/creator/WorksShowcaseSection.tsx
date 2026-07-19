@@ -18,7 +18,7 @@ const WORKS: {
       videoUrl: `${BASE}video-01.mp4`,
       posterUrl: `${BASE}video-01-cover.jpg`,
       projectIntro:
-        '游戏：假日乐消消乐，用户人群女性占比较多，核心年龄层 25-35 岁。通过轻松治愈的视觉风格传递游戏乐趣，提升用户点击与转化。',
+        '游戏：假日乐消消乐，用户人群女性占比较多，核心年龄层 25-35 岁。',
       creativeConcept:
         '主要突出的是连续消除的爽感，这种是录屏没有办法体现的节奏。用动态特效强化消除反馈，配合欢快音效，让用户在短短几秒内感受到「想玩一把」的冲动。',
       metrics: [
@@ -39,9 +39,9 @@ const WORKS: {
       videoUrl: `${BASE}video-02.mp4`,
       posterUrl: `${BASE}video-02-cover.jpg`,
       projectIntro:
-        '海外休闲益智类手游 Tile Fun，目标市场北美与欧洲。主打碎片化时间体验，用户偏女性、年龄 30+。',
+        '游戏：假日乐消消乐，用户人群女性占比较多，核心年龄层 25-35 岁。',
       creativeConcept:
-        '以「解压+成就感」为主线，通过流畅的拼图动效和清新的配色方案吸引注意力。强调「只需一划」的低门槛操作感。',
+        '利用抖音火起来的语音作为视频的口播文案，开头3秒直接把用户吸引住，后续用搞笑对话进行视频的节奏的推进。',
       metrics: [
         { label: 'CTR', value: '4.2%' },
         { label: 'CVR', value: '55%' },
@@ -183,7 +183,7 @@ export default function WorksShowcaseSection() {
           radiusY={240}
           itemSize={190}
           rotation={-6}
-          duration={32}
+          duration={75}
           showPath
           pathWidth={4}
           pathGradient={['#22d3ee', '#a855f7', '#f472b6', '#facc15', '#22d3ee']}
