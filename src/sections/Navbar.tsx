@@ -1,39 +1,31 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import navbarBg from '../assets/navbar-bg.jpg';
 import iconHome from '../assets/icons/个人空间.png';
+import iconImg from '../assets/icons/作品展示.png';
+import iconVideo from '../assets/icons/工作内容.png';
+import iconCase from '../assets/icons/技术能力.png';
 import iconAbout from '../assets/icons/关于我.png';
-import iconExp from '../assets/icons/工作经历.png';
-import iconWork from '../assets/icons/工作内容.png';
-import iconWorks from '../assets/icons/作品展示.png';
-import iconEdu from '../assets/icons/教育经历.png';
-import iconSkills from '../assets/icons/技术能力.png';
 import iconContact from '../assets/icons/联系我.png';
 
-// 左侧导航栏 — 点击定位到对应模块区域
+// 左侧导航栏 — 点击定位到对应模块区域（个人空间新结构：AI 做图 / 做视频 / 案例分析）
 const NAV_ITEMS = [
-  { id: 'hero',       label: '个人空间', icon: iconHome },
-  { id: 'about',      label: '关于我',   icon: iconAbout },
-  { id: 'experience', label: '工作经历', icon: iconExp },
-  { id: 'work',       label: '工作内容', icon: iconWork },
-  { id: 'works',      label: '作品展示', icon: iconWorks },
-  { id: 'education',  label: '教育经历', icon: iconEdu },
-  { id: 'skills',     label: '技术能力', icon: iconSkills },
-  { id: 'contact',    label: '联系我',   icon: iconContact },
+  { id: 'hero',     label: '首页',     icon: iconHome },
+  { id: 'ai-image', label: 'AI 做图',  icon: iconImg },
+  { id: 'ai-video', label: 'AI 做视频', icon: iconVideo },
+  { id: 'cases',    label: '案例分析',  icon: iconCase },
+  { id: 'about',    label: '关于我',   icon: iconAbout },
+  { id: 'contact',  label: '联系我',   icon: iconContact },
 ];
 
-// 各模块标题在背景图中的纵向位置（百分比，相对于 15745px 高度）
-// 用户PS精确测量（终稿1.jpg 2560×15745）：
-//   个人空间=0px      关于我=1440px    工作经历=2840px   工作内容=4280px
-//   作品展示=9180px   教育经历=11425px 技术能力=12867px  联系我=14306px
+// 各模块在页面中的纵向位置（百分比，相对于整页滚动高度）
+// 新模板为流式布局，按经验比例粗略定位（hero 顶部 → contact 底部）
 const SECTION_POSITIONS: Record<string, number> = {
-  hero:       0,
-  about:      9.15,
-  experience: 18.04,
-  work:       27.18,
-  works:      57.99,    // 9180/15745
-  education:  72.56,    // 11425/15745
-  skills:     81.72,    // 12867/15745
-  contact:    90.72,    // 14306/15745
+  hero:     0,
+  'ai-image': 18,
+  'ai-video': 40,
+  cases:    62,
+  about:    82,
+  contact:  93,
 };
 
 interface NavbarProps {

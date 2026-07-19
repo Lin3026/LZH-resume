@@ -1,7 +1,6 @@
 import { useState, useEffect, useMemo, useCallback, lazy, Suspense } from 'react';
 import cursorImg from './assets/cursor.png';
-import Navbar from './sections/Navbar';
-import VideoShowcase from './sections/VideoShowcase';
+import AISpace from './sections/AISpace';
 import MouseTrailParticles from './hooks/MouseTrailParticles';
 import MouseClickRipple from './hooks/MouseClickRipple';
 import ScrollParticles from './hooks/ScrollParticles';
@@ -24,23 +23,22 @@ export default function App() {
 
   // 门禁：会话内是否已通过互动游戏（同浏览器会话记住，刷新不重复、新会话需重过）
   const PASSED_KEY = 'lzh-passed-game';
+  // 本地预览调试用：地址栏加 ?skip=1 可临时绕过门禁直接看各页面（上线前可删此判断）
+  const SKIP_GATE = new URLSearchParams(window.location.search).get('skip') === '1';
   const readPassed = (): boolean => {
     try {
-      return sessionStorage.getItem(PASSED_KEY) === '1';
+      return SKIP_GATE || sessionStorage.getItem(PASSED_KEY) === '1';
     } catch {
-      return false;
+      return SKIP_GATE;
     }
   };
   const [hasPassedGame, setHasPassedGame] = useState<boolean>(readPassed);
 
-  // 当前页面视图：未通关强制落地游戏页，已通关（同会话）直接进个人简历
-  const [currentPage, setCurrentPage] = useState<PageView>(readPassed() ? 'creator' : 'game');
+  // 当前页面视图：进入站点先强制落地互动游戏页（门禁），通关后再自由切换
+  const [currentPage, setCurrentPage] = useState<PageView>(readPassed() ? 'home' : 'game');
 
   // 用 useIsMobile (基于屏幕宽度 < 768px) 判断，避免触屏笔记本误判
   const isMobile = useIsMobile();
-
-  // 导航栏展开状态 — 移动端默认收起
-  const [navOpen, setNavOpen] = useState(false);
 
   // 视频详情弹窗开关（值未直接使用，通过 setDialogOpen 回调传递）
   const [, setDialogOpen] = useState(false);
@@ -57,16 +55,26 @@ export default function App() {
 
   // 顶部导航栏链接配置 — 点击切换页面视图
   const topNavLinks = [
-    { label: '个人空间', page: 'home' as PageView },
+    { label: 'AI分享', page: 'home' as PageView },
     { label: '音乐分享', page: 'music' as PageView },
     { label: '互动游戏', page: 'game' as PageView },
     { label: '个人简历', page: 'creator' as PageView },
   ];
 
+  // 每个网页的个性配置（背景 / 鼠标样式）
+  // 后续新增网页：在此加一项即可，并在下方渲染时按 page 切换背景与光标。
+  // customCursor: true 表示该页使用自定义光标；false 用原生光标。
+  const pageConfig: Record<PageView, { customCursor: boolean }> = {
+    home: { customCursor: true },     // 个人空间：宇宙背景 + 纸飞机光标
+    music: { customCursor: false },   // 音乐分享：自有 TargetCursor 视觉
+    game: { customCursor: false },    // 互动游戏：原生光标
+    creator: { customCursor: false }, // 个人简历：原生光标
+  };
+
   const handleTopNavClick = (page: PageView | null) => {
     if (!page) return;
-    // 门禁：未通过互动游戏前，禁止进入个人空间（其余页面可自由访问）
-    if (page === 'home' && !hasPassedGame) {
+    // 门禁：未通关时，除互动游戏本身外，任何页面都不允许进入
+    if (!hasPassedGame && page !== 'game') {
       if (currentPage !== 'game') setCurrentPage('game');
       return;
     }
@@ -115,8 +123,9 @@ export default function App() {
   }, []);
 
   return (
-    <div className={`relative min-h-screen text-white bg-transparent ${showCustomCursor && currentPage === 'home' ? 'cursor-hidden' : ''}`}>
-      {/* 全局宇宙星空背景：固定铺满视口、置于最底层，全站共享 */}
+    <div className={`relative min-h-screen text-white bg-transparent ${showCustomCursor && pageConfig[currentPage].customCursor ? 'cursor-hidden' : ''}`}>
+      {/* 全局宇宙星空背景：固定铺满视口、置于最底层，全站共享
+          （后续可改为按 currentPage 切换不同网页的个性背景） */}
       <Starfield />
 
       {/* 顶部固定导航栏 — 半透明，常驻不随滚动隐藏，全站统一显示 */}
@@ -133,8 +142,8 @@ export default function App() {
       >
         {topNavLinks.map(({ label, page }) => {
           const isActive = page === currentPage;
-          // 门禁：未通关前，「个人空间」锁定不可进入
-          const locked = page === 'home' && !hasPassedGame;
+          // 门禁：未通关前，除「互动游戏」外所有页面均锁定不可进入
+          const locked = !hasPassedGame && page !== 'game';
           return (
             <button
               key={label}
@@ -164,15 +173,9 @@ export default function App() {
       </header>
       }
 
-      {/* 左侧导航栏 — 仅在个人空间页面显示
-          - PC端：始终展开，固定宽度，主内容区留出对应左边距
-          - 移动端：默认收起，点击汉堡按钮展开（覆盖在内容上，不挤内容） */}
-      {currentPage === 'home' && (
-        <Navbar isOpen={navOpen} onToggle={() => setNavOpen((v) => !v)} />
-      )}
-
-      {/* 粒子特效 — 仅首页显示，音乐页由 TargetCursor 接管交互视觉 */}
-      {currentPage === 'home' && (
+      {/* 粒子特效 + 自定义光标 — 按页面控制（每页可有独立鼠标样式）
+          当前：个人空间页保留宇宙粒子与纸飞机光标，其他页默认原生光标 */}
+      {pageConfig[currentPage].customCursor && (
         <>
           <ScrollParticles />
           <MouseTrailParticles />
@@ -180,8 +183,7 @@ export default function App() {
         </>
       )}
 
-      {/* 自定义光标 — 仅 PC 端 + 首页显示（音乐页由 TargetCursor 接管），z-index 用常量保证在弹窗上方 */}
-      {showCustomCursor && currentPage === 'home' && (
+      {showCustomCursor && pageConfig[currentPage].customCursor && (
         <div
           className="fixed pointer-events-none select-none"
           style={{
@@ -198,13 +200,10 @@ export default function App() {
         />
       )}
 
-      {/* 主内容区
-          - 个人空间页 (home): 左侧留出导航栏宽度
-          - 音乐分享页 (music): 全宽，由 MusicShare 自行控制版心
-          - 互动入口 (game): 全宽，三消加载页 */}
+      {/* 主内容区 — 各网页全宽渲染，由各自页面组件控制版心与内边距 */}
       {currentPage === 'home' && (
-        <main className="relative z-20 md:ml-44 lg:ml-56">
-          <VideoShowcase onDialogOpenChange={handleDialogOpenChange} />
+        <main className="relative z-20">
+          <AISpace />
         </main>
       )}
       {currentPage === 'music' && (
