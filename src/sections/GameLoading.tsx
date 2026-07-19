@@ -6,14 +6,13 @@ import './GameLoading.css';
 import { DOME_VIDEO_SOURCES } from '../data/domeVideos';
 
 // 首页关键图片资源 — import 拿到构建后 URL，用于后台预加载
-import oceanBg from '../assets/终稿2.jpg';
 import detailBg from '../assets/detail-bg.jpg';
 import navbarBg from '../assets/navbar-bg.jpg';
 
 // 方块颜色配置 — 编辑 src/config/gemSequence.ts 可自定义下落顺序
 import { resetGemSequence } from '../config/gemSequence';
 
-const RESOURCES = [oceanBg, detailBg, navbarBg];
+const RESOURCES = [detailBg, navbarBg];
 
 const BOARD_SIZE = 6;
 
