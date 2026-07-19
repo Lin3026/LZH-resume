@@ -58,9 +58,9 @@ const WORKS: {
       videoUrl: `${BASE}video-03.mp4`,
       posterUrl: `${BASE}video-03-cover.jpg`,
       projectIntro:
-        ' Coloring Fun 涂色类休闲游戏，主打放松解压。用户群体以成年女性为主，偏好唯美治愈系画风。',
+        '游戏：假日乐消消乐，用户人群女性占比较多，核心年龄层 25-35 岁。',
       creativeConcept:
-        '从黑白线稿到彩色成品的「填色过程」作为核心视觉钩子，配合舒缓的背景音乐，传达「涂色即疗愈」的情感价值。',
+        '利用抖音火起来的语音作为视频的口播文案，开头3秒直接把用户吸引住，后续用搞笑对话进行视频的节奏的推进。',
       metrics: [
         { label: 'CTR', value: '3.8%' },
         { label: 'CVR', value: '48%' },
@@ -77,9 +77,9 @@ const WORKS: {
       videoUrl: `${BASE}video-04.mp4`,
       posterUrl: `${BASE}video-04-cover.jpg`,
       projectIntro:
-        '英雄联盟职业联赛赛事包装，面向核心电竞观众群体。需要体现竞技紧张感和品牌专业度。',
+        '游戏：假日乐消消乐，用户人群女性占比较多，核心年龄层 25-35 岁。',
       creativeConcept:
-        '以快节奏剪辑 + 粒子特效 + 震撼音效构建赛事氛围。关键击杀/团战瞬间使用慢放回放强化视觉冲击力。',
+        '利用抖音火起来的语音作为视频的口播文案，开头3秒直接把用户吸引住，后续用搞笑对话进行视频的节奏的推进。',
       metrics: [
         { label: '播放量', value: '50w+' },
         { label: '互动率', value: '8.2%' },
