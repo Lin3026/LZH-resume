@@ -33,7 +33,10 @@ function EducationRow({ item, index }: { item: EducationItem; index: number }) {
         aria-hidden="true"
       />
       {/* 日期 */}
-      <span className="block text-xs sm:text-sm uppercase tracking-widest text-white/55 mb-2">
+      <span
+        className="block uppercase tracking-widest text-white/70 mb-2 font-semibold"
+        style={{ fontSize: 'clamp(1rem, 2vw, 1.35rem)' }}
+      >
         {item.period}
       </span>
       {/* 学校名 */}
