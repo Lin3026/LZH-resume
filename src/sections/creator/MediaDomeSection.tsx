@@ -1,4 +1,5 @@
 import DomeGallery from './DomeGallery';
+import ScrollFloat from './ScrollFloat';
 import { useIsMobile } from '../../hooks/use-mobile';
 
 // GitHub Pages 子路径部署：用 BASE_URL 拼接 public 资源路径
@@ -196,20 +197,11 @@ export default function MediaDomeSection() {
       }}
     >
       <div className="text-center">
-        <h2
-          className="hero-heading text-center"
-          style={{
-            fontSize: 'clamp(2.5rem, 10vw, 120px)',
-            paddingTop: headingPadTop,
-            paddingBottom: '0.5rem',
-            fontWeight: 800,
-            lineHeight: 1.1,
-            letterSpacing: '-0.02em',
-            margin: 0,
-          }}
-        >
-          作品案例
-        </h2>
+        <div style={{ paddingTop: headingPadTop, paddingBottom: '0.5rem' }}>
+          <ScrollFloat containerClassName="section-float-title section-float-title--dome">
+            作品案例
+          </ScrollFloat>
+        </div>
         <p
           style={{
             margin: 0,

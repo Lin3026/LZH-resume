@@ -1,4 +1,5 @@
 import { FadeIn } from './components';
+import ScrollFloat from './ScrollFloat';
 import BorderGlow from '../../components/BorderGlow';
 
 interface EducationItem {
@@ -76,14 +77,11 @@ export default function EducationSection() {
       id="education"
       className="relative z-10 rounded-t-[40px] sm:rounded-t-[50px] md:rounded-t-[60px] -mt-10 sm:-mt-12 md:-mt-14 px-4 sm:px-8 md:px-10 pt-20 sm:pt-24 md:pt-28 pb-24"
     >
-      <FadeIn delay={0} y={40} className="mb-14 sm:mb-20">
-        <h2
-          className="hero-heading font-black uppercase leading-none tracking-tight text-center"
-          style={{ fontSize: 'clamp(3rem, 12vw, 160px)' }}
-        >
+      <div className="mb-14 sm:mb-20">
+        <ScrollFloat containerClassName="section-float-title">
           教育经历
-        </h2>
-      </FadeIn>
+        </ScrollFloat>
+      </div>
 
       {/* 竖向时间轴：左侧竖线 + 右排内容 */}
       <div className="relative mx-auto max-w-3xl">

@@ -5,7 +5,7 @@ import {
   useTransform,
   type MotionValue,
 } from 'framer-motion';
-import { FadeIn } from './components';
+import ScrollFloat from './ScrollFloat';
 import BorderGlow from '../../components/BorderGlow';
 
 interface WorkItem {
@@ -139,14 +139,11 @@ export default function ProjectsSection() {
       ref={containerRef}
       className="relative z-10 bg-transparent rounded-t-[40px] sm:rounded-t-[50px] md:rounded-t-[60px] -mt-10 sm:-mt-12 md:-mt-14 px-4 sm:px-8 md:px-10 pt-20 sm:pt-24 md:pt-28 pb-24"
     >
-      <FadeIn delay={0} y={40} className="mb-12 sm:mb-16">
-        <h2
-          className="hero-heading font-black uppercase leading-none tracking-tight text-center"
-          style={{ fontSize: 'clamp(3rem, 12vw, 160px)' }}
-        >
+      <div className="mb-12 sm:mb-16">
+        <ScrollFloat containerClassName="section-float-title">
           工作内容
-        </h2>
-      </FadeIn>
+        </ScrollFloat>
+      </div>
 
       <div className="relative max-w-6xl mx-auto">
         {WORK_ITEMS.map((item, i) => (

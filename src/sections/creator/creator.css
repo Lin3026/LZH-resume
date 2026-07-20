@@ -65,6 +65,34 @@
   color: transparent;
 }
 
+/* ====== 通用 section 大标题（复用 ScrollFloat 逐字上浮效果，与「关于我」一致）====== */
+.section-float-title {
+  margin: 0;
+  text-align: center;
+}
+.section-float-title .scroll-float-text {
+  font-size: clamp(3rem, 12vw, 160px);
+  font-weight: 900;
+  line-height: 1.05;
+  background: linear-gradient(135deg, #22d3ee 0%, #a855f7 55%, #f472b6 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  letter-spacing: -0.02em;
+}
+.section-float-title .scroll-float-text .char {
+  background: linear-gradient(135deg, #22d3ee 0%, #a855f7 55%, #f472b6 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+/* 作品案例标题：沿用略小字号（原 120px），与「环球展示」区域比例协调 */
+.section-float-title--dome .scroll-float-text {
+  font-size: clamp(2.5rem, 10vw, 120px);
+}
+
 /* 段落：正文大小、深色、居中、限宽 */
 .about-para {
   margin: 0;

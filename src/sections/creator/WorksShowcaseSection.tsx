@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react';
 import { FadeIn } from './components';
+import ScrollFloat from './ScrollFloat';
 import OrbitMedia from './OrbitMedia';
 import WorkDetailModal, { type WorkDetailData } from './WorkDetailModal';
 import GalaxyCore from '../../components/GalaxyCore';
@@ -160,25 +161,22 @@ export default function WorksShowcaseSection() {
   return (
     <section
       id="showcase"
-      className="relative z-10 px-4 sm:px-8 md:px-10 pt-20 sm:pt-24 md:pt-28 pb-24"
+      className="relative z-10 px-4 sm:px-8 md:px-10 pt-8 sm:pt-10 md:pt-12 pb-24"
     >
-      <FadeIn delay={0} y={40} className="mb-8 sm:mb-10">
-        <h2
-          className="hero-heading font-black uppercase leading-none tracking-tight text-center"
-          style={{ fontSize: 'clamp(3rem, 12vw, 160px)' }}
-        >
+      <div className="mb-2 sm:mb-3">
+        <ScrollFloat containerClassName="section-float-title">
           视频解析
-        </h2>
-      </FadeIn>
+        </ScrollFloat>
+      </div>
 
-      <FadeIn delay={0.1} y={20} className="mb-12 sm:mb-16 group">
+      <FadeIn delay={0.1} y={20} className="mb-4 sm:mb-6 group">
         <p className="text-center font-medium tracking-wide text-gradient" style={{ fontSize: 'clamp(0.95rem, 2vw, 1.15rem)' }}>
           点击轨道上的视频，查看视频详情
           <span className="ml-2 inline-block align-middle text-[#22d3ee] transition-transform duration-300 group-hover:translate-x-1">→</span>
         </p>
       </FadeIn>
 
-      <div className="relative mx-auto" style={{ maxWidth: 1000 }}>
+      <div className="relative mx-auto -mt-4 sm:-mt-6" style={{ maxWidth: 1000 }}>
         <OrbitMedia
           images={WORKS.map((w) => w.thumbnail)}
           shape="ellipse"

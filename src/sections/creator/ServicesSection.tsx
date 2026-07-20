@@ -7,6 +7,7 @@ import {
   animate,
 } from 'framer-motion';
 import BorderGlow from '../../components/BorderGlow';
+import ScrollFloat from './ScrollFloat';
 
 /* ============================================================
  * 工作经历 — 横向时间轴
@@ -99,12 +100,11 @@ export default function ServicesSection({ triggerRef }: { triggerRef?: React.Ref
       className="relative z-10 px-5 sm:px-8 md:px-10 py-20 sm:py-24 md:py-32 rounded-t-[40px] sm:rounded-t-[50px] md:rounded-t-[60px] overflow-hidden"
       style={{ color: '#e5e5e5' }}
     >
-      <h2
-        className="hero-heading font-black text-center mb-16 sm:mb-20 md:mb-24"
-        style={{ fontSize: 'clamp(3rem, 12vw, 160px)' }}
-      >
-        工作经历
-      </h2>
+      <div className="mb-16 sm:mb-20 md:mb-24">
+        <ScrollFloat containerClassName="section-float-title">
+          工作经历
+        </ScrollFloat>
+      </div>
 
       <motion.div
         className="timeline-wrapper"
