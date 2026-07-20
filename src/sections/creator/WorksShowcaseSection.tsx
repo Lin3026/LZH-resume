@@ -176,7 +176,7 @@ export default function WorksShowcaseSection() {
         </p>
       </FadeIn>
 
-      <div className="relative mx-auto -mt-4 sm:-mt-6 lg:-mt-12" style={{ maxWidth: 1000 }}>
+      <div className="relative mx-auto -mt-4 sm:-mt-6 lg:-mt-16" style={{ maxWidth: 1000 }}>
         <OrbitMedia
           images={WORKS.map((w) => w.thumbnail)}
           shape="ellipse"
