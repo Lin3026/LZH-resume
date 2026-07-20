@@ -113,6 +113,37 @@ const MEDIA: { src: string; alt: string; type: 'image' | 'video' }[] = [
     alt: '环球视频 20（竖版）',
     type: 'video',
   },
+  // ===== 用户新增真实视频（假日乐消消 创意消除系列 + 3D解救）=====
+  {
+    src: `${BASE}dome-21.mp4`,
+    alt: '环球视频 21（双爱心·创意消除）',
+    type: 'video',
+  },
+  {
+    src: `${BASE}dome-22.mp4`,
+    alt: '环球视频 22（向下箭头·创意消除）',
+    type: 'video',
+  },
+  {
+    src: `${BASE}dome-23.mp4`,
+    alt: '环球视频 23（创意王·创意消除）',
+    type: 'video',
+  },
+  {
+    src: `${BASE}dome-24.mp4`,
+    alt: '环球视频 24（冰喇叭·创意消除）',
+    type: 'video',
+  },
+  {
+    src: `${BASE}dome-25.mp4`,
+    alt: '环球视频 25（3D解救·蛇救我口播）',
+    type: 'video',
+  },
+  {
+    src: `${BASE}dome-26.mp4`,
+    alt: '环球视频 26（方形2·创意消除）',
+    type: 'video',
+  },
   // ===== 占位视频（项目原有，保留不删）=====
   {
     src: `${BASE}dome-placeholder.mp4`,

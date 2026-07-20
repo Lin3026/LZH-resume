@@ -14,6 +14,8 @@ export interface WorkDetailData {
   creativeConcept: string;
   metrics?: { label: string; value: string }[];
   analysisText?: string;
+  /** 视频方向：'portrait' 竖版（默认），'landscape' 横版。用于单条视频覆盖默认比例 */
+  orientation?: 'portrait' | 'landscape';
 }
 
 interface WorkDetailModalProps {
@@ -77,9 +79,13 @@ export default function WorkDetailModal({ open, onOpenChange, data }: WorkDetail
           </button>
         </div>
 
-        {/* ====== 视频播放区（竖版，居中限宽，不影响下方结构） ====== */}
+        {/* ====== 视频播放区（默认竖版；orientation='landscape' 时单独横版） ====== */}
         <div className="px-5 pb-4 flex justify-center">
-          <div className="relative rounded-2xl overflow-hidden bg-black shadow-lg w-full max-w-[280px]">
+          <div
+            className={`relative rounded-2xl overflow-hidden bg-black shadow-lg w-full ${
+              data.orientation === 'landscape' ? 'max-w-[420px]' : 'max-w-[280px]'
+            }`}
+          >
             <video
               key={videoKey}
               src={data.videoUrl}
@@ -89,7 +95,11 @@ export default function WorkDetailModal({ open, onOpenChange, data }: WorkDetail
               playsInline
               controls
               preload="metadata"
-              className="w-full aspect-[9/16] object-cover block rounded-2xl"
+              className={`w-full block rounded-2xl ${
+                data.orientation === 'landscape'
+                  ? 'aspect-[16/9] object-contain'
+                  : 'aspect-[9/16] object-cover'
+              }`}
             />
           </div>
         </div>

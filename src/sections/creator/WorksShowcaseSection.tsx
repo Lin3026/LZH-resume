@@ -12,11 +12,10 @@ const WORKS: {
   detail: WorkDetailData;
 }[] = [
   {
-    thumbnail: `${BASE}video-01.mp4`,
+    thumbnail: `${BASE}dome-24.mp4`,
     detail: {
-      title: '开心消消乐广告创意',
-      videoUrl: `${BASE}video-01.mp4`,
-      posterUrl: `${BASE}video-01-cover.jpg`,
+      title: '冰喇叭 · 创意消除',
+      videoUrl: `${BASE}dome-24.mp4`,
       projectIntro:
         '游戏：假日乐消消乐，用户人群女性占比较多，核心年龄层 25-35 岁。',
       creativeConcept:
@@ -98,7 +97,7 @@ const WORKS: {
       videoUrl: `${BASE}video-05.mp4`,
       posterUrl: `${BASE}video-05-cover.jpg`,
       projectIntro:
-        '火影忍者IP授权手游宣传片，面向火影粉丝及动作手游玩家群体。需兼顾情怀唤起与新玩家吸引。',
+        '开心消消乐，十几年长青老游戏，用户群覆盖全年龄段，男女比例接近平衡。',
       creativeConcept:
         '将经典忍术招式与现代动效结合，通过「查克拉爆发」视觉符号串联全片。开场用经典台词唤醒粉丝记忆，中段展示战斗画面，结尾引出下载引导。',
       metrics: [
@@ -112,30 +111,36 @@ const WORKS: {
   },
   // 后续 3 个位置预留，提供真实作品后替换
   {
-    thumbnail: `${BASE}dome-video-01.mp4`, // 暂用视频帧作缩略图
+    thumbnail: `${BASE}dome-15.mp4`, // 暂用视频帧作缩略图
     detail: {
       title: '环球展示 · 作品 06',
-      videoUrl: `${BASE}dome-video-01.mp4`,
-      projectIntro: '待补充项目介绍…',
+      videoUrl: `${BASE}dome-15.mp4`,
+      posterUrl: `${BASE}dome-15.mp4`,
+      projectIntro:
+        '开心水族箱，十几年养成老游戏，用户群25–40 岁，女性偏多，基本都是老用户回归',
       creativeConcept: '待补充创意思路…',
+      orientation: 'landscape',
     },
   },
   {
-    thumbnail: `${BASE}dome-video-03.mp4`,
+    thumbnail: `${BASE}resume-2020.mp4`,
     detail: {
-      title: '环球展示 · 作品 07',
-      videoUrl: `${BASE}dome-video-03.mp4`,
-      projectIntro: '待补充项目介绍…',
+      title: '林志辉 · 个人简历视频（2020）',
+      videoUrl: `${BASE}resume-2020.mp4`,
+      posterUrl: `${BASE}resume-2020.mp4`,
+      projectIntro: '个人简历介绍视频，展示职业经历与核心能力。',
       creativeConcept: '待补充创意思路…',
+      orientation: 'landscape',
     },
   },
   {
-    thumbnail: `${BASE}dome-video-04.mp4`,
+    thumbnail: `${BASE}dome-video-08.mp4`,
     detail: {
       title: '环球展示 · 作品 08',
-      videoUrl: `${BASE}dome-video-04.mp4`,
+      videoUrl: `${BASE}dome-video-08.mp4`,
       projectIntro: '待补充项目介绍…',
       creativeConcept: '待补充创意思路…',
+      orientation: 'landscape',
     },
   },
 ];
