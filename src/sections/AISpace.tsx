@@ -10,7 +10,7 @@ import { type ReactNode } from 'react';
 
 type SectionId =
   | 'hero'
-  | 'ai-video'
+  | 'preview'
   | 'cases';
 
 // ============ 通用占位卡片 ============
@@ -117,34 +117,24 @@ export default function AISpace() {
         </div>
       </section>
 
-      {/* ===== AI 做视频 ===== */}
-      <section id="ai-video" className="scroll-mt-24 py-16">
+      {/* ===== 成品预览（置顶） ===== */}
+      <section id="preview" className="scroll-mt-24 py-16">
         <SectionHeading
           index="01"
-          kicker="AI Video"
-          title="AI 做视频流程"
-          desc="从脚本到成片的视频生产流水线，预留脚本 / 分镜 / 生成 / 剪辑各环的占位。"
+          kicker="Showcase"
+          title="成品预览"
+          desc="先看效果。下方为 AI 做视频的成品展示，点击可播放查看。"
         />
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          <StepCard no="1" title="创意 & 脚本" hint="选题、口播文案、节奏。占位：脚本卡片。" />
-          <StepCard no="2" title="分镜 & 画面" hint="拆解镜头、确定画面来源。占位：分镜表。" />
-          <StepCard no="3" title="生成 & 配音" hint="图/视频生成 + 语音。占位：片段缩略图。" />
-          <StepCard no="4" title="剪辑 & 包装" hint="合成、字幕、音效、调色。占位：时间线示意。" />
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {[1, 2, 3, 4, 5, 6].map((i) => (
+            <div
+              key={i}
+              className="group flex aspect-video items-center justify-center rounded-2xl border border-dashed border-white/15 bg-black/20 text-white/40 text-sm transition-colors hover:border-cyan-400/50"
+            >
+              成品视频 {i}（点击播放）
+            </div>
+          ))}
         </div>
-        <Placeholder
-          className="mt-5"
-          label="做视频案例展示区"
-          hint="放 1～2 个完整视频案例（脚本 → 分镜 → 成片 → 数据/复盘）。整块占位，后续替换。"
-        >
-          <div className="mt-3 grid gap-3 sm:grid-cols-2">
-            <div className="flex h-32 items-center justify-center rounded-xl border border-dashed border-white/15 bg-black/20 text-white/40 text-xs">
-              视频占位 1（点击播放）
-            </div>
-            <div className="flex h-32 items-center justify-center rounded-xl border border-dashed border-white/15 bg-black/20 text-white/40 text-xs">
-              视频占位 2（点击播放）
-            </div>
-          </div>
-        </Placeholder>
       </section>
 
       {/* ===== 案例分析 ===== */}
@@ -153,9 +143,15 @@ export default function AISpace() {
           index="02"
           kicker="Case Studies"
           title="案例分析"
-          desc="AI 做视频的综合案例，按主题归类，后续逐条填充真实项目。"
+          desc="从脚本到成片的视频生产流水线，按案例拆解每个环节的实操与踩坑。"
         />
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          <StepCard no="1" title="创意 & 脚本" hint="选题、口播文案、节奏。占位：脚本卡片。" />
+          <StepCard no="2" title="分镜 & 画面" hint="拆解镜头、确定画面来源。占位：分镜表。" />
+          <StepCard no="3" title="生成 & 配音" hint="图/视频生成 + 语音。占位：片段缩略图。" />
+          <StepCard no="4" title="剪辑 & 包装" hint="合成、字幕、音效、调色。占位：时间线示意。" />
+        </div>
+        <div className="mt-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {[1, 2, 3, 4, 5, 6].map((i) => (
             <Placeholder
               key={i}
