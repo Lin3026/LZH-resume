@@ -119,7 +119,8 @@ const WORKS: {
       posterUrl: `${BASE}dome-15.mp4`,
       projectIntro:
         '开心水族箱，十几年养成老游戏，用户群25–40 岁，女性偏多，基本都是老用户回归',
-      creativeConcept: '待补充创意思路…',
+      creativeConcept:
+        '抓住玩家的攀比心理与「养成落后」的焦虑，顺势引出玩法攻略；再用真实玩法画面展示，增强说服力，吸引玩家回归入坑。',
       orientation: 'landscape',
     },
   },
