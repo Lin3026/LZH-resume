@@ -130,8 +130,10 @@ const WORKS: {
       title: '《栏目包装》',
       videoUrl: `${BASE}resume-2020.mp4`,
       posterUrl: `${BASE}resume-2020.mp4`,
-      projectIntro: '个人简历介绍视频，展示职业经历与核心能力。',
-      creativeConcept: '待补充创意思路…',
+      projectIntro:
+        '一些赛事的比赛 UI（火影，逆战，雅加达 lol，LDL 等）、游戏栏目片头、比赛片头、产品宣传片等。',
+      creativeConcept:
+        '依据甲方项目需求，先梳理分镜脚本，再完成动画制作，最终交付成片；覆盖赛事 UI、栏目片头、比赛包装与产品宣传等多类型定制。',
       orientation: 'landscape',
     },
   },
