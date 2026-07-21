@@ -145,6 +145,11 @@ const MEDIA: { src: string; alt: string; type: 'image' | 'video' }[] = [
     alt: '环球视频 26（方形2·创意消除）',
     type: 'video',
   },
+  {
+    src: `${BASE}dome-27.mp4`,
+    alt: '环球视频 27（AI 视频）',
+    type: 'video',
+  },
   // ===== 占位视频（项目原有，保留不删）=====
   {
     src: `${BASE}dome-placeholder.mp4`,
