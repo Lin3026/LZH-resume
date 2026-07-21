@@ -1,6 +1,13 @@
-import { type ReactNode } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
 
 const BASE = import.meta.env.BASE_URL;
+
+// 成品预览视频列表
+const SHOWCASE = [
+  { src: `${BASE}ai-show-01.mp4`, title: '美得很之家', portrait: true },
+  { src: `${BASE}ai-show-02.mp4`, title: 'AI自制游戏剧情pv', portrait: false },
+  { src: `${BASE}ai-show-03.mp4`, title: '衣帽间建造', portrait: true },
+] as const;
 
 /**
  * 个人空间（home）新模板 —— AI 做视频的流程与案例分析
@@ -97,6 +104,22 @@ function StepCard({ no, title, hint }: { no: string; title: string; hint: string
 
 // ============ 主页面 ============
 export default function AISpace() {
+  const [active, setActive] = useState<(typeof SHOWCASE)[number] | null>(null);
+
+  // 弹窗打开时锁定滚动 + Esc 关闭
+  useEffect(() => {
+    if (!active) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setActive(null);
+    };
+    window.addEventListener('keydown', onKey);
+    document.body.style.overflow = 'hidden';
+    return () => {
+      window.removeEventListener('keydown', onKey);
+      document.body.style.overflow = '';
+    };
+  }, [active]);
+
   return (
     <div className="mx-auto max-w-6xl px-4 pb-28 pt-24 sm:px-8">
       {/* ===== Hero ===== */}
@@ -128,51 +151,34 @@ export default function AISpace() {
           desc="先看效果。下方为 AI 做视频的成品展示，点击即可播放查看。"
         />
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          <figure className="overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04]">
-            <div className="flex items-center gap-2 border-b border-white/10 px-5 py-3">
-              <span className="h-2 w-2 rounded-full bg-cyan-400" />
-              <span className="text-base font-semibold text-white/90">美得很之家</span>
-            </div>
-            <div className="flex items-center justify-center bg-black/40 h-[360px] sm:h-[420px]">
-              <video
-                src={`${BASE}ai-show-01.mp4`}
-                controls
-                playsInline
-                preload="metadata"
-                className="h-full w-full object-contain"
-              />
-            </div>
-          </figure>
-          <figure className="overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04]">
-            <div className="flex items-center gap-2 border-b border-white/10 px-5 py-3">
-              <span className="h-2 w-2 rounded-full bg-cyan-400" />
-              <span className="text-base font-semibold text-white/90">AI自制游戏剧情pv</span>
-            </div>
-            <div className="flex items-center justify-center bg-black/40 h-[360px] sm:h-[420px]">
-              <video
-                src={`${BASE}ai-show-02.mp4`}
-                controls
-                playsInline
-                preload="metadata"
-                className="h-full w-full object-contain"
-              />
-            </div>
-          </figure>
-          <figure className="overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04]">
-            <div className="flex items-center gap-2 border-b border-white/10 px-5 py-3">
-              <span className="h-2 w-2 rounded-full bg-cyan-400" />
-              <span className="text-base font-semibold text-white/90">衣帽间建造</span>
-            </div>
-            <div className="flex items-center justify-center bg-black/40 h-[360px] sm:h-[420px]">
-              <video
-                src={`${BASE}ai-show-03.mp4`}
-                controls
-                playsInline
-                preload="metadata"
-                className="h-full w-full object-contain"
-              />
-            </div>
-          </figure>
+          {SHOWCASE.map((v) => (
+            <figure
+              key={v.src}
+              className="group overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04]"
+            >
+              <div className="flex items-center gap-2 border-b border-white/10 px-5 py-3">
+                <span className="h-2 w-2 rounded-full bg-cyan-400" />
+                <span className="text-base font-semibold text-white/90">{v.title}</span>
+              </div>
+              <button
+                type="button"
+                onClick={() => setActive(v)}
+                className="relative flex h-[360px] w-full items-center justify-center bg-black/40 sm:h-[420px]"
+                aria-label={`放大播放 ${v.title}`}
+              >
+                <video
+                  src={v.src}
+                  muted
+                  playsInline
+                  preload="metadata"
+                  className="h-full w-full object-contain opacity-75 transition-opacity duration-300 group-hover:opacity-100"
+                />
+                <span className="pointer-events-none absolute flex h-16 w-16 items-center justify-center rounded-full bg-cyan-500/90 text-2xl text-white shadow-lg shadow-cyan-500/30 transition-transform duration-300 group-hover:scale-110">
+                  ▶
+                </span>
+              </button>
+            </figure>
+          ))}
         </div>
       </section>
 
@@ -203,6 +209,35 @@ export default function AISpace() {
           ))}
         </div>
       </section>
+
+      {/* ===== 成品预览 · 放大播放弹窗 ===== */}
+      {active && (
+        <div
+          className="fixed inset-0 z-[60] flex items-center justify-center bg-black/85 p-4 backdrop-blur-sm"
+          onClick={() => setActive(null)}
+        >
+          <button
+            type="button"
+            onClick={() => setActive(null)}
+            aria-label="关闭"
+            className="absolute right-5 top-5 flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-2xl leading-none text-white transition-colors hover:bg-white/20"
+          >
+            ×
+          </button>
+          <div className="absolute left-0 right-0 top-4 text-center">
+            <span className="text-base font-semibold text-white/80">{active.title}</span>
+          </div>
+          <video
+            key={active.src}
+            src={active.src}
+            controls
+            autoPlay
+            playsInline
+            onClick={(e) => e.stopPropagation()}
+            className="max-h-[85vh] max-w-[92vw] rounded-xl object-contain shadow-2xl"
+          />
+        </div>
+      )}
     </div>
   );
 }
