@@ -125,7 +125,7 @@ export default function AISpace() {
           title="成品预览"
           desc="先看效果。下方为 AI 做视频的成品展示，点击即可播放查看。"
         />
-        <div className="grid gap-6 sm:grid-cols-2">
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           <figure className="overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04]">
             <div className="flex items-center gap-2 border-b border-white/10 px-5 py-3">
               <span className="h-2 w-2 rounded-full bg-cyan-400" />
@@ -149,6 +149,21 @@ export default function AISpace() {
             <div className="flex items-center justify-center bg-black/40 h-[360px] sm:h-[420px]">
               <video
                 src={`${BASE}ai-show-02.mp4`}
+                controls
+                playsInline
+                preload="metadata"
+                className="h-full w-full object-contain"
+              />
+            </div>
+          </figure>
+          <figure className="overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04]">
+            <div className="flex items-center gap-2 border-b border-white/10 px-5 py-3">
+              <span className="h-2 w-2 rounded-full bg-cyan-400" />
+              <span className="text-base font-semibold text-white/90">衣帽间建造</span>
+            </div>
+            <div className="flex items-center justify-center bg-black/40 h-[360px] sm:h-[420px]">
+              <video
+                src={`${BASE}ai-show-03.mp4`}
                 controls
                 playsInline
                 preload="metadata"
