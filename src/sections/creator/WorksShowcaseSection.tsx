@@ -15,7 +15,7 @@ const WORKS: {
   {
     thumbnail: `${BASE}dome-24.mp4`,
     detail: {
-      title: '冰喇叭 · 创意消除',
+      title: '《假日乐消消》',
       videoUrl: `${BASE}dome-24.mp4`,
       projectIntro:
         '游戏：假日乐消消乐，用户人群女性占比较多，核心年龄层 25-35 岁。',
@@ -35,7 +35,7 @@ const WORKS: {
   {
     thumbnail: `${BASE}video-02.mp4`,
     detail: {
-      title: 'Tile Fun 海外投放素材',
+      title: '《假日乐消消》',
       videoUrl: `${BASE}video-02.mp4`,
       posterUrl: `${BASE}video-02-cover.jpg`,
       projectIntro:
@@ -54,7 +54,7 @@ const WORKS: {
   {
     thumbnail: `${BASE}video-03.mp4`,
     detail: {
-      title: 'Coloring Fun 创意视频',
+      title: '《假日乐消消》',
       videoUrl: `${BASE}video-03.mp4`,
       posterUrl: `${BASE}video-03-cover.jpg`,
       projectIntro:
@@ -73,7 +73,7 @@ const WORKS: {
   {
     thumbnail: `${BASE}video-04.mp4`,
     detail: {
-      title: '赛事包装 · 英雄联盟',
+      title: '《假日乐消消》',
       videoUrl: `${BASE}video-04.mp4`,
       posterUrl: `${BASE}video-04-cover.jpg`,
       projectIntro:
@@ -94,7 +94,7 @@ const WORKS: {
   {
     thumbnail: `${BASE}video-05.mp4`,
     detail: {
-      title: '火影忍者手游宣传',
+      title: '《开心消消乐》',
       videoUrl: `${BASE}video-05.mp4`,
       posterUrl: `${BASE}video-05-cover.jpg`,
       projectIntro:
@@ -114,7 +114,7 @@ const WORKS: {
   {
     thumbnail: `${BASE}dome-15.mp4`, // 暂用视频帧作缩略图
     detail: {
-      title: '环球展示 · 作品 06',
+      title: '《开心水族箱》',
       videoUrl: `${BASE}dome-15.mp4`,
       posterUrl: `${BASE}dome-15.mp4`,
       projectIntro:
@@ -126,7 +126,7 @@ const WORKS: {
   {
     thumbnail: `${BASE}resume-2020.mp4`,
     detail: {
-      title: '林志辉 · 个人简历视频（2020）',
+      title: '《栏目包装》',
       videoUrl: `${BASE}resume-2020.mp4`,
       posterUrl: `${BASE}resume-2020.mp4`,
       projectIntro: '个人简历介绍视频，展示职业经历与核心能力。',
@@ -137,7 +137,7 @@ const WORKS: {
   {
     thumbnail: `${BASE}dome-video-08.mp4`,
     detail: {
-      title: '环球展示 · 作品 08',
+      title: '《游戏玩法创意》',
       videoUrl: `${BASE}dome-video-08.mp4`,
       projectIntro: '待补充项目介绍…',
       creativeConcept: '待补充创意思路…',
