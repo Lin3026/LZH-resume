@@ -1,16 +1,15 @@
 import { type ReactNode } from 'react';
 
 /**
- * 个人空间（home）新模板 —— AI 做图 / AI 做视频的流程与案例分析
+ * 个人空间（home）新模板 —— AI 做视频的流程与案例分析
  *
  * 说明：本页为「空白模块占位」版本，方便先确认整体布局与节奏，
- * 之后再往各占位模块里填真实内容（图片、视频、文案、流程节点等）。
+ * 之后再往各占位模块里填真实内容（视频、文案、流程节点等）。
  * 所有区块均为占位骨架，标注了每个模块该放什么。
  */
 
 type SectionId =
   | 'hero'
-  | 'ai-image'
   | 'ai-video'
   | 'cases';
 
@@ -107,7 +106,7 @@ export default function AISpace() {
           className="font-black leading-[1.05] tracking-tight text-white"
           style={{ fontSize: 'clamp(2.5rem, 9vw, 5rem)' }}
         >
-          AI 做图 · AI 做视频
+          AI 做视频
         </h1>
         <p className="mx-auto mt-6 max-w-xl text-base leading-relaxed text-white/60">
           这里会分享我从想法到成片的完整工作流，以及每个环节的实操案例与踩坑笔记。
@@ -118,39 +117,10 @@ export default function AISpace() {
         </div>
       </section>
 
-      {/* ===== AI 做图 ===== */}
-      <section id="ai-image" className="scroll-mt-24 py-16">
-        <SectionHeading
-          index="01"
-          kicker="AI Image"
-          title="AI 做图流程"
-          desc="从灵感收集到出图的全流程拆解，每个步骤都预留了放截图/提示词/参数的位置。"
-        />
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          <StepCard no="1" title="需求 & 参考收集" hint="明确风格、用途、尺寸；收集参考图。占位：参考图网格。" />
-          <StepCard no="2" title="提示词撰写" hint="主体 / 风格 / 光线 / 镜头。占位：提示词卡片示例。" />
-          <StepCard no="3" title="模型 & 参数" hint="选型（SD / Midjourney 等）与关键参数。占位：参数表。" />
-          <StepCard no="4" title="出图 & 筛选" hint="批量生成、对比、挑优。占位：图集对比。" />
-          <StepCard no="5" title="精修 & 放大" hint="局部重绘、超分、调色。占位：前后对比。" />
-          <StepCard no="6" title="交付 & 复盘" hint="导出规格、归档、沉淀模板。占位：交付清单。" />
-        </div>
-        <Placeholder
-          className="mt-5"
-          label="做图案例展示区"
-          hint="放 1～2 个完整做图案例（输入参考 → 提示词 → 成片 → 心得）。整块占位，后续替换。"
-        >
-          <div className="mt-3 grid gap-3 sm:grid-cols-3">
-            <div className="h-28 rounded-xl border border-dashed border-white/15 bg-black/20" />
-            <div className="h-28 rounded-xl border border-dashed border-white/15 bg-black/20" />
-            <div className="h-28 rounded-xl border border-dashed border-white/15 bg-black/20" />
-          </div>
-        </Placeholder>
-      </section>
-
       {/* ===== AI 做视频 ===== */}
       <section id="ai-video" className="scroll-mt-24 py-16">
         <SectionHeading
-          index="02"
+          index="01"
           kicker="AI Video"
           title="AI 做视频流程"
           desc="从脚本到成片的视频生产流水线，预留脚本 / 分镜 / 生成 / 剪辑各环的占位。"
@@ -180,10 +150,10 @@ export default function AISpace() {
       {/* ===== 案例分析 ===== */}
       <section id="cases" className="scroll-mt-24 py-16">
         <SectionHeading
-          index="03"
+          index="02"
           kicker="Case Studies"
           title="案例分析"
-          desc="跨做图 / 做视频的综合案例，按主题归类，后续逐条填充真实项目。"
+          desc="AI 做视频的综合案例，按主题归类，后续逐条填充真实项目。"
         />
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {[1, 2, 3, 4, 5, 6].map((i) => (
