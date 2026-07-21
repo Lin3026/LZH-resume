@@ -32,31 +32,6 @@
   outline: none !important;
 }
 
-/* 仅在 PC 端隐藏原生光标（通过 .cursor-hidden 类控制） */
-.cursor-hidden *,
-.cursor-hidden *::before,
-.cursor-hidden *::after {
-  cursor: none !important;
-}
-
-/* 视频详情弹窗打开时 — body 级别隐藏原生光标，让纸飞机穿透所有区域（含 overlay） */
-body.dialog-open,
-body.dialog-open * {
-  cursor: none !important;
-}
-
-/* 原生 <video controls> 的进度条/按钮等在 Shadow DOM 中，需要单独穿透 */
-body.dialog-open video,
-body.dialog-open video::-webkit-media-controls,
-body.dialog-open video::-webkit-media-controls-enclosure,
-body.dialog-open video::-webkit-media-controls-panel,
-body.dialog-open video::-webkit-media-controls-play-button,
-body.dialog-open video::-webkit-media-controls-timeline,
-body.dialog-open video::-webkit-media-controls-current-time-display,
-body.dialog-open video::-webkit-media-controls-time-remaining-display,
-body.dialog-open video::-webkit-media-controls-mute-button,
-body.dialog-open video::-webkit-media-controls-volume-slider,
-body.dialog-open video::-webkit-media-controls-fullscreen-button,
-body.dialog-open video::-webkit-media-controls-toggle-closed-captions-button {
-  cursor: none !important;
-}
+/* 光标样式说明：已移除纸飞机自定义光标，全站使用系统原生光标。
+   原 .cursor-hidden / body.dialog-open 的 cursor:none 规则已删除，
+   避免弹窗/视频控件内出现「无光标」的情况。 */

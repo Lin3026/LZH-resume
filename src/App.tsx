@@ -65,7 +65,7 @@ export default function App() {
   // 后续新增网页：在此加一项即可，并在下方渲染时按 page 切换背景与光标。
   // customCursor: true 表示该页使用自定义光标；false 用原生光标。
   const pageConfig: Record<PageView, { customCursor: boolean }> = {
-    home: { customCursor: true },     // 个人空间：宇宙背景 + 纸飞机光标
+    home: { customCursor: false },    // AI分享：原生光标（已移除纸飞机）
     music: { customCursor: false },   // 音乐分享：自有 TargetCursor 视觉
     game: { customCursor: false },    // 互动游戏：原生光标
     creator: { customCursor: false }, // 个人简历：原生光标
