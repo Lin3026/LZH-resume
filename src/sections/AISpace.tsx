@@ -1,5 +1,7 @@
 import { type ReactNode } from 'react';
 
+const BASE = import.meta.env.BASE_URL;
+
 /**
  * 个人空间（home）新模板 —— AI 做视频的流程与案例分析
  *
