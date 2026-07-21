@@ -142,8 +142,10 @@ const WORKS: {
     detail: {
       title: '《游戏玩法创意》',
       videoUrl: `${BASE}dome-video-08.mp4`,
-      projectIntro: '待补充项目介绍…',
-      creativeConcept: '待补充创意思路…',
+      projectIntro:
+        'tile fun 的小游戏创新，目的用低成本吸引用户下载，完成年度目标流水。',
+      creativeConcept:
+        '灵感取自现实中的益智玩具「平面滚珠」，主打海外用户，纯图新鲜感；玩法类似整理图形，恰好与游戏的三消图形消除天然契合，以低成本创意撬动用户下载。',
       orientation: 'landscape',
     },
   },
