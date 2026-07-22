@@ -208,11 +208,10 @@ export default function MediaDomeSection() {
           </ScrollFloat>
         </div>
         <p
+          className="text-gradient font-medium tracking-wide"
           style={{
             margin: 0,
-            fontSize: 'clamp(0.9rem, 1.6vw, 1.1rem)',
-            fontWeight: 400,
-            color: 'rgba(255,255,255,0.7)',
+            fontSize: 'clamp(1.05rem, 2.2vw, 1.4rem)',
             letterSpacing: '0.08em',
           }}
         >
