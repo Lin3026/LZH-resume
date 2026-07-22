@@ -20,9 +20,9 @@ export const competitorDocs: CompetitorDoc[] = [
   {
     id: 'eliminate',
     title: '消除类竞品分析',
-    tags: ['三消', 'SLG', '海外', '买量'],
+    tags: ['三消', 'SLG', '海外', '买量', '素材拆解'],
     summary:
-      'Puzzles & Survival / Bubble Shooter Star / Tile Match 三款消除类产品的素材、渠道与用户特征分析。',
+      'Puzzles & Survival / Bubble Shooter Star / Tile Match 三款消除类产品，拆解素材打法、投放渠道与用户画像；含 29 条真人录屏 / CG / 本地化素材视频。',
     date: '2022',
     file: 'competitor/eliminate.md',
   },

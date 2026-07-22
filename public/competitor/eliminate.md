@@ -2,7 +2,7 @@
 
 ## Puzzles \& Survival \-三七互娱
 
-![Image](https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=ODQzMjI3OGZkYzM2MmVmZTcxMDEzOTY5MTk4ZjlmZjVfOTVhNWQwNDc1OTcwZmZkYWRhNjIzOTNiZDM3MmM2ZDhfSUQ6NzA5NjA3NjIyMjM0OTc4NzE2NF8xNzg0NzMxODI0OjE3ODQ4MTgyMjRfVjM)
+![Image](https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=MmY1NDQ3YzlhY2FjMjhiMDIyZTg1N2FhNzg0NTNmYjVfZWFlZTE3ZjI1MzU2NTE5NTNkMTY2NTc1ZThjNDIxMzhfSUQ6NzA5NjA3NjIyMjM0OTc4NzE2NF8xNzg0NzM0NjM0OjE3ODQ4MjEwMzRfVjM)
 
 ### 游戏素材投放数据
 
@@ -12,11 +12,11 @@
 
 
 
-![Image](https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=M2UyMjIyNzdmOGI5MzhjNWQxZTg4YmU4MGMxMDJhYWZfYTQzMmYxY2E5NGI3MWRlMDYyMWRjNTllMzY1OGRiODRfSUQ6NzA5NjQ3NzE3Nzc0Mjg2ODQ4Ml8xNzg0NzMxODI0OjE3ODQ4MTgyMjRfVjM)
+![Image](https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=OWU0ZjVlMzE0ZGZmZDZmZjAyZjcwZWM1YTcyZTQ5YjBfZjA0YmE0ZDY5YTEzZTExNDFkMTU5OWU2YjE3NGEwNzRfSUQ6NzA5NjQ3NzE3Nzc0Mjg2ODQ4Ml8xNzg0NzM0NjM0OjE3ODQ4MjEwMzRfVjM)
 
-![Image](https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=OGU1ZGI2MDkzNDFkNjRlMTAyM2ZiYmVlYjdkMGYwNGVfYjBmYzM0MDBkNTIxZDQ1ZTlmMzYyNzkyNmM4OTlhYzZfSUQ6NzA5NjQ5MjcxOTc2MTUyMjY5MF8xNzg0NzMxODI0OjE3ODQ4MTgyMjRfVjM)
+![Image](https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=MGM1N2Q0NmYzNDgyNDNkODM4YjQ5Mzk3MTU3ZGZlNGRfNjlkZjJiZTY4Yjg2MDlhZDllNTM0ZThiZjljNWM1ZWVfSUQ6NzA5NjQ5MjcxOTc2MTUyMjY5MF8xNzg0NzM0NjM0OjE3ODQ4MjEwMzRfVjM)
 
-![Image](https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=MzllN2JhZTlkNDRmNzdiY2IxZTE2MDQ2YzNjN2Q2NzdfMWNmNjAwYzVjN2UyMDg1NzYxMTk4ODEzZjJmZWYzZWZfSUQ6NzA5NjQ5NTE0MDM1MzE3OTY0OV8xNzg0NzMxODI0OjE3ODQ4MTgyMjRfVjM)
+![Image](https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=MmM3MzQ3MGZjYjYyYzBhZDZkMWQwMTU1N2VhZTkzMmNfMDdlY2ZmYTE0MTU5Yjk0NWRlMWM2YzQ5Nzk4MTc3NmNfSUQ6NzA5NjQ5NTE0MDM1MzE3OTY0OV8xNzg0NzM0NjM0OjE3ODQ4MjEwMzRfVjM)
 
 
 
@@ -24,13 +24,13 @@
 
 ### 投放渠道：主要集中在Fackbook占比90%
 
-![Image](https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=NTcxYzAyNmZjOThkYzE4OWQ4YmRlZGQxN2IzMTVkNDFfZGU5N2EzYzk3MTVkN2E4YmNiNjE0ZTgzMzc0NDdjMTVfSUQ6NzA5NjQ5NjE2NDE1NzUwNTUzOF8xNzg0NzMxODI0OjE3ODQ4MTgyMjRfVjM)
+![Image](https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=N2EyYTMwNjY3MzM2MDRkNWQzM2YwZTdlZWM0MWRjNjlfZjBiMDJiYjczMGYxZmYxYTgyYTAyY2U1ZTZiZmMwMmJfSUQ6NzA5NjQ5NjE2NDE1NzUwNTUzOF8xNzg0NzM0NjM0OjE3ODQ4MjEwMzRfVjM)
 
 ### 用户特征：男60%女40%，年龄只要集中在25\-44岁之间。
 
-![Image](https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=M2M3ZDc3NDc0NDE1MTk1NTk3MjM1YzczYTZkZjY1NjlfZjczYmQ3ZjQ2OTQxOTZmM2EyOWFhYWNhZDFhNTM2ZDVfSUQ6NzA5NjQ5ODg5NzMyMDk4NDU3OF8xNzg0NzMxODI0OjE3ODQ4MTgyMjRfVjM)
+![Image](https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=NTY2NzZmNzhmMzMwZDQ1YTEyNmMyNWU0NGNiZjFhNTBfZDM5MzI0OGM3Y2UxNjE5ZTFjMmQ2ODE4YjEyNGY1NzlfSUQ6NzA5NjQ5ODg5NzMyMDk4NDU3OF8xNzg0NzM0NjM0OjE3ODQ4MjEwMzRfVjM)
 
-![Image](https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=OWM3MTY0NTlmZDBiY2EyOGY5MGE1NmEyMzU5MWZmMDBfMGY2MDUwOWMxZWI2YjEwYzQ5MjcyZjdmZTEwNGI2YzdfSUQ6NzA5NjQ5ODgxNjA1NjI2MjY1OF8xNzg0NzMxODI0OjE3ODQ4MTgyMjRfVjM)
+![Image](https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=OWZkZWUzMTdkNjY4ZjU2N2FlNTQzNDBiYTliOTAyOTFfMTExZmYxMzZjZWMyNWQwOWJmMDllNTBkNmY0ODE1MGFfSUQ6NzA5NjQ5ODgxNjA1NjI2MjY1OF8xNzg0NzM0NjM0OjE3ODQ4MjEwMzRfVjM)
 
 
 
@@ -44,15 +44,15 @@ CG动画吸引眼球\+交互性强
 
 
 
-\[cg\+互动\.mp4\]
+[cg+互动](competitor/eliminate-assets/eliminate-001.mp4)
 
 美女突然变丧尸，吸引眼球，接着就是消除打丧尸，第一人称视角增强沉浸感，画面时快时慢（子弹时间），带有很强的紧张刺激感。
 
-\[解救美女\.mp4\]
+[解救美女](competitor/eliminate-assets/eliminate-027.mp4)
 
 内容：屌丝救美女，三级反转。展现男人雄风，有趣的剧情
 
-\[交互通关。搞笑结局\.mp4\]
+[交互通关。搞笑结局](competitor/eliminate-assets/eliminate-002.mp4)
 
 
 
@@ -62,15 +62,15 @@ CG动画吸引眼球\+交互性强
 
 场景本地化更吸引用户，拉近用户的亲切感，凭借对日本男人的印象喜欢，进行本地化剧情设计
 
-\[日本素材本地化\.mp4\]
+[日本素材本地化](competitor/eliminate-assets/eliminate-012.mp4)
 
 嘿嘿嘿剧情，渣男逃跑，爽感打丧尸，最终难逃一死
 
-\[日本素材本地化1\.mp4\]
+[日本素材本地化1](competitor/eliminate-assets/eliminate-013.mp4)
 
 男人爱看的剧情
 
-\[日本素材本地化2\.mp4\]
+[日本素材本地化2](competitor/eliminate-assets/eliminate-014.mp4)
 
 专注男人喜好，选美女，交互强
 
@@ -80,7 +80,7 @@ CG动画吸引眼球\+交互性强
 
 
 
-\[飞书20220526\-223724\.mp4\]
+[飞书20220526-223724](competitor/eliminate-assets/eliminate-029.mp4)
 
 新手教程还是比较强的刺激感，美术质量挺好
 
@@ -88,17 +88,17 @@ CG动画吸引眼球\+交互性强
 
 ### 游戏素材投放数据
 
-![Image](https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=OGI3MTUyNDIwYzYwOWJmMjRhNTI5YTRkOGUyZTk1MjBfYjk4YzNlNjM0M2RjNjA1MmU0ZDkxMDg0ZTg2MTZmNzBfSUQ6NzA5Njg0MjExMTY1NTYyNDczMl8xNzg0NzMxODI0OjE3ODQ4MTgyMjRfVjM)
+![Image](https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=OGNjNjFlZDMyZGMzMGUyYjEyODlmODFhNjRlN2IzMDlfNjNmMDY2MzllN2E3NDQ1OTMxOGExOTllYTVhZTkxYzJfSUQ6NzA5Njg0MjExMTY1NTYyNDczMl8xNzg0NzM0NjM0OjE3ODQ4MjEwMzRfVjM)
 
 
 
-![Image](https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=MzA3NTEyYWViNzlhMzQxYzc3NTAzNjQ1MjRlN2JhOGZfYzIyOTU1NzE2NDgwZDAzNjRlMjgwZDY2Y2VmOTFmYTRfSUQ6NzA5Njc5OTgxMDQxNDE5ODc4Nl8xNzg0NzMxODI0OjE3ODQ4MTgyMjRfVjM)
+![Image](https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=NmY0MmQwYmEzOTNiOWI5NGRlNDEyNzY1MzY4MjM3NzRfODQwY2M1OTM0Mjg1NjgxZTE1ZjZiMmY5YTI4ZDM4NzhfSUQ6NzA5Njc5OTgxMDQxNDE5ODc4Nl8xNzg0NzM0NjM0OjE3ODQ4MjEwMzRfVjM)
 
-![Image](https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=ZDc2MmIwYjAxYTA4YmJjZTVmNmM0ZWZlNTQ0NTM5Y2FfOGI2Y2FlODJjMjYwMzlmZjgyNjc0MTFlNWMzZTZhZTRfSUQ6NzA5NjgwNDI5MTQ1NzYxMzgyOF8xNzg0NzMxODI0OjE3ODQ4MTgyMjRfVjM)
+![Image](https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=NjYzYjY5NGU5MGNmZmFlZmE0NDUyNjY3NGE1YTZjMTRfYTNlODgyNzExMzdjMDZmOTM5NzkzNzJlNGRhY2QzNGZfSUQ6NzA5NjgwNDI5MTQ1NzYxMzgyOF8xNzg0NzM0NjM0OjE3ODQ4MjEwMzRfVjM)
 
 
 
-\[录屏1\.mp4\]
+[录屏1](competitor/eliminate-assets/eliminate-010.mp4)
 
 我下载玩了下，游戏亮点：1，相比较传统的泡泡龙增加了 4个道具栏，并且道具丰富，2，ui简单颜色为蓝色紫色调（可能主要为了迎合美国市场）
 
@@ -108,19 +108,19 @@ CG动画吸引眼球\+交互性强
 
 
 
-![Image](https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=M2MwYjU2MjdmMTk4ZGRkMmJjZmNkZmUzNjNlMTM0MTBfNTBlOTNjNWIxMTg1MjgwNDFjYTA4NDc4YzIwN2U2MDdfSUQ6NzEwMjA1NjI0NjgzNjMxNDExNF8xNzg0NzMxODI0OjE3ODQ4MTgyMjRfVjM)
+![Image](https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=N2QzOTE5M2E5MDI4ZjgyMTkwNGQwMmJkNWM5ODJiMDRfM2MxNzQyMzM3N2Q5NWM1MzI1MGYyOGI5MGZjOTdkOGJfSUQ6NzEwMjA1NjI0NjgzNjMxNDExNF8xNzg0NzM0NjM0OjE3ODQ4MjEwMzRfVjM)
 
 
 
-![Image](https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=MmMyOGYzMDc1MTk4N2M3YmQ0NWRkN2E4ZjEyYWY0ZmNfZTYyYzgzZjY3MzFmMjY0OTZlYjcyY2UxYTk1YTk4ZDdfSUQ6NzEwMjIzNDE1NzIwOTAxMDE3OF8xNzg0NzMxODI0OjE3ODQ4MTgyMjRfVjM)
+![Image](https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=N2UxOWViZDUwN2MzMDAyZmZmMjFiNGUxZjQxN2NmZTJfYmNhMWIwZmQ5MTRjN2RlMzViNjZmZTYxZDA4MTYyOGJfSUQ6NzEwMjIzNDE1NzIwOTAxMDE3OF8xNzg0NzM0NjM0OjE3ODQ4MjEwMzRfVjM)
 
-![Image](https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=MDRlYWZhMmZjM2E5NmZiYzg4MDFkYjA2NDkyZGYyOGJfOWNkOTQyNjViMmU5YmY3M2Y1Y2M5ZjZhOTMxNTBmODZfSUQ6NzEwMjA2MDc0NDY4MjU1MzM3Ml8xNzg0NzMxODI0OjE3ODQ4MTgyMjRfVjM)
+![Image](https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=OWM3YTk4YzQ1ZDUxNjY2OGRiMzZlYTk4MmZkZGMxNmFfN2Y2NzljNjEzNzlhYjdhZDU1MWJlZmRmMGNhZDJiODZfSUQ6NzEwMjA2MDc0NDY4MjU1MzM3Ml8xNzg0NzM0NjM0OjE3ODQ4MjEwMzRfVjM)
 
 
 
 ### 投放渠道：主要集中在Fackbook\-占比93%，少部分在Unity和其他渠道
 
-![Image](https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=ZDEyOGJkMjIzZjdkZGY4MGZhZWFiODc1OTY2MGZlZjdfODlkMTYxNzk0NGYzMDcyMWNjN2Q2N2U3MzFiOWY0MDRfSUQ6NzA5Njc4MzMxODIxMzg4NTk1Nl8xNzg0NzMxODI0OjE3ODQ4MTgyMjRfVjM)
+![Image](https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=ZWVkMmY1YjI0MWM2MjQzOTk3ZDY2MjllYTViZGE3NTRfZWY3NDk0YzNiMjViOGExM2Q3YWVlOWVmY2ExZWQ3MjdfSUQ6NzA5Njc4MzMxODIxMzg4NTk1Nl8xNzg0NzM0NjM0OjE3ODQ4MjEwMzRfVjM)
 
 
 
@@ -130,97 +130,97 @@ CG动画吸引眼球\+交互性强
 
 美国：男55%女45%，主要年龄45\+，占比70%，
 
-![Image](https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=MDQ5MmJlYzdhODM2OGJiZGNjM2U1MmFhYjc4MzY3OTlfMzFiN2QwZGI0OTcyZjFmYWZhODgwZDY2NDIyNmYwNDlfSUQ6NzA5Njc4NDMxOTg1NTM3ODQzNF8xNzg0NzMxODI0OjE3ODQ4MTgyMjRfVjM)
+![Image](https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=ZWMyZjYxNTIzMjM1NWU1MTFhM2IwNWNkYzQ1YjJiZjJfMzU1ZWYzZWY4Njc0OGY4MGI5MDZkMTljZmJmYWNiNTJfSUQ6NzA5Njc4NDMxOTg1NTM3ODQzNF8xNzg0NzM0NjM0OjE3ODQ4MjEwMzRfVjM)
 
-![Image](https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=MzI4YmUyMDQxOTgwYjNiMTFiY2U1ZTdkNDlhZDMxNGZfMzEwMjcyMWJjMzdlZDJlMjdhYzkxYjZkYzc5NDUwNDhfSUQ6NzA5Njc4NDYzMTA5MzE0OTY5N18xNzg0NzMxODI0OjE3ODQ4MTgyMjRfVjM)
+![Image](https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=NjQ1OWJkMzkwNzlmZjA0MTE2NzE5NGIxMjlkNTBkY2RfZDg4NGZkMWFlYjVkZDZjYTZhMzIwYmU3YTM5M2U0NzNfSUQ6NzA5Njc4NDYzMTA5MzE0OTY5N18xNzg0NzM0NjM0OjE3ODQ4MjEwMzRfVjM)
 
 
 
 巴西：男22%女78%，年龄集中25\-44之间，占比78%，
 
-![Image](https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=OTYzM2QzZTY4NWNlZDNiMjA4MDQ2MTRhMTFkNzg1NzFfMTg1N2M5N2IxMWI1ZDZiMmIxZWZjOTBiYzMzZDE4YTZfSUQ6NzA5Njc4NDkyNTU4NDQ1Nzc1Nl8xNzg0NzMxODI0OjE3ODQ4MTgyMjRfVjM)
+![Image](https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=YzgyZTg5ODg2ZTc1Nzg2MDYyYmZhZmE4NGMwOGVkYzBfYWMzMTM2NTU3YTE3ZjFmYzBlNWI1YmJhOWM3OTYxYmJfSUQ6NzA5Njc4NDkyNTU4NDQ1Nzc1Nl8xNzg0NzM0NjM0OjE3ODQ4MjEwMzRfVjM)
 
-![Image](https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=OWFmNjM3NzRkNTcxNGE2MTk3OGRlZDFkMWY2YTQ5ZWRfNDE4YmQzOTlhOGZhMjNjM2E5Y2E5YzliNTdkNmFlMjFfSUQ6NzA5Njc4NTEwMjY1NTI1ODY1Ml8xNzg0NzMxODI0OjE3ODQ4MTgyMjRfVjM)
+![Image](https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=NjcyNTVkZmI2OTZhYzFmNWU3ZWYyZTM1N2YxZTg4M2NfY2FkMTg0NTBiY2IyZDNlMTlkZTc2NDhhMzE1MmFhMjBfSUQ6NzA5Njc4NTEwMjY1NTI1ODY1Ml8xNzg0NzM0NjM0OjE3ODQ4MjEwMzRfVjM)
 
 印度：男70%女30%，年龄集中25\+，占比78%，国情
 
-![Image](https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=ZmU3YThiNDhkNTE4MWExOGFhYmNlZDE2MzhmYmRhNDVfODg3MDRkMjMyM2NkZTgwNGIzMDI3NWVlOTk4ZTcwNzhfSUQ6NzA5Njc4NjE0MTY3NjA2MDY3M18xNzg0NzMxODI0OjE3ODQ4MTgyMjRfVjM)
+![Image](https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=YjBlZWQ0OGVkZDU2Y2VjMGNlNzQ1MjJiODY0MjQ0YzFfMDJmMmUyMDBmMmI1NDdhNGU0Y2UwYTk1NWE0MjEwODdfSUQ6NzA5Njc4NjE0MTY3NjA2MDY3M18xNzg0NzM0NjM0OjE3ODQ4MjEwMzRfVjM)
 
-![Image](https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=Yzk4MmQ2Y2U2Y2FiODUyNDE2NTAzNDczOWI2ZDFkYTdfYzEyY2NiMDNlOTY1OTZhMDY5MWE0MjQ1M2EwNjZlMmVfSUQ6NzA5Njc4NjQ1OTUzNzY4NjUyOV8xNzg0NzMxODI0OjE3ODQ4MTgyMjRfVjM)
+![Image](https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=YTMxNWQyMzg5ZDYzNzRjZDA5ZTNjMmY2NGQ3MGQ5NzNfN2Y3NzlmMzZhNzU2NmZiNWExNWIzZTJhMDQ1NDA0MjBfSUQ6NzA5Njc4NjQ1OTUzNzY4NjUyOV8xNzg0NzM0NjM0OjE3ODQ4MjEwMzRfVjM)
 
 ### 具体视频素材分析：常规视频打法，偷别人素材
 
 #### 图案类
 
-\[图案类1\.mp4\]
+[图案类1](competitor/eliminate-assets/eliminate-007.mp4)
 
-\[图案2\.mp4\]
+[图案2](competitor/eliminate-assets/eliminate-006.mp4)
 
 #### 创意开头
 
-\[创意开头1\.mp4\]
+[创意开头1](competitor/eliminate-assets/eliminate-005.mp4)
 
-\[片头猫开场\.mp4\]
+[片头猫开场](competitor/eliminate-assets/eliminate-016.mp4)
 
 #### 剧情片
 
-\[孤儿寡母\-剧情\.mp4\]
+[孤儿寡母-剧情](competitor/eliminate-assets/eliminate-009.mp4)
 
 符合年龄段用户育儿的辛酸，孤苦伶仃，
 
 #### 解救类
 
-\[解救1\.mp4\]
+[解救1](competitor/eliminate-assets/eliminate-026.mp4)
 
-\[解救\.mp4\]
+[解救](competitor/eliminate-assets/eliminate-025.mp4)
 
 #### 其他玩法融合
 
-\[美国\-打蜜蜂\.mp4\]
+[美国-打蜜蜂](competitor/eliminate-assets/eliminate-024.mp4)
 
-\[玩法融合\.mp4\]
+[玩法融合](competitor/eliminate-assets/eliminate-017.mp4)
 
-\[玩法融合1\.mp4\]
+[玩法融合1](competitor/eliminate-assets/eliminate-018.mp4)
 
-\[玩法融合2\.mp4\]
+[玩法融合2](competitor/eliminate-assets/eliminate-019.mp4)
 
-\[玩法融合3\.mp4\]
+[玩法融合3](competitor/eliminate-assets/eliminate-020.mp4)
 
 #### 冒险闯关
 
-\[冒险类\.mp4\]
+[冒险类](competitor/eliminate-assets/eliminate-003.mp4)
 
-\[冒险类1\.mp4\]
+[冒险类1](competitor/eliminate-assets/eliminate-004.mp4)
 
 ### 
 
 ## **Tile Match: Fun Triple Connect\-越南\-Sonatgame**
 
-![Image](https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=NWRlNTE4OTY3MDJiN2Y0MTNkYTFjOTFkMDJiYTAxOTRfOTEwNWExMWM5ODBlZWRiZjJjY2YzNmNhMWY3NDc4ODNfSUQ6NzA5Njg0MzU5MjUzOTMwODAzM18xNzg0NzMxODI0OjE3ODQ4MTgyMjRfVjM)
+![Image](https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=NTVhY2RlNjEzMTI4NWQyMDlkNmVjZmNmNzM4ZGUzMWJfMWE0MDU4ZDVlZTk4ZDc4NjMwNTA5NTRjMDA1NDg3NTNfSUQ6NzA5Njg0MzU5MjUzOTMwODAzM18xNzg0NzM0NjM0OjE3ODQ4MjEwMzRfVjM)
 
 把所有和消除相关的高频词都用上了
 
 ### 游戏素材投放数据
 
-![Image](https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=NDgwMWVmNDRlYzVmYTU2ZjZmMDU1NWY4ZTNjYTA3YThfMTE4ZmY3ZjFmNDgwNmY1YjMxNzEyMDQ5ODMzMDVkYmRfSUQ6NzA5Njg0MjAwMDE3MTUzMjI4OV8xNzg0NzMxODI0OjE3ODQ4MTgyMjRfVjM)
+![Image](https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=YTVjNDZjZGY0YzIxZjhlNjg5YWM1Y2E0MjEyNDA2MTNfNTkzZWZkYmJjYjEyNjQ3NWQwZGE1ZmI2MTc0ZTQ1N2RfSUQ6NzA5Njg0MjAwMDE3MTUzMjI4OV8xNzg0NzM0NjM0OjE3ODQ4MjEwMzRfVjM)
 
 这是一款结合了经典消消乐玩法，又融入了匹配三消玩法的休闲益智小游戏，投放时间较短，游戏名字把能跟消消乐相关的词都用上了。商店页优化还是不错的
 
-![Image](https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=ZGNhZTQ4MWE4ZDllZDc0MjBhNjQ4MTM3MDJlNWUwMjRfMDg4Yjk3YzAxNTBhMzMzZmJmYTFmYjAxYTFkYWM5NDhfSUQ6NzA5Njg0NDQ4ODY5MDA1NzIxOF8xNzg0NzMxODI0OjE3ODQ4MTgyMjRfVjM)
+![Image](https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=MTIyNWIyNzcyOGQ3OTkxYjZlY2I3NTNjMmYxNzNkOWZfYTNmYTQ5ODg1MTlkYzIzYjMwNTRkNWFhYTc5M2YyOWFfSUQ6NzA5Njg0NDQ4ODY5MDA1NzIxOF8xNzg0NzM0NjM0OjE3ODQ4MjEwMzRfVjM)
 
 
 
-![Image](https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=NjE2YzA3OWY5YTUwYmJlMGRjMWQyODZkYmQ1N2UyM2FfZTViZmYxMzQ0Y2JhZTI1YjgwNjk4MmRmNTA4YzUzZThfSUQ6NzA5Njg0NDM3Mzg3OTA5NTMyNF8xNzg0NzMxODI0OjE3ODQ4MTgyMjRfVjM)
+![Image](https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=YjJhYjk4YjQzOWU5MTZlNjQ3YzUzNmMwNzk1ZGVjMzJfYTFmMzE5YjY1MTJhY2VmNDU0MTQ5NjAxNDU1MGNkOTVfSUQ6NzA5Njg0NDM3Mzg3OTA5NTMyNF8xNzg0NzM0NjM0OjE3ODQ4MjEwMzRfVjM)
 
-![Image](https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=ZjZiYWE2OTJhYzBlMGZjZTFlOGE3NjIxNTNjM2NlNzZfMjZhNzhjZWZlYTY5ZDMxNmRkMTE1YzlhZWZjMjY0MWVfSUQ6NzA5Njg0ODUwMTI4NDIwODY0M18xNzg0NzMxODI0OjE3ODQ4MTgyMjRfVjM)
+![Image](https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=ZmVjYjRkZGY3N2YzNmRmZDk4M2Y0ZTdjNjhkMGQ1MDZfMTIwNjhlZjEyNmJjYzNiZjQwNDVhZTM2MmMwMGNlMjJfSUQ6NzA5Njg0ODUwMTI4NDIwODY0M18xNzg0NzM0NjM0OjE3ODQ4MjEwMzRfVjM)
 
-![Image](https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=ZjMwMDc2YTBmOWMzNDFjZDg4MWZjMWQ1YTc4ZTI5ZjlfOTJkZTI1MDI1MWMxNGY1OWE2YTNlYjBlNWIzODdkZWZfSUQ6NzEwMjA4NDg0MjQzNDgwNTc2MV8xNzg0NzMxODI0OjE3ODQ4MTgyMjRfVjM)
+![Image](https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=OWQ3YzdiOGYwNjUwZDA4YWQ2YTNmYWNhMmE0MzAyYzFfZmNiM2U5ZjkwMmMyMDE4NDU1MGQxY2M4Y2YxZmEyMGFfSUQ6NzEwMjA4NDg0MjQzNDgwNTc2MV8xNzg0NzM0NjM0OjE3ODQ4MjEwMzRfVjM)
 
 
 
 ### 投放渠道：主要集中Unity占比37%，admob15%，pangle15%
 
-![Image](https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=MGIyMzU5NzQxOGVlMGZlMTdlYjQxODEyNjMzYTA4MDlfY2FkMTliZDUxODk5YzNkN2U3NmZhYzAwYzc2MGMxOTVfSUQ6NzA5Njg0NDIzMDg0ODcyNDk5NF8xNzg0NzMxODI0OjE3ODQ4MTgyMjRfVjM)
+![Image](https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=MGNlOGM3ZDA4ODgzZmE2ZTVmZDlhMzk5N2QzZjdmMzdfNWQ0MmNjOTNmNGRhYzBiZGMwNzJiMTFhYjhiYWY5ZjdfSUQ6NzA5Njg0NDIzMDg0ODcyNDk5NF8xNzg0NzM0NjM0OjE3ODQ4MjEwMzRfVjM)
 
 
 
@@ -228,9 +228,9 @@ CG动画吸引眼球\+交互性强
 
 巴西：男45%女55%，年龄25\+，基本符合游戏用户群，tile fun 女65%  tile master女78%
 
-![Image](https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=MWVhNGQ1MjEzM2FhZTZhODhjYjdjZmE1NjY4ZmExMjVfMGZmNTFhMTFkYTk2NjU1YzQ5ODJjZDEwMjBjNDkxYjRfSUQ6NzA5Njg0OTM5NTI5MTQ4ODI1OF8xNzg0NzMxODI0OjE3ODQ4MTgyMjRfVjM)
+![Image](https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=MDFhYmI5ODQ3ZTY2OGFhZjc4YTgxNTUxZjdiMDliNDRfMzA4MDIxYzhkNjNlYmM5MjI1NmViNmViYzdkODc5MjFfSUQ6NzA5Njg0OTM5NTI5MTQ4ODI1OF8xNzg0NzM0NjM0OjE3ODQ4MjEwMzRfVjM)
 
-![Image](https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=NTc5YzE0NTQwODAxNTUzMWY5YmRhMWY5Y2RlYTgwMmZfOWE3ZGNlNTY1OTJkMGE2YWQwYmJkMTU3YjIwMDc2NGRfSUQ6NzA5Njg0OTY2NTYwMTEyNjQyOF8xNzg0NzMxODI0OjE3ODQ4MTgyMjRfVjM)
+![Image](https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=MDVjOTY1ZGQzN2NmMzg0NmYwYjIwMThhYjk2NDRkZmNfNWI5MjNhZmIzNjdmM2YxNDliNDUxOTY5YmU1NzZmNWVfSUQ6NzA5Njg0OTY2NTYwMTEyNjQyOF8xNzg0NzM0NjM0OjE3ODQ4MjEwMzRfVjM)
 
 ### 视频素材分析：
 
@@ -240,11 +240,11 @@ CG动画吸引眼球\+交互性强
 
 #### 游戏玩法
 
-\[纯录屏\.mp4\]
+[纯录屏](competitor/eliminate-assets/eliminate-022.mp4)
 
-\[纯录屏 图案\.mp4\]
+[纯录屏 图案](competitor/eliminate-assets/eliminate-021.mp4)
 
-\[纯录屏，解说\.mp4\]
+[纯录屏，解说](competitor/eliminate-assets/eliminate-023.mp4)
 
 
 
@@ -252,15 +252,15 @@ CG动画吸引眼球\+交互性强
 
 
 
-\[智力相关文案，ui替换\.mp4\]
+[智力相关文案，ui替换](competitor/eliminate-assets/eliminate-015.mp4)
 
-\[换ui位置，迎合日本地区\.mp4\]
+[换ui位置，迎合日本地区](competitor/eliminate-assets/eliminate-011.mp4)
 
 #### 创意收集
 
-\[女性收集\.mp4\]
+[女性收集](competitor/eliminate-assets/eliminate-008.mp4)
 
-\[颜色收集\.mp4\]
+[颜色收集](competitor/eliminate-assets/eliminate-028.mp4)
 
 比较好的一点：商店页优化好，渠道差异化，也能跑一些量。
 
