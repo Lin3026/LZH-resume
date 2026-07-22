@@ -43,11 +43,12 @@ export default function HeroSection() {
             </button>
           </FadeIn>
 
-          {/* 基本信息：年龄 / 性别 / 地点 */}
+          {/* 基本信息：年龄 / 性别 / 性格 / 地点 */}
           <FadeIn delay={0.52} y={16} className="hero-info-row">
             <span className="hero-info-tag">32岁</span>
             <span className="hero-info-tag">男</span>
-            <span className="hero-info-tag">北京·昌平</span>
+            <span className="hero-info-tag">INTJ</span>
+            <span className="hero-info-tag">北京.昌平</span>
           </FadeIn>
         </div>
 
