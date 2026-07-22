@@ -34,4 +34,13 @@ export const competitorDocs: CompetitorDoc[] = [
     date: '2023',
     file: 'competitor/cat.md',
   },
+  {
+    id: 'tm3d',
+    title: 'Triple Match 3D 素材分析',
+    tags: ['三消', '3D', '素材分析', '投放', '海外'],
+    summary:
+      '投放周期一年、渠道 FB/Unity/Admob，用户女6男4、45+占60%；素材按下载最多 / 投放最长 / 创意UE / 消除+家装 / 解压音效分类拆解。',
+    date: '2026',
+    file: 'competitor/tm3d.md',
+  },
 ];
