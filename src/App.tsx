@@ -14,9 +14,11 @@ const MusicShare = lazy(() => import('./sections/MusicShare'));
 const GameLoading = lazy(() => import('./sections/GameLoading'));
   // 个人简历页（3D Creator 作品集，原「老家分享」）懒加载
   const CreatorPortfolio = lazy(() => import('./sections/creator/CreatorPortfolio'));
+// 竞品分析页懒加载
+const CompetitorAnalysis = lazy(() => import('./sections/CompetitorAnalysis'));
 
 /** 页面视图 */
-type PageView = 'home' | 'music' | 'game' | 'creator';
+type PageView = 'home' | 'music' | 'game' | 'creator' | 'competitor';
 
 export default function App() {
   const [cursorPos, setCursorPos] = useState({ x: -100, y: -100 });
@@ -59,16 +61,18 @@ export default function App() {
     { label: '音乐分享', page: 'music' as PageView },
     { label: '互动游戏', page: 'game' as PageView },
     { label: '个人简历', page: 'creator' as PageView },
+    { label: '竞品分析', page: 'competitor' as PageView },
   ];
 
   // 每个网页的个性配置（背景 / 鼠标样式）
   // 后续新增网页：在此加一项即可，并在下方渲染时按 page 切换背景与光标。
   // customCursor: true 表示该页使用自定义光标；false 用原生光标。
   const pageConfig: Record<PageView, { customCursor: boolean }> = {
-    home: { customCursor: false },    // AI分享：原生光标（已移除纸飞机）
-    music: { customCursor: false },   // 音乐分享：自有 TargetCursor 视觉
-    game: { customCursor: false },    // 互动游戏：原生光标
-    creator: { customCursor: false }, // 个人简历：原生光标
+    home: { customCursor: false },      // AI分享：原生光标（已移除纸飞机）
+    music: { customCursor: false },     // 音乐分享：自有 TargetCursor 视觉
+    game: { customCursor: false },      // 互动游戏：原生光标
+    creator: { customCursor: false },   // 个人简历：原生光标
+    competitor: { customCursor: false }, // 竞品分析：原生光标
   };
 
   const handleTopNavClick = (page: PageView | null) => {
@@ -231,6 +235,15 @@ export default function App() {
           </div>
         }>
           <CreatorPortfolio />
+        </Suspense>
+      )}
+      {currentPage === 'competitor' && (
+        <Suspense fallback={
+          <div className="flex items-center justify-center min-h-[60vh]">
+            <div className="w-8 h-8 border-2 border-cyan-400 border-t-transparent rounded-full animate-spin" />
+          </div>
+        }>
+          <CompetitorAnalysis />
         </Suspense>
       )}
     </div>
